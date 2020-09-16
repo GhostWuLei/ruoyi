@@ -238,15 +238,28 @@ public class DevKksController extends BaseController
     }
 
     /**
-     *
-     * @param id
+     * 通过父级KKS获取子级treeselect
+     * @param parentKks
      * @return
      */
     @GetMapping("/getTreeByParentKks/{parentKks}")
     public AjaxResult getTreeByParentKks(@PathVariable String parentKks){
-        List<KKSSelectTreeVo> kksList = kksService.getChildByParentKks(parentKks);
+        List<KKSSelectTreeVo> kksList = kksService.getTreeByParentKks(parentKks);
         return AjaxResult.success(kksList);
     }
+
+    /**
+     * 通过父级KKS获取子级列表
+     * @param parentKks
+     * @return
+     */
+    @GetMapping("/getByParentKks/{parentKks}")
+    public AjaxResult getByParentKks(@PathVariable String parentKks){
+        List<DevKks> kksList = kksService.getByParentKks(parentKks);
+        return AjaxResult.success(kksList);
+    }
+
+
 
 
 

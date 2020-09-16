@@ -161,7 +161,7 @@ public class DevKksServiceImpl implements IDevKksService
      * @return
      */
     @Override
-    public List<KKSSelectTreeVo> getChildByParentKks(String parentKks) {
+    public List<KKSSelectTreeVo> getTreeByParentKks(String parentKks) {
         List<KKSSelectTreeVo> retList = new ArrayList<>();
         List<DevKks> list = kksMapper.selectByParentKks(parentKks);
         for (DevKks tmpKKS : list) {
@@ -182,6 +182,24 @@ public class DevKksServiceImpl implements IDevKksService
     @Override
     public DevKks getByNewkks(String newKKS) {
         return kksMapper.selectKksByNewKks(newKKS);
+    }
+
+    /**
+     * 根据父级获取子级列表
+     *
+     * @param parentKks
+     * @return
+     */
+    @Override
+    public List<DevKks> getByParentKks(String parentKks) {
+        List<DevKks> list = kksMapper.selectByParentKks(parentKks);
+        for (DevKks tmpKKS : list) {
+            List<DevKks> tmpList = kksMapper.selectByParentKks(tmpKKS.getNewKks());
+            if(tmpList.size()>0){
+                tmpKKS.setHasChildren(true);
+            }
+        }
+        return list;
     }
 
 

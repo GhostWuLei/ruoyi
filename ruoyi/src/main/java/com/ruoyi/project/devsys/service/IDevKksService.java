@@ -164,7 +164,7 @@ public interface IDevKksService
      * @param parentKks
      * @return
      */
-    List<KKSSelectTreeVo> getChildByParentKks(String parentKks);
+    List<KKSSelectTreeVo> getTreeByParentKks(String parentKks);
 
     /**
      * 通过kks编码获取记录
@@ -172,4 +172,10 @@ public interface IDevKksService
      */
     DevKks getByNewkks(String newKks);
 
+    /**
+     * 根据父级获取子级列表
+     * @param parentKks
+     * @return
+     */
+    List<DevKks> getByParentKks(String parentKks);
 }
