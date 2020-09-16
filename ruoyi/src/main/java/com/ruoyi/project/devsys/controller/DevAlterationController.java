@@ -34,6 +34,7 @@ public class DevAlterationController extends BaseController
     private IDevAlterationService devAlterationService;
 
     /**
+     * XXXXXXXXXX
      * 查询异动变更列表
      */
     @PreAuthorize("@ss.hasPermi('devsys:alteration:list')")
