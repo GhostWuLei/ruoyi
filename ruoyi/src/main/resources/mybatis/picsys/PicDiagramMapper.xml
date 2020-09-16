@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.picsys.mapper.PicDiagramMapper">
+    
+    <resultMap type="PicDiagram" id="PicDiagramResult">
+        <result property="nodeId"    column="node_id"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="ancestors"    column="ancestors"    />
+        <result property="nodeName"    column="node_name"    />
+        <result property="nodeType"    column="node_type"    />
+        <result property="fname"    column="fname"    />
+        <result property="fpath"    column="fpath"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectPicDiagramVo">
+        select node_id, parent_id, ancestors, node_name, node_type, fname, fpath, create_by, create_time, update_by, update_time from pic_diagram
+    </sql>
+
+    <select id="selectPicDiagramList" parameterType="PicDiagram" resultMap="PicDiagramResult">
+        <include refid="selectPicDiagramVo"/>
+        <where>  
+            <if test="parentId != null "> and parent_id = #{parentId}</if>
+            <if test="nodeName != null  and nodeName != ''"> and node_name like concat('%', #{nodeName}, '%')</if>
+            <if test="nodeType != null  and nodeType != ''"> and node_type = #{nodeType}</if>
+        </where>
+    </select>
+    
+    <select id="selectPicDiagramById" parameterType="Long" resultMap="PicDiagramResult">
+        <include refid="selectPicDiagramVo"/>
+        where node_id = #{nodeId}
+    </select>
+        
+    <insert id="insertPicDiagram" parameterType="PicDiagram" useGeneratedKeys="true" keyProperty="nodeId">
+        insert into pic_diagram
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="parentId != null ">parent_id,</if>
+            <if test="ancestors != null  and ancestors != ''">ancestors,</if>
+            <if test="nodeName != null  and nodeName != ''">node_name,</if>
+            <if test="nodeType != null  and nodeType != ''">node_type,</if>
+            <if test="fname != null  and fname != ''">fname,</if>
+            <if test="fpath != null  and fpath != ''">fpath,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            create_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="parentId != null ">#{parentId},</if>
+            <if test="ancestors != null  and ancestors != ''">#{ancestors},</if>
+            <if test="nodeName != null  and nodeName != ''">#{nodeName},</if>
+            <if test="nodeType != null  and nodeType != ''">#{nodeType},</if>
+            <if test="fname != null  and fname != ''">#{fname},</if>
+            <if test="fpath != null  and fpath != ''">#{fpath},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            sysdate()
+         </trim>
+    </insert>
+
+    <update id="updatePicDiagram" parameterType="PicDiagram">
+        update pic_diagram
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="parentId != null and parentId != 0">parent_id = #{parentId},</if>
+            <if test="ancestors != null and ancestors != ''">ancestors = #{ancestors},</if>
+            <if test="nodeName != null and nodeName != ''">node_name = #{nodeName},</if>
+            <if test="nodeType != null  and nodeType != ''">node_type = #{nodeType},</if>
+            <if test="fname != null">fname = #{fname},</if>
+            <if test="fpath != null">fpath = #{fpath},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            update_time = sysdate()
+        </trim>
+        where node_id = #{nodeId}
+    </update>
+
+    <delete id="deletePicDiagramById" parameterType="Long">
+        delete from pic_diagram where node_id = #{nodeId}
+    </delete>
+
+    <delete id="deletePicDiagramByIds" parameterType="String">
+        delete from pic_diagram where node_id in 
+        <foreach item="nodeId" collection="array" open="(" separator="," close=")">
+            #{nodeId}
+        </foreach>
+    </delete>
+
+    <select id="checkDiagramNameUnique" resultMap="PicDiagramResult">
+        <include refid="selectPicDiagramVo"/>
+        where node_name=#{nodeName} and parent_id=#{parentId}
+    </select>
+
+    <select id="selectChildrenDiagramById" parameterType="Long" resultMap="PicDiagramResult">
+        select * from pic_diagram where find_in_set(#{nodeId}, ancestors)
+    </select>
+
+
+    <update id="updateDiagramChildren" parameterType="java.util.List">
+        update pic_diagram set ancestors =
+        <foreach collection="diagrams" item="item" index="index"
+                 separator=" " open="case node_id" close="end">
+            when #{item.nodeId} then #{item.ancestors}
+        </foreach>
+        where node_id in
+        <foreach collection="diagrams" item="item" index="index"
+                 separator="," open="(" close=")">
+            #{item.nodeId}
+        </foreach>
+    </update>
+
+    <select id="hasChildByDiagramId" parameterType="Long" resultType="int">
+        select count(1) from pic_diagram
+        where parent_id = #{nodeId}
+    </select>
+
+
+    <select id="selectPicDiagramListByNodeType" parameterType="String" resultMap="PicDiagramResult">
+        <include refid="selectPicDiagramVo"/>
+        where node_type = #{nodeType}
+    </select>
+
+    <select id="checkNodeNameUniqueExcludeSelf" resultType="int">
+        select count(1) from pic_diagram where node_name = #{nodeName} and node_id != #{nodeId}
+    </select>
+
+    <select id="checkNodeNameUnique"  parameterType="String" resultType="int">
+        select count(1) from pic_diagram where node_name = #{nodeName}
+    </select>
+
+    <select id="getNodeIdByNodeName" parameterType="String" resultType="Long">
+        select node_id from pic_diagram where node_name=#{nodeName} and node_type = '0'
+    </select>
+
+    
+</mapper>

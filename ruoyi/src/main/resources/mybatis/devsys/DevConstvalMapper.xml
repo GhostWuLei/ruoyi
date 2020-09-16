@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.devsys.mapper.DevConstvalMapper">
+    
+    <resultMap type="DevConstval" id="DevConstvalResult">
+        <result property="constvalId"    column="constval_id"    />
+        <result property="constvalName"    column="constval_name"    />
+        <result property="equipId"    column="equip_id"    />
+        <result property="oldValue"    column="old_value"    />
+        <result property="newValue"    column="new_value"    />
+        <result property="worker"    column="worker"    />
+        <result property="supervisor"    column="supervisor"    />
+        <result property="requireTime"    column="require_time"    />
+        <result property="actualTime"    column="actual_time"    />
+        <result property="maxValue"    column="max_value"    />
+        <result property="minValue"    column="min_value"    />
+        <result property="fname"    column="fname"    />
+        <result property="fpath"    column="fpath"    />
+        <result property="remark"    column="remark"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectDevConstvalVo">
+        select constval_id, constval_name, equip_id, old_value, new_value, worker, supervisor, require_time, actual_time, max_value, min_value, fname, fpath, remark, create_by, create_time, update_by, update_time from dev_constval
+    </sql>
+
+    <select id="selectDevConstvalList" parameterType="DevConstval" resultMap="DevConstvalResult">
+        <include refid="selectDevConstvalVo"/>
+        <where>  
+            <if test="constvalName != null  and constvalName != ''"> and constval_name like concat('%', #{constvalName}, '%')</if>
+            <if test="equipId != null "> and equip_id = #{equipId}</if>
+            <if test="worker != null  and worker != ''"> and worker like concat('%', #{worker}, '%')</if>
+            <if test="supervisor != null  and supervisor != ''"> and supervisor like concat('%', #{supervisor}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectDevConstvalById" parameterType="Long" resultMap="DevConstvalResult">
+        <include refid="selectDevConstvalVo"/>
+        where constval_id = #{constvalId}
+    </select>
+        
+    <insert id="insertDevConstval" parameterType="DevConstval" useGeneratedKeys="true" keyProperty="constvalId">
+        insert into dev_constval
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="constvalName != null  and constvalName != ''">constval_name,</if>
+            <if test="equipId != null  and equipId != 0">equip_id,</if>
+            <if test="oldValue != null  and oldValue != ''">old_value,</if>
+            <if test="newValue != null  and newValue != ''">new_value,</if>
+            <if test="worker != null">worker,</if>
+            <if test="supervisor != null">supervisor,</if>
+            <if test="requireTime != null ">require_time,</if>
+            <if test="actualTime != null ">actual_time,</if>
+            <if test="maxValue != null  and maxValue != ''">max_value,</if>
+            <if test="minValue != null  and minValue != ''">min_value,</if>
+            <if test="fname != null  and fname != ''">fname,</if>
+            <if test="fpath != null  and fpath != ''">fpath,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            create_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="constvalName != null  and constvalName != ''">#{constvalName},</if>
+            <if test="equipId != null  and equipId != ''">#{equipId},</if>
+            <if test="oldValue != null  and oldValue != ''">#{oldValue},</if>
+            <if test="newValue != null  and newValue != ''">#{newValue},</if>
+            <if test="worker != null  and worker != ''">#{worker},</if>
+            <if test="supervisor != null  and supervisor != ''">#{supervisor},</if>
+            <if test="requireTime != null ">#{requireTime},</if>
+            <if test="actualTime != null ">#{actualTime},</if>
+            <if test="maxValue != null  and maxValue != ''">#{maxValue},</if>
+            <if test="minValue != null  and minValue != ''">#{minValue},</if>
+            <if test="fname != null  and fname != ''">#{fname},</if>
+            <if test="fpath != null  and fpath != ''">#{fpath},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            sysdate()
+         </trim>
+    </insert>
+
+    <update id="updateDevConstval" parameterType="DevConstval">
+        update dev_constval
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="constvalName != null  and constvalName != ''">constval_name = #{constvalName},</if>
+            <if test="equipId != null ">equip_id = #{equipId},</if>
+            <if test="oldValue != null  and oldValue != ''">old_value = #{oldValue},</if>
+            <if test="newValue != null  and newValue != ''">new_value = #{newValue},</if>
+            <if test="worker != null">worker = #{worker},</if>
+            <if test="supervisor != null">supervisor = #{supervisor},</if>
+            <if test="requireTime != null ">require_time = #{requireTime},</if>
+            <if test="actualTime != null ">actual_time = #{actualTime},</if>
+            <if test="maxValue != null  and maxValue != ''">max_value = #{maxValue},</if>
+            <if test="minValue != null  and minValue != ''">min_value = #{minValue},</if>
+            <if test="fname != null  and fname != ''">fname = #{fname},</if>
+            <if test="fpath != null  and fpath != ''">fpath = #{fpath},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            update_time = sysdate()
+        </trim>
+        where constval_id = #{constvalId}
+    </update>
+
+    <delete id="deleteDevConstvalById" parameterType="Long">
+        delete from dev_constval where constval_id = #{constvalId}
+    </delete>
+
+    <delete id="deleteDevConstvalByIds" parameterType="String">
+        delete from dev_constval where constval_id in 
+        <foreach item="constvalId" collection="array" open="(" separator="," close=")">
+            #{constvalId}
+        </foreach>
+    </delete>
+    
+</mapper>

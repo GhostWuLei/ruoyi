@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.devsys.mapper.DevTrackMapper">
+    
+    <resultMap type="DevTrack" id="DevTrackResult">
+        <result property="trackId"    column="track_id"    />
+        <result property="trackName"    column="track_name"    />
+        <result property="equipId"    column="equip_id"    />
+        <result property="trackContent"    column="track_content"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="finishTime"    column="finish_time"    />
+        <result property="commander"    column="commander"    />
+        <result property="worker"    column="worker"    />
+        <result property="feedback"    column="feedback"    />
+        <result property="completeStatus"    column="complete_status"    />
+        <result property="workUnit"    column="work_unit"    />
+        <result property="fname"    column="fname"    />
+        <result property="fpath"    column="fpath"    />
+        <result property="remark"    column="remark"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectDevTrackVo">
+        select track_id, track_name, equip_id, track_content, start_time, finish_time, commander, worker, feedback, complete_status, work_unit, fname, fpath, remark, create_by, create_time, update_by, update_time from dev_track
+    </sql>
+
+    <select id="selectDevTrackList" parameterType="DevTrack" resultMap="DevTrackResult">
+        <include refid="selectDevTrackVo"/>
+        <where>  
+            <if test="trackName != null  and trackName != ''"> and track_name like concat('%', #{trackName}, '%')</if>
+            <if test="equipId != null and equipId != ''"> and equip_id = #{equipId}</if>
+            <if test="commander != null  and commander != ''"> and commander like concat('%', #{commander}, '%')</if>
+            <if test="completeStatus != null  and completeStatus != ''"> and complete_status = #{completeStatus}</if>
+            <if test="workUnit != null  and workUnit != ''"> and work_unit like concat('%', #{workUnit}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectDevTrackById" parameterType="Long" resultMap="DevTrackResult">
+        <include refid="selectDevTrackVo"/>
+        where track_id = #{trackId}
+    </select>
+        
+    <insert id="insertDevTrack" parameterType="DevTrack" useGeneratedKeys="true" keyProperty="trackId">
+        insert into dev_track
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="trackName != null  and trackName != ''">track_name,</if>
+            <if test="equipId != null and equipId != ''">equip_id,</if>
+            <if test="trackContent != null  and trackContent != ''">track_content,</if>
+            <if test="startTime != null ">start_time,</if>
+            <if test="finishTime != null ">finish_time,</if>
+            <if test="commander != null  and commander != ''">commander,</if>
+            <if test="worker != null  and worker != ''">worker,</if>
+            <if test="feedback != null  and feedback != ''">feedback,</if>
+            <if test="completeStatus != null  and completeStatus != ''">complete_status,</if>
+            <if test="workUnit != null  and workUnit != ''">work_unit,</if>
+            <if test="fname != null  and fname != ''">fname,</if>
+            <if test="fpath != null  and fpath != ''">fpath,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            create_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="trackName != null  and trackName != ''">#{trackName},</if>
+            <if test="equipId != null and equipId != ''">#{equipId},</if>
+            <if test="trackContent != null  and trackContent != ''">#{trackContent},</if>
+            <if test="startTime != null ">#{startTime},</if>
+            <if test="finishTime != null ">#{finishTime},</if>
+            <if test="commander != null  and commander != ''">#{commander},</if>
+            <if test="worker != null  and worker != ''">#{worker},</if>
+            <if test="feedback != null  and feedback != ''">#{feedback},</if>
+            <if test="completeStatus != null  and completeStatus != ''">#{completeStatus},</if>
+            <if test="workUnit != null  and workUnit != ''">#{workUnit},</if>
+            <if test="fname != null  and fname != ''">#{fname},</if>
+            <if test="fpath != null  and fpath != ''">#{fpath},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            sysdate()
+         </trim>
+    </insert>
+
+    <update id="updateDevTrack" parameterType="DevTrack">
+        update dev_track
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="trackName != null  and trackName != ''">track_name = #{trackName},</if>
+            <if test="equipId != null and equipId != ''">equip_id = #{equipId},</if>
+            <if test="trackContent != null">track_content = #{trackContent},</if>
+            <if test="startTime != null ">start_time = #{startTime},</if>
+            <if test="finishTime != null ">finish_time = #{finishTime},</if>
+            <if test="commander != null">commander = #{commander},</if>
+            <if test="worker != null">worker = #{worker},</if>
+            <if test="feedback != null ">feedback = #{feedback},</if>
+            <if test="completeStatus != null  and completeStatus != ''">complete_status = #{completeStatus},</if>
+            <if test="workUnit != null">work_unit = #{workUnit},</if>
+            <if test="fname != null">fname = #{fname},</if>
+            <if test="fpath != null">fpath = #{fpath},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            update_time = sysdate()
+        </trim>
+        where track_id = #{trackId}
+    </update>
+
+    <delete id="deleteDevTrackById" parameterType="Long">
+        delete from dev_track where track_id = #{trackId}
+    </delete>
+
+    <delete id="deleteDevTrackByIds" parameterType="String">
+        delete from dev_track where track_id in 
+        <foreach item="trackId" collection="array" open="(" separator="," close=")">
+            #{trackId}
+        </foreach>
+    </delete>
+    
+</mapper>

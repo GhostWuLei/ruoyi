@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.devsys.mapper.DevAlterationMapper">
+    
+    <resultMap type="DevAlteration" id="DevAlterationResult">
+        <result property="alterationId"    column="alteration_id"    />
+        <result property="alterationName"    column="alteration_name"    />
+        <result property="equipId"    column="equip_id"    />
+        <result property="alterationContent"    column="alteration_content"    />
+        <result property="alterationType"    column="alteration_type"    />
+        <result property="alterationTime"    column="alteration_time"    />
+        <result property="applyer"    column="applyer"    />
+        <result property="completeStatus"    column="complete_status"    />
+        <result property="checkDate"    column="check_date"    />
+        <result property="checkMan"    column="check_man"    />
+        <result property="major"    column="major"    />
+        <result property="fname"    column="fname"    />
+        <result property="fpath"    column="fpath"    />
+        <result property="remark"    column="remark"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectDevAlterationVo">
+        select alteration_id, alteration_name, equip_id, alteration_content, alteration_type, alteration_time, applyer, complete_status, check_date, check_man, major, fname, fpath, remark, create_by, create_time, update_by, update_time from dev_alteration
+    </sql>
+
+    <select id="selectDevAlterationList" parameterType="DevAlteration" resultMap="DevAlterationResult">
+        <include refid="selectDevAlterationVo"/>
+        <where>  
+            <if test="alterationName != null  and alterationName != ''"> and alteration_name like concat('%', #{alterationName}, '%')</if>
+            <if test="equipId != null  and equipId != ''"> and equip_id = #{equipId}</if>
+            <if test="alterationType != null  and alterationType != ''"> and alteration_type = #{alterationType}</if>
+            <if test="completeStatus != null  and completeStatus != ''"> and complete_status = #{completeStatus}</if>
+            <if test="checkMan != null  and checkMan != ''"> and check_man like concat('%', #{checkMan}, '%')</if>
+            <if test="major != null  and major != ''"> and major like concat('%', #{major}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectDevAlterationById" parameterType="Long" resultMap="DevAlterationResult">
+        <include refid="selectDevAlterationVo"/>
+        where alteration_id = #{alterationId}
+    </select>
+        
+    <insert id="insertDevAlteration" parameterType="DevAlteration" useGeneratedKeys="true" keyProperty="alterationId">
+        insert into dev_alteration
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="alterationName != null  and alterationName != ''">alteration_name,</if>
+            <if test="equipId != null and equipId != ''">equip_id,</if>
+            <if test="alterationContent != null  and alterationContent != ''">alteration_content,</if>
+            <if test="alterationType != null  and alterationType != ''">alteration_type,</if>
+            <if test="alterationTime != null ">alteration_time,</if>
+            <if test="applyer != null  and applyer != ''">applyer,</if>
+            <if test="completeStatus != null  and completeStatus != ''">complete_status,</if>
+            <if test="checkDate != null ">check_date,</if>
+            <if test="checkMan != null  and checkMan != ''">check_man,</if>
+            <if test="major != null  and major != ''">major,</if>
+            <if test="fname != null  and fname != ''">fname,</if>
+            <if test="fpath != null  and fpath != ''">fpath,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            create_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="alterationName != null  and alterationName != ''">#{alterationName},</if>
+            <if test="equipId != null and equipId != ''">#{equipId},</if>
+            <if test="alterationContent != null  and alterationContent != ''">#{alterationContent},</if>
+            <if test="alterationType != null  and alterationType != ''">#{alterationType},</if>
+            <if test="alterationTime != null ">#{alterationTime},</if>
+            <if test="applyer != null  and applyer != ''">#{applyer},</if>
+            <if test="completeStatus != null  and completeStatus != ''">#{completeStatus},</if>
+            <if test="checkDate != null ">#{checkDate},</if>
+            <if test="checkMan != null  and checkMan != ''">#{checkMan},</if>
+            <if test="major != null  and major != ''">#{major},</if>
+            <if test="fname != null  and fname != ''">#{fname},</if>
+            <if test="fpath != null  and fpath != ''">#{fpath},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            sysdate()
+         </trim>
+    </insert>
+
+    <update id="updateDevAlteration" parameterType="DevAlteration">
+        update dev_alteration
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="alterationName != null  and alterationName != ''">alteration_name = #{alterationName},</if>
+            <if test="equipId != null and equipId != ''">equip_id = #{equipId},</if>
+            <if test="alterationContent != null">alteration_content = #{alterationContent},</if>
+            <if test="alterationType != null  and alterationType != ''">alteration_type = #{alterationType},</if>
+            <if test="alterationTime != null">alteration_time = #{alterationTime},</if>
+            <if test="applyer != null">applyer = #{applyer},</if>
+            <if test="completeStatus != null  and completeStatus != ''">complete_status = #{completeStatus},</if>
+            <if test="checkDate != null ">check_date = #{checkDate},</if>
+            <if test="checkMan != null">check_man = #{checkMan},</if>
+            <if test="major != null">major = #{major},</if>
+            <if test="fname != null">fname = #{fname},</if>
+            <if test="fpath != null">fpath = #{fpath},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            update_time = sysdate()
+        </trim>
+        where alteration_id = #{alterationId}
+    </update>
+
+    <delete id="deleteDevAlterationById" parameterType="Long">
+        delete from dev_alteration where alteration_id = #{alterationId}
+    </delete>
+
+    <delete id="deleteDevAlterationByIds" parameterType="String">
+        delete from dev_alteration where alteration_id in 
+        <foreach item="alterationId" collection="array" open="(" separator="," close=")">
+            #{alterationId}
+        </foreach>
+    </delete>
+    
+</mapper>

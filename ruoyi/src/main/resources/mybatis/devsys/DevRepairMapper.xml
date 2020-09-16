@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.devsys.mapper.DevRepairMapper">
+    
+    <resultMap type="DevRepair" id="DevRepairResult">
+        <result property="repairId"    column="repair_id"    />
+        <result property="repairName"    column="repair_name"    />
+        <result property="equipId"    column="equip_id"    />
+        <result property="repairDate"    column="repair_date"    />
+        <result property="repairContent"    column="repair_content"    />
+        <result property="workUnit"    column="work_unit"    />
+        <result property="repairKind"    column="repair_kind"    />
+        <result property="repairType"    column="repair_type"    />
+        <result property="fname"    column="fname"    />
+        <result property="fpath"    column="fpath"    />
+        <result property="remark"    column="remark"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectDevRepairVo">
+        select repair_id, repair_name, equip_id, repair_date, repair_content, work_unit, repair_kind, repair_type, fname, fpath, remark, create_by, create_time, update_by, update_time from dev_repair
+    </sql>
+
+    <select id="selectDevRepairList" parameterType="DevRepair" resultMap="DevRepairResult">
+        <include refid="selectDevRepairVo"/>
+        <where>  
+            <if test="repairName != null  and repairName != ''"> and repair_name like concat('%', #{repairName}, '%')</if>
+            <if test="equipId != null  and equipId != ''"> and equip_id = #{equipId}</if>
+            <if test="workUnit != null  and workUnit != ''"> and work_unit = #{workUnit}</if>
+            <if test="repairKind != null  and repairKind != ''"> and repair_kind = #{repairKind}</if>
+            <if test="repairType != null  and repairType != ''"> and repair_type = #{repairType}</if>
+        </where>
+    </select>
+    
+    <select id="selectDevRepairById" parameterType="Long" resultMap="DevRepairResult">
+        <include refid="selectDevRepairVo"/>
+        where repair_id = #{repairId}
+    </select>
+        
+    <insert id="insertDevRepair" parameterType="DevRepair" useGeneratedKeys="true" keyProperty="repairId">
+        insert into dev_repair
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="repairName != null  and repairName != ''">repair_name,</if>
+            <if test="equipId != null and equipId != 0 and equipId != ''">equip_id,</if>
+            <if test="repairDate != null ">repair_date,</if>
+            <if test="repairContent != null  and repairContent != ''">repair_content,</if>
+            <if test="workUnit != null  and workUnit != ''">work_unit,</if>
+            <if test="repairKind != null  and repairKind != ''">repair_kind,</if>
+            <if test="repairType != null  and repairType != ''">repair_type,</if>
+            <if test="fname != null  and fname != ''">fname,</if>
+            <if test="fpath != null  and fpath != ''">fpath,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            create_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="repairName != null  and repairName != ''">#{repairName},</if>
+            <if test="equipId != null  and equipId != '' and equipId != 0">#{equipId},</if>
+            <if test="repairDate != null ">#{repairDate},</if>
+            <if test="repairContent != null  and repairContent != ''">#{repairContent},</if>
+            <if test="workUnit != null  and workUnit != ''">#{workUnit},</if>
+            <if test="repairKind != null  and repairKind != ''">#{repairKind},</if>
+            <if test="repairType != null  and repairType != ''">#{repairType},</if>
+            <if test="fname != null  and fname != ''">#{fname},</if>
+            <if test="fpath != null  and fpath != ''">#{fpath},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            sysdate()
+         </trim>
+    </insert>
+
+    <update id="updateDevRepair" parameterType="DevRepair">
+        update dev_repair
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="repairName != null  and repairName != ''">repair_name = #{repairName},</if>
+            <if test="equipId != null and equipId != ''">equip_id = #{equipId},</if>
+            <if test="repairDate != null ">repair_date = #{repairDate},</if>
+            <if test="repairContent != null">repair_content = #{repairContent},</if>
+            <if test="workUnit != null">work_unit = #{workUnit},</if>
+            <if test="repairKind != null  and repairKind != ''">repair_kind = #{repairKind},</if>
+            <if test="repairType != null  and repairType != ''">repair_type = #{repairType},</if>
+            <if test="fname != null">fname = #{fname},</if>
+            <if test="fpath != null">fpath = #{fpath},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            update_time = sysdate()
+        </trim>
+        where repair_id = #{repairId}
+    </update>
+
+    <delete id="deleteDevRepairById" parameterType="Long">
+        delete from dev_repair where repair_id = #{repairId}
+    </delete>
+
+    <delete id="deleteDevRepairByIds" parameterType="String">
+        delete from dev_repair where repair_id in 
+        <foreach item="repairId" collection="array" open="(" separator="," close=")">
+            #{repairId}
+        </foreach>
+    </delete>
+    
+</mapper>

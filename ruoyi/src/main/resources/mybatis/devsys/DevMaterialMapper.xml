@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.devsys.mapper.DevMaterialMapper">
+
+    <resultMap type="DevMaterial" id="DevMaterialResult">
+        <result property="materialId"    column="material_id"    />
+        <result property="materialName"    column="material_name"    />
+        <result property="equipId"    column="equip_id"    />
+        <result property="materialType"    column="material_type"    />
+        <result property="upTime"    column="up_time"    />
+        <result property="fname"    column="fname"    />
+        <result property="fpath"    column="fpath"    />
+        <result property="remark"    column="remark"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectDevMaterialVo">
+        select material_id, material_name, equip_id, material_type, up_time, fname, fpath, remark, create_by, create_time, update_by, update_time from dev_material
+    </sql>
+
+    <select id="selectDevMaterialList" parameterType="DevMaterial" resultMap="DevMaterialResult">
+        <include refid="selectDevMaterialVo"/>
+        <where>
+            <if test="materialName != null and materialName != ''"> and material_name like concat('%', #{materialName}, '%')</if>
+            <if test="equipId != null and equipId != ''"> and equip_id = #{equipId}</if>
+            <if test="materialType != null and materialType != ''"> and material_type = #{materialType}</if>
+        </where>
+    </select>
+
+    <select id="selectDevMaterialById" parameterType="Long" resultMap="DevMaterialResult">
+        <include refid="selectDevMaterialVo"/>
+        where material_id = #{materialId}
+    </select>
+
+    <insert id="insertDevMaterial" parameterType="DevMaterial" useGeneratedKeys="true" keyProperty="materialId">
+        insert into dev_material(
+            <if test="materialName != null and materialName != ''">material_name,</if>
+            <if test="equipId != null and equipId != ''">equip_id,</if>
+            <if test="materialType != null and materialType != ''">material_type,</if>
+            <if test="upTime != null">up_time,</if>
+            <if test="fname != null and fname != ''">fname,</if>
+            <if test="fpath != null and fpath != ''">fpath,</if>
+            <if test="remark != null and remark != ''">remark,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            create_time
+        )values(
+            <if test="materialName != null and materialName != ''">#{materialName},</if>
+            <if test="equipId != null and equipId != ''">#{equipId},</if>
+            <if test="materialType != null and materialType != ''">#{materialType},</if>
+            <if test="upTime != null ">#{upTime},</if>
+            <if test="fname != null and fname != ''">#{fname},</if>
+            <if test="fpath != null and fpath != ''">#{fpath},</if>
+            <if test="remark != null and remark != ''">#{remark},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            sysdate()
+        )
+    </insert>
+
+    <update id="updateDevMaterial" parameterType="DevMaterial">
+        update dev_material
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="materialName != null  and materialName != ''">material_name = #{materialName},</if>
+            <if test="equipId != null and equipId != ''">equip_id = #{equipId},</if>
+            <if test="materialType != null  and materialType != ''">material_type = #{materialType},</if>
+            <if test="upTime != null">up_time = #{upTime},</if>
+            <if test="fname != null">fname = #{fname},</if>
+            <if test="fpath != null">fpath = #{fpath},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            update_time = sysdate()
+        </trim>
+        where material_id = #{materialId}
+    </update>
+
+    <delete id="deleteDevMaterialById" parameterType="Long">
+        delete from dev_material where material_id = #{materialId}
+    </delete>
+
+    <delete id="deleteDevMaterialByIds" parameterType="String">
+        delete from dev_material where material_id in
+        <foreach item="materialId" collection="array" open="(" separator="," close=")">
+            #{materialId}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.devsys.mapper.DevSpareMapper">
+    
+    <resultMap type="DevSpare" id="DevSpareResult">
+        <result property="spareId"    column="spare_id"    />
+        <result property="spareName"    column="spare_name"    />
+        <result property="equipId"    column="equip_id"    />
+        <result property="spareCode"    column="spare_code"    />
+        <result property="spareType"    column="spare_type"    />
+        <result property="stockNum"    column="stock_num"    />
+        <result property="stockPlace"    column="stock_place"    />
+        <result property="consumeNum"    column="consume_num"    />
+        <result property="consumeTime"    column="consume_time"    />
+        <result property="fname"    column="fname"    />
+        <result property="fpath"    column="fpath"    />
+        <result property="remark"    column="remark"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectDevSpareVo">
+        select spare_id, spare_name, equip_id, spare_code, spare_type, stock_num, stock_place, consume_num, consume_time, fname, fpath, remark, create_by, create_time, update_by, update_time from dev_spare
+    </sql>
+
+    <select id="selectDevSpareList" parameterType="DevSpare" resultMap="DevSpareResult">
+        <include refid="selectDevSpareVo"/>
+        <where>  
+            <if test="spareName != null  and spareName != ''"> and spare_name like concat('%', #{spareName}, '%')</if>
+            <if test="equipId != null and equipId != ''"> and equip_id = #{equipId}</if>
+            <if test="spareCode != null  and spareCode != ''"> and spare_code = #{spareCode}</if>
+            <if test="spareType != null  and spareType != ''"> and spare_type = #{spareType}</if>
+        </where>
+    </select>
+    
+    <select id="selectDevSpareById" parameterType="Long" resultMap="DevSpareResult">
+        <include refid="selectDevSpareVo"/>
+        where spare_id = #{spareId}
+    </select>
+        
+    <insert id="insertDevSpare" parameterType="DevSpare" useGeneratedKeys="true" keyProperty="spareId">
+        insert into dev_spare
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="spareName != null  and spareName != ''">spare_name,</if>
+            <if test="equipId != null and equipId != ''">equip_id,</if>
+            <if test="spareCode != null  and spareCode != ''">spare_code,</if>
+            <if test="spareType != null  and spareType != ''">spare_type,</if>
+            <if test="stockNum != null  and stockNum != ''">stock_num,</if>
+            <if test="stockPlace != null  and stockPlace != ''">stock_place,</if>
+            <if test="consumeNum != null  and consumeNum != ''">consume_num,</if>
+            <if test="consumeTime != null ">consume_time,</if>
+            <if test="fname != null  and fname != ''">fname,</if>
+            <if test="fpath != null  and fpath != ''">fpath,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            create_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="spareName != null  and spareName != ''">#{spareName},</if>
+            <if test="equipId != null ">#{equipId},</if>
+            <if test="spareCode != null  and spareCode != ''">#{spareCode},</if>
+            <if test="spareType != null  and spareType != ''">#{spareType},</if>
+            <if test="stockNum != null  and stockNum != ''">#{stockNum},</if>
+            <if test="stockPlace != null  and stockPlace != ''">#{stockPlace},</if>
+            <if test="consumeNum != null  and consumeNum != ''">#{consumeNum},</if>
+            <if test="consumeTime != null ">#{consumeTime},</if>
+            <if test="fname != null  and fname != ''">#{fname},</if>
+            <if test="fpath != null  and fpath != ''">#{fpath},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            sysdate()
+         </trim>
+    </insert>
+
+    <update id="updateDevSpare" parameterType="DevSpare">
+        update dev_spare
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="spareName != null  and spareName != ''">spare_name = #{spareName},</if>
+            <if test="equipId != null and equipId != ''">equip_id = #{equipId},</if>
+            <if test="spareCode != null">spare_code = #{spareCode},</if>
+            <if test="spareType != null  and spareType != ''">spare_type = #{spareType},</if>
+            <if test="stockNum != null">stock_num = #{stockNum},</if>
+            <if test="stockPlace != null">stock_place = #{stockPlace},</if>
+            <if test="consumeNum != null">consume_num = #{consumeNum},</if>
+            <if test="consumeTime != null">consume_time = #{consumeTime},</if>
+            <if test="fname != null">fname = #{fname},</if>
+            <if test="fpath != null">fpath = #{fpath},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            update_time = sysdate()
+        </trim>
+        where spare_id = #{spareId}
+    </update>
+
+    <delete id="deleteDevSpareById" parameterType="Long">
+        delete from dev_spare where spare_id = #{spareId}
+    </delete>
+
+    <delete id="deleteDevSpareByIds" parameterType="String">
+        delete from dev_spare where spare_id in 
+        <foreach item="spareId" collection="array" open="(" separator="," close=")">
+            #{spareId}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.devsys.mapper.DevKksMapper">
+    
+    <resultMap type="DevKks" id="DevKksResult">
+        <result property="kksId"    column="kks_id"    />
+        <result property="equName"    column="equ_name"    />
+        <result property="newKks"    column="new_kks"    />
+        <result property="parentKks"    column="parent_kks"    />
+        <result property="oldKks"    column="old_kks"    />
+        <result property="diagramName"    column="diagram_name"    />
+        <result property="equSpecifications"    column="equ_specifications"    />
+        <result property="department"    column="department"    />
+        <result property="major"    column="major"    />
+        <result property="clazz"    column="clazz"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectDevKksVo">
+        select kks_id, equ_name, new_kks, parent_kks, old_kks, diagram_name, equ_specifications, department, major, clazz, create_by, create_time, update_by, update_time, remark from dev_kks
+    </sql>
+
+    <select id="selectDevKksList" parameterType="DevKks" resultMap="DevKksResult">
+        <include refid="selectDevKksVo"/>
+        <where>  
+            <if test="equName != null  and equName != ''"> and equ_name like concat('%', #{equName}, '%')</if>
+            <if test="parentKks != null  and parentKks != ''"> and parent_kks = #{parentKks}</if>
+            <if test="newKks != null  and newKks != ''"> and new_kks like concat('%', #{newKks}, '%')</if>
+            <if test="oldKks != null  and oldKks != ''"> and old_kks like concat('%', #{oldKks}, '%')</if>
+            <if test="diagramName != null  and diagramName != ''"> and diagram_name like concat('%', #{diagramName}, '%')</if>
+            <if test="major != null  and major != ''"> and major = #{major}</if>
+        </where>
+    </select>
+    
+    <select id="selectDevKksById" parameterType="Long" resultMap="DevKksResult">
+        <include refid="selectDevKksVo"/>
+        where kks_id = #{kksId}
+    </select>
+        
+    <insert id="insertDevKks" parameterType="DevKks" useGeneratedKeys="true" keyProperty="kksId">
+        insert into dev_kks
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="equName != null  and equName != ''">equ_name,</if>
+            <if test="newKks != null  and newKks != ''">new_kks,</if>
+            <if test="parentKks != null  and parentKks != ''">parent_kks,</if>
+            <if test="oldKks != null  and oldKks != ''">old_kks,</if>
+            <if test="diagramName != null  and diagramName != ''">diagram_name,</if>
+            <if test="equSpecifications != null  and equSpecifications != ''">equ_specifications,</if>
+            <if test="department != null  and department != ''">department,</if>
+            <if test="major != null  and major != ''">major,</if>
+            <if test="clazz != null  and clazz != ''">clazz,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            create_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="equName != null  and equName != ''">#{equName},</if>
+            <if test="newKks != null  and newKks != ''">#{newKks},</if>
+            <if test="parentKks != null  and parentKks != ''">#{parentKks},</if>
+            <if test="oldKks != null  and oldKks != ''">#{oldKks},</if>
+            <if test="diagramName != null  and diagramName != ''">#{diagramName},</if>
+            <if test="equSpecifications != null  and equSpecifications != ''">#{equSpecifications},</if>
+            <if test="department != null  and department != ''">#{department},</if>
+            <if test="major != null  and major != ''">#{major},</if>
+            <if test="clazz != null  and clazz != ''">#{clazz},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            sysdate()
+         </trim>
+    </insert>
+
+    <update id="updateDevKks" parameterType="DevKks">
+        update dev_kks
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="equName != null  and equName != ''">equ_name = #{equName},</if>
+            <if test="newKks != null  and newKks != ''">new_kks = #{newKks},</if>
+            <if test="oldKks != null">old_kks = #{oldKks},</if>
+            <if test="diagramName != null">diagram_name = #{diagramName},</if>
+            <if test="equSpecifications != null">equ_specifications = #{equSpecifications},</if>
+            <if test="department != null">department = #{department},</if>
+            <if test="major != null and major != ''">major = #{major},</if>
+            <if test="clazz != null">clazz = #{clazz},</if>
+            <if test="parentKks != null  and parentKks != ''">parent_kks = #{parentKks},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            update_time = sysdate()
+        </trim>
+        where kks_id = #{kksId}
+    </update>
+
+    <update id="updateKksByDiagramName" parameterType="String">
+        update dev_kks set diagram_name = '' where diagram_name = #{diagramName}
+    </update>
+
+    <update id="updateParentKks">
+        update dev_kks set parent_kks = #{newKks} where parent_kks = #{oldKks}
+    </update>
+
+    <delete id="deleteDevKksById" parameterType="Long">
+        delete from dev_kks where kks_id = #{kksId}
+    </delete>
+
+    <delete id="deleteDevKksByIds" parameterType="String">
+        delete from dev_kks where kks_id in 
+        <foreach item="kksId" collection="array" open="(" separator="," close=")">
+            #{kksId}
+        </foreach>
+    </delete>
+
+    <!--#########################################################################-->
+    <select id="selectKksByNewKks" parameterType="String" resultMap="DevKksResult">
+        select * from dev_kks
+        where new_kks = #{newKks}
+    </select>
+
+    <!--<select id="checkUserNameUnique" parameterType="String" resultType="int">
+		select count(1) from sys_user where user_name = #{userName}
+	</select>-->
+
+    <select id="checkNewKksUnique"  parameterType="String" resultType="int">
+        select count(1) from dev_kks where new_kks = #{newKks}
+    </select>
+
+    <select id="checkNewKksUniqueExcludeSelf" resultType="int">
+        select count(1) from dev_kks where new_kks = #{newKks} and kks_id != #{kksId}
+    </select>
+
+    <!--获取根节点 根节点的parent_kks等于0-->
+    <select id="getRoots" resultMap="DevKksResult">
+        select * from dev_kks where parent_kks='0'
+    </select>
+
+    <!--获取所有的新编码-->
+    <select id="getNewKKSList" resultType="String">
+        select new_kks from dev_kks
+    </select>
+
+    <!--获取所有的父编码-->
+    <select id="getParentKKSList" resultType="String">
+        select parent_kks from dev_kks
+    </select>
+
+    <!--根据父级编码获取子级数据-->
+    <select id="selectByParentKks" parameterType="String" resultMap="DevKksResult">
+        select * from dev_kks where parent_kks=#{parentKks}
+    </select>
+
+
+</mapper>
