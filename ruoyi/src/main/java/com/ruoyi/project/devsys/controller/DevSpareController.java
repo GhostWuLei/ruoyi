@@ -106,13 +106,18 @@ public class DevSpareController extends BaseController
     /**
      * 上传文件的接口函数
      *
-     * @param file
+     * @param files
      * @return
      * @throws IOException
      */
     @PostMapping("/uploadFile")
-    public AjaxResult uploadFile(@RequestParam MultipartFile file) throws IOException {
-        if(!file.isEmpty()){
+    public AjaxResult uploadFile( @RequestParam(value = "spareId") String spareId, @RequestParam(value = "files") MultipartFile[] files) throws IOException {
+
+        System.out.println(spareId);
+        System.out.println(files[0]);
+
+        return null;
+        /*if(!file.isEmpty()){
             // 兼容IE
             String fname = file.getOriginalFilename(); // IE浏览器返回的是路径 chrome浏览器返回的是文件名加后缀
             int unixSep = fname.lastIndexOf("/");
@@ -127,7 +132,7 @@ public class DevSpareController extends BaseController
             ajax.put("fname", fname);
             return ajax;
         }
-        return AjaxResult.error("上传附件异常，请联系管理员");
+        return AjaxResult.error("上传附件异常，请联系管理员");*/
     }
 
 }
