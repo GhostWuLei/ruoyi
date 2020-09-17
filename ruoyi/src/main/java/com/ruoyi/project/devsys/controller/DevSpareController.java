@@ -22,7 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 备品备件Controller
- * 
+ *
  * @author wulei
  * @date 2020-06-08
  */
@@ -106,28 +106,33 @@ public class DevSpareController extends BaseController
     /**
      * 上传文件的接口函数
      *
-     * @param file
+     * @param
      * @return
      * @throws IOException
      */
+    @PreAuthorize("@ss.hasPermi('devsys:spare:uploadFile')")
     @PostMapping("/uploadFile")
-    public AjaxResult uploadFile(@RequestParam MultipartFile file) throws IOException {
-        if(!file.isEmpty()){
-            // 兼容IE
-            String fname = file.getOriginalFilename(); // IE浏览器返回的是路径 chrome浏览器返回的是文件名加后缀
-            int unixSep = fname.lastIndexOf("/");
-            int winSep = fname.lastIndexOf("\\");
-            int pos = (winSep > unixSep ? winSep : unixSep);
-            if( pos != -1){
-                fname = fname.substring(pos + 1);
+    public AjaxResult uploadFile(@RequestParam String spareId,  @RequestParam MultipartFile[] files) throws IOException {
+        for (MultipartFile file : files) {
+            if(!file.isEmpty()){
+                // 兼容IE
+                String fname = file.getOriginalFilename(); // IE浏览器返回的是路径 chrome浏览器返回的是文件名加后缀
+                int unixSep = fname.lastIndexOf("/");
+                int winSep = fname.lastIndexOf("\\");
+                int pos = (winSep > unixSep ? winSep : unixSep);
+                if( pos != -1){
+                    fname = fname.substring(pos + 1);
+                }
+                String fpath = FileUploadUtils.upload(RuoYiConfig.getaccoutPath(), file);
+                AjaxResult ajax = AjaxResult.success();
+                ajax.put("fpath", fpath);
+                ajax.put("fname", fname);
+                return ajax;
             }
-            String fpath = FileUploadUtils.upload(RuoYiConfig.getPicturePath(), file);
-            AjaxResult ajax = AjaxResult.success();
-            ajax.put("fpath", fpath);
-            ajax.put("fname", fname);
-            return ajax;
         }
         return AjaxResult.error("上传附件异常，请联系管理员");
+
     }
+
 
 }

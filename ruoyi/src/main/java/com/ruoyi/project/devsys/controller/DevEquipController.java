@@ -27,7 +27,7 @@ import com.ruoyi.framework.web.page.TableDataInfo;
 
 /**
  * 设备Controller
- * 
+ *
  * @author wulei
  * @date 2020-05-27
  */
@@ -126,7 +126,6 @@ public class DevEquipController extends BaseController
     @PutMapping
     public AjaxResult edit(@RequestBody DevEquip equip)
     {
-        System.out.println("XXXXXXXXXXXXXXXXXXXXXXXX" + equip.getStatus());
         if(EquipConstants.EQUIP_NOT_UNIQUE.equals(equipService.checkEquipNameUnique(equip))){
             //名称冲突
             return AjaxResult.error("修改设备'" + equip.getEquipName() + "'失败，设备名称已存在");
