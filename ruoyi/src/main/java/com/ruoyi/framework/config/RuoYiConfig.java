@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * 读取项目相关配置
- * 
+ *
  * @author ruoyi
  */
 @Component
@@ -120,5 +120,11 @@ public class RuoYiConfig
      */
     public static String getPicturePath(){
         return getProfile() + "/picture";
+    }
+    /**
+     * 附件上传路径
+     */
+    public static String getaccoutPath(){
+        return getProfile()+"/accout/spare";
     }
 }
