@@ -1,10 +1,14 @@
 package com.ruoyi.project.devsys.controller;
 
-import java.io.IOException;
+import java.io.*;
+import java.net.URLEncoder;
 import java.util.List;
 
+import com.ruoyi.common.constant.Constants;
+import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.file.FileUploadUtils;
 import com.ruoyi.framework.config.RuoYiConfig;
+import com.ruoyi.project.picsys.domain.PicDiagram;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,6 +23,9 @@ import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.framework.web.page.TableDataInfo;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * 备品备件Controller
@@ -93,14 +100,21 @@ public class DevSpareController extends BaseController
     }
 
     /**
-     * 删除备品备件
+     * 删除备品备件 判断有没有附件，如果有附件也需要删除
      */
     @PreAuthorize("@ss.hasPermi('devsys:spare:remove')")
     @Log(title = "备品备件", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{spareIds}")
     public AjaxResult remove(@PathVariable Long[] spareIds)
     {
-        return toAjax(devSpareService.deleteDevSpareByIds(spareIds));
+        for (Long spareId : spareIds) {
+            DevSpare tmpSpare = devSpareService.selectDevSpareById(spareId);
+            if(StringUtils.isNotEmpty(tmpSpare.getFpath())){
+                devSpareService.deleteAnnex(tmpSpare.getFpath());
+                devSpareService.deleteDevSpareById(tmpSpare.getSpareId());
+            }
+        }
+        return AjaxResult.success("删除成功");
     }
 
     /**
@@ -110,9 +124,9 @@ public class DevSpareController extends BaseController
      * @return
      * @throws IOException
      */
-    @PreAuthorize("@ss.hasPermi('devsys:spare:uploadFile')")
+    // @PreAuthorize("@ss.hasPermi('devsys:spare:uploadFile')")
     @PostMapping("/uploadFile")
-    public AjaxResult uploadFile(@RequestParam String spareId,  @RequestParam MultipartFile[] files) throws IOException {
+    public AjaxResult uploadFile(@RequestParam Long spareId,  @RequestParam MultipartFile[] files) throws IOException {
         for (MultipartFile file : files) {
             if(!file.isEmpty()){
                 // 兼容IE
@@ -123,16 +137,80 @@ public class DevSpareController extends BaseController
                 if( pos != -1){
                     fname = fname.substring(pos + 1);
                 }
-                String fpath = FileUploadUtils.upload(RuoYiConfig.getaccoutPath(), file);
-                AjaxResult ajax = AjaxResult.success();
-                ajax.put("fpath", fpath);
-                ajax.put("fname", fname);
-                return ajax;
+                String fpath = FileUploadUtils.upload(RuoYiConfig.getAccoutPath(), file);
+                //判断原来的有没有附件 如果有则删除
+                DevSpare spare = devSpareService.selectDevSpareById(spareId);
+                if(StringUtils.isNotEmpty(spare.getFpath())){
+                    devSpareService.deleteAnnex(spare.getFpath());
+                }
+                // 修改附件
+                DevSpare devSpare = new DevSpare();
+                devSpare.setSpareId(spareId);
+                devSpare.setFname(fname);
+                devSpare.setFpath(fpath);
+                devSpareService.updateDevSpare(devSpare);
+                return AjaxResult.success("上传成功！");
             }
         }
         return AjaxResult.error("上传附件异常，请联系管理员");
-
     }
+
+
+    /**
+     * 下载附件
+     *
+     * @param spareId
+     */
+    @PostMapping("/download/{spareId}")
+    public String downloadFile(@PathVariable Long spareId, HttpServletResponse response) {
+        DevSpare spare = devSpareService.selectDevSpareById(spareId);
+        String fname = spare.getFname();
+        String fpath = spare.getFpath();
+        int dirLastIndex = Constants.RESOURCE_PREFIX.length();
+        String realPath = RuoYiConfig.getProfile() + StringUtils.substring(fpath, dirLastIndex);
+        if (fname != null) {
+            //设置文件路径
+            File file = new File(realPath);
+            if (file.exists()) {
+                response.setContentType("application/octet-stream");//
+                response.setHeader("content-type", "application/octet-stream");
+                response.setHeader("Content-Disposition", "attachment;fileName=" + fname);// 设置文件名
+                byte[] buffer = new byte[1024];
+                FileInputStream fis = null;
+                BufferedInputStream bis = null;
+                try {
+                    fis = new FileInputStream(file);
+                    bis = new BufferedInputStream(fis);
+                    OutputStream os = response.getOutputStream();
+                    int i = bis.read(buffer);
+                    while (i != -1) {
+                        os.write(buffer, 0, i);
+                        i = bis.read(buffer);
+                    }
+                    System.out.println("success");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    if (bis != null) {
+                        try {
+                            bis.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if (fis != null) {
+                        try {
+                            fis.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
 
 
 }

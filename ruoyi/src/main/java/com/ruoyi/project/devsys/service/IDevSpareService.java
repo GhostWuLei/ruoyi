@@ -58,4 +58,10 @@ public interface IDevSpareService
      * @return 结果
      */
     public int deleteDevSpareById(Long spareId);
+
+    /**
+     * 删除本地附件
+     * @param fpath
+     */
+    public void deleteAnnex(String fpath);
 }

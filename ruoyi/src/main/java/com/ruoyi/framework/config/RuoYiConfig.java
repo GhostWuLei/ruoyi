@@ -124,7 +124,7 @@ public class RuoYiConfig
     /**
      * 附件上传路径
      */
-    public static String getaccoutPath(){
+    public static String getAccoutPath(){
         return getProfile()+"/accout/spare";
     }
 }
