@@ -127,4 +127,28 @@ public class RuoYiConfig
     public static String getAccoutPath(){
         return getProfile()+"/accout/spare";
     }
+    /**
+     * 技术资料路径
+     */
+    public static String getmaterialPath(){
+        return getProfile()+"/accout/material";
+    }
+    /**
+     * 设备定值路径
+     */
+    public static String getconstvalPath(){
+        return getProfile()+"/accout/constval";
+    }
+    /**
+     * 设备跟踪路径
+     */
+    public static String gettrackPath(){
+        return getProfile()+"/accout/track";
+    }
+    /**
+     * 重大技改路径
+     */
+    public static String getreformPath(){
+        return getProfile()+"/accout/reform";
+    }
 }

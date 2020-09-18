@@ -52,4 +52,11 @@ public interface IDevMaterialService {
      * @return 结果
      */
     public int deleteDevMaterialById(Long materialId);
+
+
+    /**
+     * 删除本地附件
+     * @param fpath
+     */
+    public void deleteAnnex(String fpath);
 }

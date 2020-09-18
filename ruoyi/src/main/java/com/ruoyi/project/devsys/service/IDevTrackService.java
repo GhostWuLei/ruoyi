@@ -5,15 +5,15 @@ import com.ruoyi.project.devsys.domain.DevTrack;
 
 /**
  * 设备跟踪Service接口
- * 
+ *
  * @author wulei
  * @date 2020-06-16
  */
-public interface IDevTrackService 
+public interface IDevTrackService
 {
     /**
      * 查询设备跟踪
-     * 
+     *
      * @param trackId 设备跟踪ID
      * @return 设备跟踪
      */
@@ -21,7 +21,7 @@ public interface IDevTrackService
 
     /**
      * 查询设备跟踪列表
-     * 
+     *
      * @param devTrack 设备跟踪
      * @return 设备跟踪集合
      */
@@ -29,7 +29,7 @@ public interface IDevTrackService
 
     /**
      * 新增设备跟踪
-     * 
+     *
      * @param devTrack 设备跟踪
      * @return 结果
      */
@@ -37,7 +37,7 @@ public interface IDevTrackService
 
     /**
      * 修改设备跟踪
-     * 
+     *
      * @param devTrack 设备跟踪
      * @return 结果
      */
@@ -45,7 +45,7 @@ public interface IDevTrackService
 
     /**
      * 批量删除设备跟踪
-     * 
+     *
      * @param trackIds 需要删除的设备跟踪ID
      * @return 结果
      */
@@ -53,9 +53,15 @@ public interface IDevTrackService
 
     /**
      * 删除设备跟踪信息
-     * 
+     *
      * @param trackId 设备跟踪ID
      * @return 结果
      */
     public int deleteDevTrackById(Long trackId);
+
+    /**
+     * 删除本地附件
+     * @param fpath
+     */
+    public void deleteAnnex(String fpath);
 }

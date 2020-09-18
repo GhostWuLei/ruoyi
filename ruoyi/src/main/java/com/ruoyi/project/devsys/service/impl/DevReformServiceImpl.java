@@ -1,7 +1,12 @@
 package com.ruoyi.project.devsys.service.impl;
 
+import java.io.File;
 import java.util.List;
+
+import com.ruoyi.common.constant.Constants;
+import com.ruoyi.common.exception.CustomException;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.framework.config.RuoYiConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.project.devsys.mapper.DevReformMapper;
@@ -10,19 +15,19 @@ import com.ruoyi.project.devsys.service.IDevReformService;
 
 /**
  * 重大技改Service业务层处理
- * 
+ *
  * @author wulei
  * @date 2020-06-16
  */
 @Service
-public class DevReformServiceImpl implements IDevReformService 
+public class DevReformServiceImpl implements IDevReformService
 {
     @Autowired
     private DevReformMapper devReformMapper;
 
     /**
      * 查询重大技改
-     * 
+     *
      * @param reformId 重大技改ID
      * @return 重大技改
      */
@@ -34,7 +39,7 @@ public class DevReformServiceImpl implements IDevReformService
 
     /**
      * 查询重大技改列表
-     * 
+     *
      * @param devReform 重大技改
      * @return 重大技改
      */
@@ -46,7 +51,7 @@ public class DevReformServiceImpl implements IDevReformService
 
     /**
      * 新增重大技改
-     * 
+     *
      * @param devReform 重大技改
      * @return 结果
      */
@@ -59,7 +64,7 @@ public class DevReformServiceImpl implements IDevReformService
 
     /**
      * 修改重大技改
-     * 
+     *
      * @param devReform 重大技改
      * @return 结果
      */
@@ -72,7 +77,7 @@ public class DevReformServiceImpl implements IDevReformService
 
     /**
      * 批量删除重大技改
-     * 
+     *
      * @param reformIds 需要删除的重大技改ID
      * @return 结果
      */
@@ -84,7 +89,7 @@ public class DevReformServiceImpl implements IDevReformService
 
     /**
      * 删除重大技改信息
-     * 
+     *
      * @param reformId 重大技改ID
      * @return 结果
      */
@@ -92,5 +97,17 @@ public class DevReformServiceImpl implements IDevReformService
     public int deleteDevReformById(Long reformId)
     {
         return devReformMapper.deleteDevReformById(reformId);
+    }
+
+    @Override
+    public void deleteAnnex(String fpath) {
+        //将相对路径转换为绝对路径
+        String newPath = fpath.replaceAll(Constants.RESOURCE_PREFIX, RuoYiConfig.getProfile());
+        File file = new File(newPath);
+        if(file.exists()){
+            if(!file.delete()){
+                throw new CustomException("删除失败", 401);
+            }
+        }
     }
 }

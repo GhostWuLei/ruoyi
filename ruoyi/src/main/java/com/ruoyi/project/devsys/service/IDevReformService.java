@@ -5,15 +5,15 @@ import com.ruoyi.project.devsys.domain.DevReform;
 
 /**
  * 重大技改Service接口
- * 
+ *
  * @author wulei
  * @date 2020-06-16
  */
-public interface IDevReformService 
+public interface IDevReformService
 {
     /**
      * 查询重大技改
-     * 
+     *
      * @param reformId 重大技改ID
      * @return 重大技改
      */
@@ -21,7 +21,7 @@ public interface IDevReformService
 
     /**
      * 查询重大技改列表
-     * 
+     *
      * @param devReform 重大技改
      * @return 重大技改集合
      */
@@ -29,7 +29,7 @@ public interface IDevReformService
 
     /**
      * 新增重大技改
-     * 
+     *
      * @param devReform 重大技改
      * @return 结果
      */
@@ -37,7 +37,7 @@ public interface IDevReformService
 
     /**
      * 修改重大技改
-     * 
+     *
      * @param devReform 重大技改
      * @return 结果
      */
@@ -45,7 +45,7 @@ public interface IDevReformService
 
     /**
      * 批量删除重大技改
-     * 
+     *
      * @param reformIds 需要删除的重大技改ID
      * @return 结果
      */
@@ -53,9 +53,15 @@ public interface IDevReformService
 
     /**
      * 删除重大技改信息
-     * 
+     *
      * @param reformId 重大技改ID
      * @return 结果
      */
     public int deleteDevReformById(Long reformId);
+
+    /**
+     * 删除本地附件
+     * @param fpath
+     */
+    public void deleteAnnex(String fpath);
 }

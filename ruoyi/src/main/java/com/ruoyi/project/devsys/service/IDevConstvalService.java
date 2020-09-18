@@ -5,15 +5,15 @@ import com.ruoyi.project.devsys.domain.DevConstval;
 
 /**
  * 设备定值Service接口
- * 
+ *
  * @author wulei
  * @date 2020-06-15
  */
-public interface IDevConstvalService 
+public interface IDevConstvalService
 {
     /**
      * 查询设备定值
-     * 
+     *
      * @param constvalId 设备定值ID
      * @return 设备定值
      */
@@ -21,7 +21,7 @@ public interface IDevConstvalService
 
     /**
      * 查询设备定值列表
-     * 
+     *
      * @param devConstval 设备定值
      * @return 设备定值集合
      */
@@ -29,7 +29,7 @@ public interface IDevConstvalService
 
     /**
      * 新增设备定值
-     * 
+     *
      * @param devConstval 设备定值
      * @return 结果
      */
@@ -37,7 +37,7 @@ public interface IDevConstvalService
 
     /**
      * 修改设备定值
-     * 
+     *
      * @param devConstval 设备定值
      * @return 结果
      */
@@ -45,7 +45,7 @@ public interface IDevConstvalService
 
     /**
      * 批量删除设备定值
-     * 
+     *
      * @param constvalIds 需要删除的设备定值ID
      * @return 结果
      */
@@ -53,9 +53,15 @@ public interface IDevConstvalService
 
     /**
      * 删除设备定值信息
-     * 
+     *
      * @param constvalId 设备定值ID
      * @return 结果
      */
     public int deleteDevConstvalById(Long constvalId);
+
+    /**
+     * 删除本地附件
+     * @param fpath
+     */
+    public void deleteAnnex(String fpath);
 }
