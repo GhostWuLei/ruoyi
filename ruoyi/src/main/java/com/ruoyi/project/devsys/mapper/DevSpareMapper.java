@@ -29,7 +29,7 @@ public interface DevSpareMapper
 
     /**
      * 新增备品备件
-     * 
+     * XX
      * @param devSpare 备品备件
      * @return 结果
      */
