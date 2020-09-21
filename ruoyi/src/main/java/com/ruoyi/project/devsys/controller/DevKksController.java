@@ -161,10 +161,10 @@ public class DevKksController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('devsys:kks:remove')")
     @Log(title = "kks编码", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{kksIds}")
-    public AjaxResult remove(@PathVariable Long[] kksIds)
+	@DeleteMapping("/{kksId}")
+    public AjaxResult remove(@PathVariable Long kksId)
     {
-        return toAjax(kksService.deleteDevKksByIds(kksIds));
+        return toAjax(kksService.deleteDevKksById(kksId));
     }
 
     /**

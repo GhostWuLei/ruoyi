@@ -274,7 +274,17 @@ public class DevKksServiceImpl implements IDevKksService
     @Override
     public int deleteDevKksById(Long kksId)
     {
-        return kksMapper.deleteDevKksById(kksId);
+        //查询这个kks编码下面有没有子编码 如果有 则不允许删除
+        DevKks kks = kksMapper.selectDevKksById(kksId);
+        if(StringUtils.isNotNull(kks)){
+            String newKKS = kks.getNewKks();
+            List<DevKks> kksList = kksMapper.selectByParentKks(newKKS);
+            if(StringUtils.isEmpty(kksList)){
+                return kksMapper.deleteDevKksById(kksId);
+            }
+            throw new CustomException("请先删除下级KKS编码");
+        }
+        throw new CustomException("KKS编码不存在！");
     }
 
     /**
