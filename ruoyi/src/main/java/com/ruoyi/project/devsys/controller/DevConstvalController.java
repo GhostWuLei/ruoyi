@@ -104,7 +104,16 @@ public class DevConstvalController extends BaseController
 	@DeleteMapping("/{constvalIds}")
     public AjaxResult remove(@PathVariable Long[] constvalIds)
     {
-        return toAjax(devConstvalService.deleteDevConstvalByIds(constvalIds));
+        for (Long constvalId : constvalIds) {
+            DevConstval constval = devConstvalService.selectDevConstvalById(constvalId);
+            if(StringUtils.isNotEmpty(constval.getFpath())){
+                devConstvalService.deleteAnnex(constval.getFpath());
+                devConstvalService.deleteDevConstvalById(constvalId);
+            }else{
+                devConstvalService.deleteDevConstvalById(constvalId);
+            }
+        }
+        return AjaxResult.success("删除成功");
     }
     /**
      * 上传文件的接口函数

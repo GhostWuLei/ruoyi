@@ -102,7 +102,17 @@ public class DevMaterialController extends BaseController
 	@DeleteMapping("/{materialIds}")
     public AjaxResult remove(@PathVariable Long[] materialIds)
     {
-        return toAjax(devMaterialService.deleteDevMaterialByIds(materialIds));
+        for (Long materialId : materialIds) {
+            DevMaterial devMaterial = devMaterialService.selectDevMaterialById(materialId);
+            System.out.println();
+            if(StringUtils.isNotEmpty(devMaterial.getFpath())){
+                devMaterialService.deleteAnnex(devMaterial.getFpath());
+                devMaterialService.deleteDevMaterialById(materialId);
+            }else{
+                devMaterialService.deleteDevMaterialById(materialId);
+            }
+        }
+        return AjaxResult.success("删除成功");
     }
 
 

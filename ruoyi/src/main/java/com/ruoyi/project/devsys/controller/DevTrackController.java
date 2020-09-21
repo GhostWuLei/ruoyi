@@ -104,7 +104,16 @@ public class DevTrackController extends BaseController
 	@DeleteMapping("/{trackIds}")
     public AjaxResult remove(@PathVariable Long[] trackIds)
     {
-        return toAjax(devTrackService.deleteDevTrackByIds(trackIds));
+        for (Long trackId : trackIds) {
+            DevTrack devTrack = devTrackService.selectDevTrackById(trackId);
+            if(StringUtils.isNotEmpty(devTrack.getFpath())){
+                devTrackService.deleteAnnex(devTrack.getFpath());
+                devTrackService.deleteDevTrackById(trackId);
+            }else{
+                devTrackService.deleteDevTrackById(trackId);
+            }
+        }
+        return AjaxResult.success("删除成功");
     }
 
     /**

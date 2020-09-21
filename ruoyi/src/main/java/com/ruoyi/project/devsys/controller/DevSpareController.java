@@ -112,6 +112,8 @@ public class DevSpareController extends BaseController
             if(StringUtils.isNotEmpty(tmpSpare.getFpath())){
                 devSpareService.deleteAnnex(tmpSpare.getFpath());
                 devSpareService.deleteDevSpareById(tmpSpare.getSpareId());
+            }else{
+                devSpareService.deleteDevSpareById(spareId);
             }
         }
         return AjaxResult.success("删除成功");

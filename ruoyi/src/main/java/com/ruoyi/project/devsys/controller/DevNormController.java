@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * 设备规范Controller
- * 
+ *
  * @author wulei
  * @date 2020-06-16
  */
@@ -107,6 +107,8 @@ public class DevNormController extends BaseController
             if(StringUtils.isNotEmpty(tmpNorm.getFpath())){
                 devNormService.deleteAnnex(tmpNorm.getFpath());
                 devNormService.deleteDevNormById(tmpNorm.getNormId());
+            }else{
+                devNormService.deleteDevNormById(normId);
             }
         }
         return AjaxResult.success("删除成功");

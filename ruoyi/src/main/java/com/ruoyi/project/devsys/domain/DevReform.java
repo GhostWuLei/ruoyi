@@ -9,7 +9,7 @@ import java.util.Date;
 
 /**
  * 重大技改对象 dev_reform
- * 
+ *
  * @author wulei
  * @date 2020-06-16
  */
@@ -58,102 +58,102 @@ public class DevReform extends BaseEntity
     /** 附件路径 */
     private String fpath;
 
-    public void setReformId(Long reformId) 
+    public void setReformId(Long reformId)
     {
         this.reformId = reformId;
     }
 
-    public Long getReformId() 
+    public Long getReformId()
     {
         return reformId;
     }
-    public void setReformName(String reformName) 
+    public void setReformName(String reformName)
     {
         this.reformName = reformName;
     }
 
-    public String getReformName() 
+    public String getReformName()
     {
         return reformName;
     }
-    public void setEquipId(Long equipId) 
+    public void setEquipId(Long equipId)
     {
         this.equipId = equipId;
     }
 
-    public Long getEquipId() 
+    public Long getEquipId()
     {
         return equipId;
     }
-    public void setMajor(String major) 
+    public void setMajor(String major)
     {
         this.major = major;
     }
 
-    public String getMajor() 
+    public String getMajor()
     {
         return major;
     }
-    public void setCompleteStatus(String completeStatus) 
+    public void setCompleteStatus(String completeStatus)
     {
         this.completeStatus = completeStatus;
     }
 
-    public String getCompleteStatus() 
+    public String getCompleteStatus()
     {
         return completeStatus;
     }
-    public void setWorkUnit(String workUnit) 
+    public void setWorkUnit(String workUnit)
     {
         this.workUnit = workUnit;
     }
 
-    public String getWorkUnit() 
+    public String getWorkUnit()
     {
         return workUnit;
     }
-    public void setFinishTime(Date finishTime) 
+    public void setFinishTime(Date finishTime)
     {
         this.finishTime = finishTime;
     }
 
-    public Date getFinishTime() 
+    public Date getFinishTime()
     {
         return finishTime;
     }
-    public void setIsCheck(String isCheck) 
+    public void setIsCheck(String isCheck)
     {
         this.isCheck = isCheck;
     }
 
-    public String getIsCheck() 
+    public String getIsCheck()
     {
         return isCheck;
     }
-    public void setChecker(String checker) 
+    public void setChecker(String checker)
     {
         this.checker = checker;
     }
 
-    public String getChecker() 
+    public String getChecker()
     {
         return checker;
     }
-    public void setFname(String fname) 
+    public void setFname(String fname)
     {
         this.fname = fname;
     }
 
-    public String getFname() 
+    public String getFname()
     {
         return fname;
     }
-    public void setFpath(String fpath) 
+    public void setFpath(String fpath)
     {
         this.fpath = fpath;
     }
 
-    public String getFpath() 
+    public String getFpath()
     {
         return fpath;
     }

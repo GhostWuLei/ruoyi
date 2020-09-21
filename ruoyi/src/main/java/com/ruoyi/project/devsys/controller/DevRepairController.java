@@ -105,6 +105,8 @@ public class DevRepairController extends BaseController
             if(StringUtils.isNotEmpty(tmpRepair.getFpath())){
                 devRepairService.deleteAnnex(tmpRepair.getFpath());
                 devRepairService.deleteDevRepairById(tmpRepair.getRepairId());
+            }else{
+                devRepairService.deleteDevRepairById(repairId);
             }
         }
         return AjaxResult.success("删除成功");

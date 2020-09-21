@@ -7,6 +7,9 @@ import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.exception.CustomException;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.framework.config.RuoYiConfig;
+import com.ruoyi.project.devsys.domain.DevEquip;
+import com.ruoyi.project.devsys.mapper.DevEquipMapper;
+import com.ruoyi.project.devsys.service.IDevEquipService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.project.devsys.mapper.DevReformMapper;
@@ -24,6 +27,8 @@ public class DevReformServiceImpl implements IDevReformService
 {
     @Autowired
     private DevReformMapper devReformMapper;
+    @Autowired
+    private DevEquipMapper equipMapper;
 
     /**
      * 查询重大技改
@@ -109,5 +114,11 @@ public class DevReformServiceImpl implements IDevReformService
                 throw new CustomException("删除失败", 401);
             }
         }
+    }
+
+    @Override
+    public List<DevEquip> getEquip() {
+        List<DevEquip> devEquips = equipMapper.selectDevEquipList(null);
+        return devEquips;
     }
 }

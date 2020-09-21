@@ -1,6 +1,8 @@
 package com.ruoyi.project.devsys.service;
 
 import java.util.List;
+
+import com.ruoyi.project.devsys.domain.DevEquip;
 import com.ruoyi.project.devsys.domain.DevReform;
 
 /**
@@ -64,4 +66,6 @@ public interface IDevReformService
      * @param fpath
      */
     public void deleteAnnex(String fpath);
+
+    List<DevEquip> getEquip();
 }

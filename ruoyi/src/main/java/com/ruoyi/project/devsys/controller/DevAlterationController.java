@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * 异动变更Controller
- * 
+ *
  * @author wulei
  * @date 2020-06-16
  */
@@ -105,6 +105,8 @@ public class DevAlterationController extends BaseController
             if(StringUtils.isNotEmpty(tmpAlteration.getFpath())){
                 devAlterationService.deleteAnnex(tmpAlteration.getFpath());
                 devAlterationService.deleteDevAlterationById(tmpAlteration.getAlterationId());
+            }else{
+                devAlterationService.deleteDevAlterationById(alterationId);
             }
         }
         return AjaxResult.success("删除成功");

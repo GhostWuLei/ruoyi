@@ -7,6 +7,7 @@ import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.file.FileUploadUtils;
 import com.ruoyi.framework.config.RuoYiConfig;
+import com.ruoyi.project.devsys.domain.DevEquip;
 import com.ruoyi.project.devsys.domain.DevTrack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -103,7 +104,16 @@ public class DevReformController extends BaseController
 	@DeleteMapping("/{reformIds}")
     public AjaxResult remove(@PathVariable Long[] reformIds)
     {
-        return toAjax(devReformService.deleteDevReformByIds(reformIds));
+        for (Long reformId : reformIds) {
+            DevReform devReform = devReformService.selectDevReformById(reformId);
+            if(StringUtils.isNotEmpty(devReform.getFpath())){
+                devReformService.deleteAnnex(devReform.getFpath());
+                devReformService.deleteDevReformById(reformId);
+            }else{
+                devReformService.deleteDevReformById(reformId);
+            }
+        }
+        return AjaxResult.success("删除成功");
     }
     /**
      * 上传文件的接口函数
@@ -196,5 +206,10 @@ public class DevReformController extends BaseController
             }
         }
         return null;
+    }
+    @GetMapping("/getEquip")
+    public AjaxResult getEquip(){
+        List<DevEquip> equip = devReformService.getEquip();
+        return AjaxResult.success("list",equip);
     }
 }
