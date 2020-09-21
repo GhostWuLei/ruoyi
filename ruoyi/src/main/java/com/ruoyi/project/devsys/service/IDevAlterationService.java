@@ -58,4 +58,10 @@ public interface IDevAlterationService
      * @return 结果
      */
     public int deleteDevAlterationById(Long alterationId);
+
+    /**
+     * 删除本地附件
+     * @param fpath
+     */
+    public void deleteAnnex(String fpath);
 }

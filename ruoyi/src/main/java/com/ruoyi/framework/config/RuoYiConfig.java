@@ -127,6 +127,22 @@ public class RuoYiConfig
     public static String getAccoutPath(){
         return getProfile()+"/accout/spare";
     }
+
+    /**
+     * 附件上传路径
+     */
+    public static String getRepairPath(){
+        return getProfile()+"/accout/repair";
+    }
+
+    /**
+     * 附件上传路径
+     */
+    public static String getNormPath(){
+        return getProfile()+"/accout/norm";
+    }
+
+
     /**
      * 技术资料路径
      */

@@ -1,8 +1,13 @@
 package com.ruoyi.project.devsys.service.impl;
 
+import java.io.File;
 import java.util.List;
+
+import com.ruoyi.common.constant.Constants;
+import com.ruoyi.common.exception.CustomException;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.SecurityUtils;
+import com.ruoyi.framework.config.RuoYiConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.project.devsys.mapper.DevAlterationMapper;
@@ -98,5 +103,23 @@ public class DevAlterationServiceImpl implements IDevAlterationService
         alteration.setUpdateBy(SecurityUtils.getUsername());
         return devAlterationMapper.updateDevAlteration(alteration);
     }
+
+    /**
+     * 删除附件 annex: 附件
+     * @param fpath
+     */
+    @Override
+    public void deleteAnnex(String fpath){
+        //将相对路径转换为绝对路径
+        String newPath = fpath.replaceAll(Constants.RESOURCE_PREFIX, RuoYiConfig.getProfile());
+        File file = new File(newPath);
+        if(file.exists()){
+            if(!file.delete()){
+                throw new CustomException("删除失败", 401);
+            }
+        }
+    }
+
+
 
 }

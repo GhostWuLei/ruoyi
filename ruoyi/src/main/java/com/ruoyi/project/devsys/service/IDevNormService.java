@@ -58,4 +58,10 @@ public interface IDevNormService
      * @return 结果
      */
     public int deleteDevNormById(Long normId);
+
+    /**
+     * 删除本地附件
+     * @param fpath
+     */
+    public void deleteAnnex(String fpath);
 }

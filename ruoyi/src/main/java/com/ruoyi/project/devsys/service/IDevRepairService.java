@@ -52,4 +52,10 @@ public interface IDevRepairService
      * @return 结果
      */
     public int deleteDevRepairById(Long repairId);
+
+    /**
+     * 删除本地附件
+     * @param fpath
+     */
+    public void deleteAnnex(String fpath);
 }
