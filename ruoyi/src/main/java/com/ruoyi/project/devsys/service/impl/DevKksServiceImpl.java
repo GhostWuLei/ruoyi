@@ -121,18 +121,18 @@ public class DevKksServiceImpl implements IDevKksService
      *
      * @return
      */
-    @Override
-    public List<DevKks> getRoots() {
-
-        List<DevKks> retList = kksMapper.getRoots();
-        for (DevKks tmpKKS : retList) {
-            List<DevKks> tmpList = kksMapper.selectByParentKks(tmpKKS.getNewKks());
-            if(tmpList.size()>0){
-                tmpKKS.setHasChildren(true);
-            }
-        }
-        return retList;
-    }
+//    @Override
+//    public List<DevKks> getRoots() {
+//
+//        List<DevKks> retList = kksMapper.getRoots();
+//        for (DevKks tmpKKS : retList) {
+//            List<DevKks> tmpList = kksMapper.selectByParentKks(tmpKKS.getNewKks());
+//            if(tmpList.size()>0){
+//                tmpKKS.setHasChildren(true);
+//            }
+//        }
+//        return retList;
+//    }
 
     /**
      * 获取treeselect的根节点数据
@@ -203,33 +203,33 @@ public class DevKksServiceImpl implements IDevKksService
     }
 
 
-//    //这种方法数据太多会导致响应太慢
-//    @Override
-//    public List<DevKks> getRoots() {
-//        List<String> sons =  kksMapper.getNewKKSList();
-//        List<String> parents = kksMapper.getParentKKSList();
-//        Set<String> set = new HashSet<>();
-//        List<DevKks> finalList = new ArrayList<>();
-//        //判断是不是顶级节点 对父级进行遍历
-//        for (String parent : parents) {
-//            if(!sons.contains(parent)){
-//                set.add(parent);
-//            }
-//        }
-//        //对set集合遍历 如果父节点在set集合中 则表示该节点为根节点
-//        for (String s : set) {
-//            List<DevKks> childs = kksMapper.getChilds(s);
-//            finalList.addAll(childs);
-//        }
-//        //对finalList进行遍历 判断有没有孩子
-//        for (DevKks tmpKKS : finalList) {
-//            List<DevKks> tmpList = kksMapper.getChilds(tmpKKS.getNewKks());
-//            if(tmpList.size()>0){
-//                tmpKKS.setHasChildren(true);
-//            }
-//        }
-//        return finalList;
-//    }
+    //这种方法数据太多会导致响应太慢
+    @Override
+    public List<DevKks> getRoots() {
+        List<String> sons =  kksMapper.getNewKKSList();
+        List<String> parents = kksMapper.getParentKKSList();
+        Set<String> set = new HashSet<>();
+        List<DevKks> finalList = new ArrayList<>();
+        //判断是不是顶级节点 对父级进行遍历
+        for (String parent : parents) {
+            if(!sons.contains(parent)){
+                set.add(parent);
+            }
+        }
+        //对set集合遍历 如果父节点在set集合中 则表示该节点为根节点
+        for (String s : set) {
+            List<DevKks> childs = kksMapper.selectByParentKks(s);
+            finalList.addAll(childs);
+        }
+        //对finalList进行遍历 判断有没有孩子
+        for (DevKks tmpKKS : finalList) {
+            List<DevKks> tmpList = kksMapper.selectByParentKks(tmpKKS.getNewKks());
+            if(tmpList.size()>0){
+                tmpKKS.setHasChildren(true);
+            }
+        }
+        return finalList;
+    }
 
 
     /**
@@ -295,8 +295,50 @@ public class DevKksServiceImpl implements IDevKksService
      * @param operName
      * @return
      */
+//    @Override
+//    @Transactional
+//    public String importKks(List<DevKks> kksList, boolean isUpdateSupport, String operName) {
+//        if(StringUtils.isNull(kksList) || kksList.size() == 0){
+//            throw new CustomException("导入的kks编码数据不能为空");
+//        }
+//        int insertNum = 0;
+//        int updateNum = 0;
+//        int repeatNum = 0;
+//        StringBuilder successMsg = new StringBuilder();
+//        for (DevKks kks : kksList) {
+//            //验证父节点是否已存在 如果不存在 则导入失败 回滚事务
+//            DevKks parent = kksMapper.selectKksByNewKks(kks.getParentKks());
+//            if(StringUtils.isNull(parent)){
+//                throw new CustomException("编码"+kks.getNewKks()+"的父级编码不存在，导入失败！！");
+//            }
+//            //验证是否已存在这个kks编码
+//            DevKks k = kksMapper.selectKksByNewKks(kks.getNewKks());
+//
+//            if(StringUtils.isNull(k)){
+//                //该kks编码不存在 可以直接插入
+//                kks.setCreateBy(operName);
+//                this.insertDevKks(kks);
+//                insertNum++;
+//            } else{
+//                // 说明这个KKS编码存在
+//                if(isUpdateSupport){
+//                    //允许修改
+//                    kks.setKksId(k.getKksId());
+//                    kks.setUpdateBy(operName);
+//                    this.updateDevKks(kks);
+//                    updateNum++;
+//                }else{
+//                    //不允许修改
+//                    repeatNum++;
+//                }
+//            }
+//        }
+//        successMsg.insert(0, "导入数据已完成！新增"+insertNum+"条，更新"+updateNum+"条，"+repeatNum+"条数据已存在，未修改");
+//        return successMsg.toString();
+//    }
+
+
     @Override
-    @Transactional
     public String importKks(List<DevKks> kksList, boolean isUpdateSupport, String operName) {
         if(StringUtils.isNull(kksList) || kksList.size() == 0){
             throw new CustomException("导入的kks编码数据不能为空");
@@ -307,10 +349,10 @@ public class DevKksServiceImpl implements IDevKksService
         StringBuilder successMsg = new StringBuilder();
         for (DevKks kks : kksList) {
             //验证父节点是否已存在 如果不存在 则导入失败 回滚事务
-            DevKks parent = kksMapper.selectKksByNewKks(kks.getParentKks());
+            /*DevKks parent = kksMapper.selectKksByNewKks(kks.getParentKks());
             if(StringUtils.isNull(parent)){
                 throw new CustomException("编码"+kks.getNewKks()+"的父级编码不存在，导入失败！！");
-            }
+            }*/
             //验证是否已存在这个kks编码
             DevKks k = kksMapper.selectKksByNewKks(kks.getNewKks());
 
@@ -336,7 +378,6 @@ public class DevKksServiceImpl implements IDevKksService
         successMsg.insert(0, "导入数据已完成！新增"+insertNum+"条，更新"+updateNum+"条，"+repeatNum+"条数据已存在，未修改");
         return successMsg.toString();
     }
-
     /**
      * 查询kks 并返回树
      *
