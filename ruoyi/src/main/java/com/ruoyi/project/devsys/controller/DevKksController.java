@@ -1,11 +1,13 @@
 package com.ruoyi.project.devsys.controller;
 
+import java.rmi.activation.ActivationGroup_Stub;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import com.ruoyi.common.utils.ServletUtils;
+import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.framework.security.LoginUser;
 import com.ruoyi.framework.security.service.TokenService;
 import com.ruoyi.framework.web.domain.TreeSelect;
@@ -52,6 +54,9 @@ public class DevKksController extends BaseController
     @GetMapping("/list")
     public AjaxResult list(DevKks devKks)
     {
+        if(StringUtils.isEmpty(devKks.getNewKks())){
+
+        }
         List<DevKks> kksList = kksService.selectDevKksList(devKks);
         return AjaxResult.success(kksList);
     }

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.ruoyi.project.devsys.mapper.DevSpareMapper;
 import com.ruoyi.project.devsys.domain.DevSpare;
 import com.ruoyi.project.devsys.service.IDevSpareService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 备品备件Service业务层处理
@@ -22,6 +23,7 @@ import com.ruoyi.project.devsys.service.IDevSpareService;
  * @date 2020-06-08
  */
 @Service
+@Transactional
 public class DevSpareServiceImpl implements IDevSpareService 
 {
     @Autowired
