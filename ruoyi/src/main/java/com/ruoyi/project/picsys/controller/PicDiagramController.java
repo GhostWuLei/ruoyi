@@ -330,6 +330,8 @@ public class PicDiagramController extends BaseController {
      */
     @GetMapping("/getNodeIdByDiagramName/{diagramName}")
     public AjaxResult getNodeIdByDiagramName(@PathVariable String diagramName){
+        //根据前三个字母 获取对应的id
+        diagramName = diagramName.substring(0,3);
         Long nodeId = diagramService.getNodeIdByNodeName(diagramName);
         System.out.println(diagramName);
         if(StringUtils.isNull(nodeId)){

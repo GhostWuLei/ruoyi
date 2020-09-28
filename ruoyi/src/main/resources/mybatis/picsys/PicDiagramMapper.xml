@@ -129,7 +129,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <select id="getNodeIdByNodeName" parameterType="String" resultType="Long">
-        select node_id from pic_diagram where node_name=#{nodeName} and node_type = '0'
+        select node_id from pic_diagram where node_name like concat(#{nodeName}, '%') and node_type = '0'
     </select>
 
     
