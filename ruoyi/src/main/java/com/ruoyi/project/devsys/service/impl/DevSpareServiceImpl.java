@@ -26,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class DevSpareServiceImpl implements IDevSpareService 
 {
+
     @Autowired
     private DevSpareMapper devSpareMapper;
 
