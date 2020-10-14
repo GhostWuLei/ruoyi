@@ -157,15 +157,14 @@ public class DevReformController extends BaseController
      *
      * @param reformId
      */
-    @PostMapping("/download/{materialId}")
-    public String downloadFile(@PathVariable Long reformId, HttpServletResponse response) {
-        Logger logger= LoggerFactory.getLogger(Logger.class);
+    @PostMapping("/download/{reformId}")
+    public void downloadFile(@PathVariable Long reformId, HttpServletResponse response) {
         DevReform reform = devReformService.selectDevReformById(reformId);
         String fname = reform.getFname();
         String fpath = reform.getFpath();
         int dirLastIndex = Constants.RESOURCE_PREFIX.length();
         String realPath = RuoYiConfig.getProfile() + StringUtils.substring(fpath, dirLastIndex);
-        if (fname != null) {
+        if (StringUtils.isNotEmpty(fname)) {
             //设置文件路径
             File file = new File(realPath);
             if (file.exists()) {
@@ -205,8 +204,8 @@ public class DevReformController extends BaseController
                 }
             }
         }
-        return null;
     }
+
     @GetMapping("/getEquip")
     public AjaxResult getEquip(){
         List<DevEquip> equip = devReformService.getEquip();

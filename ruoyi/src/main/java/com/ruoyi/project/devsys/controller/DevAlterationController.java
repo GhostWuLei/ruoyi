@@ -157,13 +157,13 @@ public class DevAlterationController extends BaseController
      * @param alterationId
      */
     @PostMapping("/download/{alterationId}")
-    public String downloadFile(@PathVariable Long alterationId, HttpServletResponse response) {
+    public void downloadFile(@PathVariable Long alterationId, HttpServletResponse response) {
         DevAlteration alteration = devAlterationService.selectDevAlterationById(alterationId);
         String fname = alteration.getFname();
         String fpath = alteration.getFpath();
         int dirLastIndex = Constants.RESOURCE_PREFIX.length();
         String realPath = RuoYiConfig.getProfile() + StringUtils.substring(fpath, dirLastIndex);
-        if (fname != null) {
+        if (StringUtils.isNotEmpty(fname)) {
             //设置文件路径
             File file = new File(realPath);
             if (file.exists()) {
@@ -203,6 +203,5 @@ public class DevAlterationController extends BaseController
                 }
             }
         }
-        return null;
     }
 }

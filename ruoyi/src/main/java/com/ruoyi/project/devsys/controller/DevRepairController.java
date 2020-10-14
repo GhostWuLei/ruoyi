@@ -148,13 +148,13 @@ public class DevRepairController extends BaseController
      * @param repairId
      */
     @PostMapping("/download/{repairId}")
-    public String downloadFile(@PathVariable Long repairId, HttpServletResponse response) {
+    public void downloadFile(@PathVariable Long repairId, HttpServletResponse response) {
         DevRepair repair = devRepairService.selectDevRepairById(repairId);
         String fname = repair.getFname();
         String fpath = repair.getFpath();
         int dirLastIndex = Constants.RESOURCE_PREFIX.length();
         String realPath = RuoYiConfig.getProfile() + StringUtils.substring(fpath, dirLastIndex);
-        if (fname != null) {
+        if (StringUtils.isNotEmpty(fname)) {
             //设置文件路径
             File file = new File(realPath);
             if (file.exists()) {
@@ -194,7 +194,6 @@ public class DevRepairController extends BaseController
                 }
             }
         }
-        return null;
     }
 
 }

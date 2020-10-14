@@ -159,15 +159,14 @@ public class DevTrackController extends BaseController
      *
      * @param trackId
      */
-    @PostMapping("/download/{materialId}")
-    public String downloadFile(@PathVariable Long trackId, HttpServletResponse response) {
-        Logger logger= LoggerFactory.getLogger(Logger.class);
+    @PostMapping("/download/{trackId}")
+    public void downloadFile(@PathVariable Long trackId, HttpServletResponse response) {
         DevTrack devTrack = devTrackService.selectDevTrackById(trackId);
         String fname = devTrack.getFname();
         String fpath = devTrack.getFpath();
         int dirLastIndex = Constants.RESOURCE_PREFIX.length();
         String realPath = RuoYiConfig.getProfile() + StringUtils.substring(fpath, dirLastIndex);
-        if (fname != null) {
+        if (StringUtils.isNotEmpty(fname)) {
             //设置文件路径
             File file = new File(realPath);
             if (file.exists()) {
@@ -207,6 +206,5 @@ public class DevTrackController extends BaseController
                 }
             }
         }
-        return null;
     }
 }

@@ -158,13 +158,13 @@ public class DevNormController extends BaseController
      * @param normId
      */
     @PostMapping("/download/{normId}")
-    public String downloadFile(@PathVariable Long normId, HttpServletResponse response) {
+    public void downloadFile(@PathVariable Long normId, HttpServletResponse response) {
         DevNorm norm = devNormService.selectDevNormById(normId);
         String fname = norm.getFname();
         String fpath = norm.getFpath();
         int dirLastIndex = Constants.RESOURCE_PREFIX.length();
         String realPath = RuoYiConfig.getProfile() + StringUtils.substring(fpath, dirLastIndex);
-        if (fname != null) {
+        if (StringUtils.isNotEmpty(fname)) {
             //设置文件路径
             File file = new File(realPath);
             if (file.exists()) {
@@ -204,7 +204,6 @@ public class DevNormController extends BaseController
                 }
             }
         }
-        return null;
     }
 
 

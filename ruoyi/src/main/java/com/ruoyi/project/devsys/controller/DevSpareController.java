@@ -164,13 +164,13 @@ public class DevSpareController extends BaseController
      * @param spareId
      */
     @PostMapping("/download/{spareId}")
-    public String downloadFile(@PathVariable Long spareId, HttpServletResponse response) {
+    public void downloadFile(@PathVariable Long spareId, HttpServletResponse response) {
         DevSpare spare = devSpareService.selectDevSpareById(spareId);
         String fname = spare.getFname();
         String fpath = spare.getFpath();
         int dirLastIndex = Constants.RESOURCE_PREFIX.length();
         String realPath = RuoYiConfig.getProfile() + StringUtils.substring(fpath, dirLastIndex);
-        if (fname != null) {
+        if (StringUtils.isNotEmpty(fname)) {
             //设置文件路径
             File file = new File(realPath);
             if (file.exists()) {
@@ -210,7 +210,6 @@ public class DevSpareController extends BaseController
                 }
             }
         }
-        return null;
     }
 
 
