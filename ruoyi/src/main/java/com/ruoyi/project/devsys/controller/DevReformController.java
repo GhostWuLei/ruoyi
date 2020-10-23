@@ -207,7 +207,6 @@ public class DevReformController extends BaseController
         }
         return null;
     }
-    //下拉框
     @GetMapping("/getEquip")
     public AjaxResult getEquip(){
         List<DevEquip> equip = devReformService.getEquip();

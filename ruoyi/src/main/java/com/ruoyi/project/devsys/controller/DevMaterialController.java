@@ -160,14 +160,13 @@ public class DevMaterialController extends BaseController
      * @param materialId
      */
     @PostMapping("/download/{materialId}")
-    public String downloadFile(@PathVariable Long materialId, HttpServletResponse response) {
-        Logger logger= LoggerFactory.getLogger(Logger.class);
+    public void downloadFile(@PathVariable Long materialId, HttpServletResponse response) {
         DevMaterial material = devMaterialService.selectDevMaterialById(materialId);
         String fname = material.getFname();
         String fpath = material.getFpath();
         int dirLastIndex = Constants.RESOURCE_PREFIX.length();
         String realPath = RuoYiConfig.getProfile() + StringUtils.substring(fpath, dirLastIndex);
-        if (fname != null) {
+        if (StringUtils.isNotEmpty(fname)) {
             //设置文件路径
             File file = new File(realPath);
             if (file.exists()) {
@@ -207,6 +206,5 @@ public class DevMaterialController extends BaseController
                 }
             }
         }
-        return null;
     }
 }
