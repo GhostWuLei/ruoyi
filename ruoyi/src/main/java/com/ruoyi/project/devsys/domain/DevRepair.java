@@ -1,6 +1,5 @@
 package com.ruoyi.project.devsys.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.framework.aspectj.lang.annotation.Excel;
@@ -11,7 +10,7 @@ import java.util.Date;
  * 检修记录对象 dev_repair
  * 
  * @author wulei
- * @date 2020-06-15
+ * @date 2020-10-26
  */
 public class DevRepair extends BaseEntity
 {
@@ -20,39 +19,49 @@ public class DevRepair extends BaseEntity
     /** 检修ID */
     private Long repairId;
 
-    /** 检修名称 */
-    @Excel(name = "检修名称")
-    private String repairName;
-
     /** 设备ID */
+    @Excel(name = "设备ID")
     private Long equipId;
 
-    /** 检修时间 */
-    @Excel(name = "检修时间", width = 30, dateFormat = "yyyy-MM-dd")
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date repairDate;
+    /** 检修开始时间 */
+    @Excel(name = "检修开始时间", width = 30, dateFormat = "yyyy-MM-dd")
+    private Date startTime;
+
+    /** 检修结束时间 */
+    @Excel(name = "检修结束时间", width = 30, dateFormat = "yyyy-MM-dd")
+    private Date finishTime;
+
+    /** 检修级别 */
+    @Excel(name = "检修级别")
+    private String repairLevel;
 
     /** 检修内容 */
     @Excel(name = "检修内容")
     private String repairContent;
 
+    /** 主要处理问题 */
+    @Excel(name = "主要处理问题")
+    private String handleProblem;
+
+    /** 遗留问题 */
+    @Excel(name = "遗留问题")
+    private String remainProblem;
+
+    /** 检修班组 */
+    @Excel(name = "检修班组")
+    private String clazz;
+
     /** 检修单位 */
     @Excel(name = "检修单位")
-    private String workUnit;
+    private String repairUnit;
 
-    /** 检修性质 */
-    @Excel(name = "检修性质")
-    private String repairKind;
+    /** 负责人（可以有多个） */
+    @Excel(name = "负责人", readConverterExp = "可=以有多个")
+    private String leader;
 
-    /** 检修类型 */
-    @Excel(name = "检修类型")
-    private String repairType;
-
-    /** 附件名称 */
-    private String fname;
-
-    /** 附件路径 */
-    private String fpath;
+    /** 工作联系人（可以有多个） */
+    @Excel(name = "工作联系人", readConverterExp = "可=以有多个")
+    private String linkman;
 
     public void setRepairId(Long repairId) 
     {
@@ -63,15 +72,6 @@ public class DevRepair extends BaseEntity
     {
         return repairId;
     }
-    public void setRepairName(String repairName) 
-    {
-        this.repairName = repairName;
-    }
-
-    public String getRepairName() 
-    {
-        return repairName;
-    }
     public void setEquipId(Long equipId) 
     {
         this.equipId = equipId;
@@ -81,14 +81,32 @@ public class DevRepair extends BaseEntity
     {
         return equipId;
     }
-    public void setRepairDate(Date repairDate) 
+    public void setStartTime(Date startTime) 
     {
-        this.repairDate = repairDate;
+        this.startTime = startTime;
     }
 
-    public Date getRepairDate() 
+    public Date getStartTime() 
     {
-        return repairDate;
+        return startTime;
+    }
+    public void setFinishTime(Date finishTime) 
+    {
+        this.finishTime = finishTime;
+    }
+
+    public Date getFinishTime() 
+    {
+        return finishTime;
+    }
+    public void setRepairLevel(String repairLevel) 
+    {
+        this.repairLevel = repairLevel;
+    }
+
+    public String getRepairLevel() 
+    {
+        return repairLevel;
     }
     public void setRepairContent(String repairContent) 
     {
@@ -99,65 +117,76 @@ public class DevRepair extends BaseEntity
     {
         return repairContent;
     }
-    public void setWorkUnit(String workUnit) 
+    public void setHandleProblem(String handleProblem) 
     {
-        this.workUnit = workUnit;
+        this.handleProblem = handleProblem;
     }
 
-    public String getWorkUnit() 
+    public String getHandleProblem() 
     {
-        return workUnit;
+        return handleProblem;
     }
-    public void setRepairKind(String repairKind) 
+    public void setRemainProblem(String remainProblem) 
     {
-        this.repairKind = repairKind;
-    }
-
-    public String getRepairKind() 
-    {
-        return repairKind;
-    }
-    public void setRepairType(String repairType) 
-    {
-        this.repairType = repairType;
+        this.remainProblem = remainProblem;
     }
 
-    public String getRepairType() 
+    public String getRemainProblem() 
     {
-        return repairType;
+        return remainProblem;
     }
-    public void setFname(String fname) 
+    public void setClazz(String clazz) 
     {
-        this.fname = fname;
-    }
-
-    public String getFname() 
-    {
-        return fname;
-    }
-    public void setFpath(String fpath) 
-    {
-        this.fpath = fpath;
+        this.clazz = clazz;
     }
 
-    public String getFpath() 
+    public String getClazz() 
     {
-        return fpath;
+        return clazz;
+    }
+    public void setRepairUnit(String repairUnit) 
+    {
+        this.repairUnit = repairUnit;
+    }
+
+    public String getRepairUnit() 
+    {
+        return repairUnit;
+    }
+    public void setLeader(String leader) 
+    {
+        this.leader = leader;
+    }
+
+    public String getLeader() 
+    {
+        return leader;
+    }
+    public void setLinkman(String linkman) 
+    {
+        this.linkman = linkman;
+    }
+
+    public String getLinkman() 
+    {
+        return linkman;
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("repairId", getRepairId())
-            .append("repairName", getRepairName())
             .append("equipId", getEquipId())
-            .append("repairDate", getRepairDate())
+            .append("startTime", getStartTime())
+            .append("finishTime", getFinishTime())
+            .append("repairLevel", getRepairLevel())
             .append("repairContent", getRepairContent())
-            .append("workUnit", getWorkUnit())
-            .append("repairKind", getRepairKind())
-            .append("repairType", getRepairType())
-            .append("fname", getFname())
-            .append("fpath", getFpath())
+            .append("handleProblem", getHandleProblem())
+            .append("remainProblem", getRemainProblem())
+            .append("clazz", getClazz())
+            .append("repairUnit", getRepairUnit())
+            .append("leader", getLeader())
+            .append("linkman", getLinkman())
             .append("remark", getRemark())
             .append("createBy", getCreateBy())
             .append("createTime", getCreateTime())
