@@ -1,13 +1,7 @@
 package com.ruoyi.project.devsys.service.impl;
 
-import java.io.File;
 import java.util.List;
-
-import com.ruoyi.common.constant.Constants;
-import com.ruoyi.common.exception.CustomException;
 import com.ruoyi.common.utils.DateUtils;
-import com.ruoyi.common.utils.SecurityUtils;
-import com.ruoyi.framework.config.RuoYiConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.project.devsys.mapper.DevAlterationMapper;
@@ -15,10 +9,10 @@ import com.ruoyi.project.devsys.domain.DevAlteration;
 import com.ruoyi.project.devsys.service.IDevAlterationService;
 
 /**
- * 异动变更Service业务层处理
+ * 设备变更Service业务层处理
  * 
  * @author wulei
- * @date 2020-06-16
+ * @date 2020-10-30
  */
 @Service
 public class DevAlterationServiceImpl implements IDevAlterationService 
@@ -27,10 +21,10 @@ public class DevAlterationServiceImpl implements IDevAlterationService
     private DevAlterationMapper devAlterationMapper;
 
     /**
-     * 查询异动变更
+     * 查询设备变更
      * 
-     * @param alterationId 异动变更ID
-     * @return 异动变更
+     * @param alterationId 设备变更ID
+     * @return 设备变更
      */
     @Override
     public DevAlteration selectDevAlterationById(Long alterationId)
@@ -39,10 +33,10 @@ public class DevAlterationServiceImpl implements IDevAlterationService
     }
 
     /**
-     * 查询异动变更列表
+     * 查询设备变更列表
      * 
-     * @param devAlteration 异动变更
-     * @return 异动变更
+     * @param devAlteration 设备变更
+     * @return 设备变更
      */
     @Override
     public List<DevAlteration> selectDevAlterationList(DevAlteration devAlteration)
@@ -51,9 +45,35 @@ public class DevAlterationServiceImpl implements IDevAlterationService
     }
 
     /**
-     * 批量删除异动变更
+     * 新增设备变更
      * 
-     * @param alterationIds 需要删除的异动变更ID
+     * @param devAlteration 设备变更
+     * @return 结果
+     */
+    @Override
+    public int insertDevAlteration(DevAlteration devAlteration)
+    {
+        devAlteration.setCreateTime(DateUtils.getNowDate());
+        return devAlterationMapper.insertDevAlteration(devAlteration);
+    }
+
+    /**
+     * 修改设备变更
+     * 
+     * @param devAlteration 设备变更
+     * @return 结果
+     */
+    @Override
+    public int updateDevAlteration(DevAlteration devAlteration)
+    {
+        devAlteration.setUpdateTime(DateUtils.getNowDate());
+        return devAlterationMapper.updateDevAlteration(devAlteration);
+    }
+
+    /**
+     * 批量删除设备变更
+     * 
+     * @param alterationIds 需要删除的设备变更ID
      * @return 结果
      */
     @Override
@@ -63,9 +83,9 @@ public class DevAlterationServiceImpl implements IDevAlterationService
     }
 
     /**
-     * 删除异动变更信息
+     * 删除设备变更信息
      * 
-     * @param alterationId 异动变更ID
+     * @param alterationId 设备变更ID
      * @return 结果
      */
     @Override
@@ -73,53 +93,4 @@ public class DevAlterationServiceImpl implements IDevAlterationService
     {
         return devAlterationMapper.deleteDevAlterationById(alterationId);
     }
-
-    //##################################################
-
-    /**
-     * 新增异动变更
-     *
-     * @param alteration 异动变更
-     * @return 结果
-     */
-    @Override
-    public int insertDevAlteration(DevAlteration alteration)
-    {
-        alteration.setCreateTime(DateUtils.getNowDate());
-        alteration.setCreateBy(SecurityUtils.getUsername());
-        return devAlterationMapper.insertDevAlteration(alteration);
-    }
-
-    /**
-     * 修改异动变更
-     *
-     * @param alteration 异动变更
-     * @return 结果
-     */
-    @Override
-    public int updateDevAlteration(DevAlteration alteration)
-    {
-        alteration.setUpdateTime(DateUtils.getNowDate());
-        alteration.setUpdateBy(SecurityUtils.getUsername());
-        return devAlterationMapper.updateDevAlteration(alteration);
-    }
-
-    /**
-     * 删除附件 annex: 附件
-     * @param fpath
-     */
-    @Override
-    public void deleteAnnex(String fpath){
-        //将相对路径转换为绝对路径
-        String newPath = fpath.replaceAll(Constants.RESOURCE_PREFIX, RuoYiConfig.getProfile());
-        File file = new File(newPath);
-        if(file.exists()){
-            if(!file.delete()){
-                throw new CustomException("删除失败", 401);
-            }
-        }
-    }
-
-
-
 }

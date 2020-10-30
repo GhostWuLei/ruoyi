@@ -3,19 +3,16 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.project.devsys.mapper.DevSpareMapper">
-
+    
     <resultMap type="DevSpare" id="DevSpareResult">
         <result property="spareId"    column="spare_id"    />
-        <result property="spareName"    column="spare_name"    />
         <result property="equipId"    column="equip_id"    />
-        <result property="spareCode"    column="spare_code"    />
-        <result property="spareType"    column="spare_type"    />
-        <result property="stockNum"    column="stock_num"    />
-        <result property="stockPlace"    column="stock_place"    />
-        <result property="consumeNum"    column="consume_num"    />
-        <result property="consumeTime"    column="consume_time"    />
-        <result property="fname"    column="fname"    />
-        <result property="fpath"    column="fpath"    />
+        <result property="spareName"    column="spare_name"    />
+        <result property="specification"    column="specification"    />
+        <result property="techParam"    column="tech_param"    />
+        <result property="num"    column="num"    />
+        <result property="pictureNum"    column="picture_num"    />
+        <result property="productor"    column="productor"    />
         <result property="remark"    column="remark"    />
         <result property="createBy"    column="create_by"    />
         <result property="createTime"    column="create_time"    />
@@ -24,78 +21,70 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectDevSpareVo">
-        select spare_id, spare_name, equip_id, spare_code, spare_type, stock_num, stock_place, consume_num, consume_time, fname, fpath, remark, create_by, create_time, update_by, update_time from dev_spare
+        select spare_id, equip_id, spare_name, specification, tech_param, num, picture_num, productor, remark, create_by, create_time, update_by, update_time from dev_spare
     </sql>
 
     <select id="selectDevSpareList" parameterType="DevSpare" resultMap="DevSpareResult">
         <include refid="selectDevSpareVo"/>
-        <where>
+        <where>  
+            <if test="equipId != null "> and equip_id = #{equipId}</if>
             <if test="spareName != null  and spareName != ''"> and spare_name like concat('%', #{spareName}, '%')</if>
-            <if test="equipId != null and equipId != ''"> and equip_id = #{equipId}</if>
-            <if test="spareCode != null  and spareCode != ''"> and spare_code = #{spareCode}</if>
-            <if test="spareType != null  and spareType != ''"> and spare_type = #{spareType}</if>
+            <if test="productor != null  and productor != ''"> and productor like concat('%', #{productor}, '%')</if>
         </where>
     </select>
-
+    
     <select id="selectDevSpareById" parameterType="Long" resultMap="DevSpareResult">
         <include refid="selectDevSpareVo"/>
         where spare_id = #{spareId}
     </select>
-    <select id="selectDevSpareByName" resultType="com.ruoyi.project.devsys.domain.DevSpare">
-        select * from dev_spare
-        where spare_name=#{spareName}
-    </select>
-
+        
     <insert id="insertDevSpare" parameterType="DevSpare" useGeneratedKeys="true" keyProperty="spareId">
         insert into dev_spare
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="equipId != null ">equip_id,</if>
             <if test="spareName != null  and spareName != ''">spare_name,</if>
-            <if test="equipId != null and equipId != ''">equip_id,</if>
-            <if test="spareCode != null  and spareCode != ''">spare_code,</if>
-            <if test="spareType != null  and spareType != ''">spare_type,</if>
-            <if test="stockNum != null  and stockNum != ''">stock_num,</if>
-            <if test="stockPlace != null  and stockPlace != ''">stock_place,</if>
-            <if test="consumeNum != null  and consumeNum != ''">consume_num,</if>
-            <if test="consumeTime != null ">consume_time,</if>
-            <if test="fname != null  and fname != ''">fname,</if>
-            <if test="fpath != null  and fpath != ''">fpath,</if>
+            <if test="specification != null  and specification != ''">specification,</if>
+            <if test="techParam != null  and techParam != ''">tech_param,</if>
+            <if test="num != null  and num != ''">num,</if>
+            <if test="pictureNum != null  and pictureNum != ''">picture_num,</if>
+            <if test="productor != null  and productor != ''">productor,</if>
             <if test="remark != null  and remark != ''">remark,</if>
             <if test="createBy != null  and createBy != ''">create_by,</if>
-            create_time
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="spareName != null  and spareName != ''">#{spareName},</if>
             <if test="equipId != null ">#{equipId},</if>
-            <if test="spareCode != null  and spareCode != ''">#{spareCode},</if>
-            <if test="spareType != null  and spareType != ''">#{spareType},</if>
-            <if test="stockNum != null  and stockNum != ''">#{stockNum},</if>
-            <if test="stockPlace != null  and stockPlace != ''">#{stockPlace},</if>
-            <if test="consumeNum != null  and consumeNum != ''">#{consumeNum},</if>
-            <if test="consumeTime != null ">#{consumeTime},</if>
-            <if test="fname != null  and fname != ''">#{fname},</if>
-            <if test="fpath != null  and fpath != ''">#{fpath},</if>
+            <if test="spareName != null  and spareName != ''">#{spareName},</if>
+            <if test="specification != null  and specification != ''">#{specification},</if>
+            <if test="techParam != null  and techParam != ''">#{techParam},</if>
+            <if test="num != null  and num != ''">#{num},</if>
+            <if test="pictureNum != null  and pictureNum != ''">#{pictureNum},</if>
+            <if test="productor != null  and productor != ''">#{productor},</if>
             <if test="remark != null  and remark != ''">#{remark},</if>
             <if test="createBy != null  and createBy != ''">#{createBy},</if>
-            sysdate()
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
          </trim>
     </insert>
 
     <update id="updateDevSpare" parameterType="DevSpare">
         update dev_spare
         <trim prefix="SET" suffixOverrides=",">
+            <if test="equipId != null ">equip_id = #{equipId},</if>
             <if test="spareName != null  and spareName != ''">spare_name = #{spareName},</if>
-            <if test="equipId != null and equipId != ''">equip_id = #{equipId},</if>
-            <if test="spareCode != null">spare_code = #{spareCode},</if>
-            <if test="spareType != null  and spareType != ''">spare_type = #{spareType},</if>
-            <if test="stockNum != null">stock_num = #{stockNum},</if>
-            <if test="stockPlace != null">stock_place = #{stockPlace},</if>
-            <if test="consumeNum != null">consume_num = #{consumeNum},</if>
-            <if test="consumeTime != null">consume_time = #{consumeTime},</if>
-            <if test="fname != null">fname = #{fname},</if>
-            <if test="fpath != null">fpath = #{fpath},</if>
-            <if test="remark != null">remark = #{remark},</if>
+            <if test="specification != null  and specification != ''">specification = #{specification},</if>
+            <if test="techParam != null  and techParam != ''">tech_param = #{techParam},</if>
+            <if test="num != null  and num != ''">num = #{num},</if>
+            <if test="pictureNum != null  and pictureNum != ''">picture_num = #{pictureNum},</if>
+            <if test="productor != null  and productor != ''">productor = #{productor},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
             <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
-            update_time = sysdate()
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
         </trim>
         where spare_id = #{spareId}
     </update>
@@ -105,10 +94,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteDevSpareByIds" parameterType="String">
-        delete from dev_spare where spare_id in
+        delete from dev_spare where spare_id in 
         <foreach item="spareId" collection="array" open="(" separator="," close=")">
             #{spareId}
         </foreach>
     </delete>
-
+    
 </mapper>

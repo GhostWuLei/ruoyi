@@ -1,28 +1,16 @@
 package com.ruoyi.project.devsys.controller;
 
-import java.io.*;
-import java.net.URLEncoder;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import com.ruoyi.common.constant.Constants;
-import com.ruoyi.common.utils.ServletUtils;
-import com.ruoyi.common.utils.StringUtils;
-import com.ruoyi.common.utils.file.FileUploadUtils;
-import com.ruoyi.framework.config.RuoYiConfig;
-import com.ruoyi.framework.security.LoginUser;
-import com.ruoyi.framework.security.service.TokenService;
-import com.ruoyi.project.devsys.domain.DevFile;
-import com.ruoyi.project.devsys.domain.DevKks;
-import com.ruoyi.project.devsys.service.IDevFileService;
-import com.ruoyi.project.picsys.domain.PicDiagram;
-import com.ruoyi.project.system.domain.SysUser;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import com.ruoyi.framework.aspectj.lang.annotation.Log;
 import com.ruoyi.framework.aspectj.lang.enums.BusinessType;
 import com.ruoyi.project.devsys.domain.DevSpare;
@@ -31,34 +19,23 @@ import com.ruoyi.framework.web.controller.BaseController;
 import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.framework.web.page.TableDataInfo;
-import org.springframework.web.multipart.MultipartFile;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * 备品备件Controller
- *
+ * 
  * @author wulei
- * @date 2020-06-08
+ * @date 2020-10-30
  */
-@Api(value = "备品备件controller类",tags = "备品备件操作接口")
 @RestController
 @RequestMapping("/devsys/spare")
 public class DevSpareController extends BaseController
 {
     @Autowired
     private IDevSpareService devSpareService;
-    @Autowired
-    private IDevFileService devFileService;
-
-    @Autowired
-    private TokenService tokenService;
 
     /**
      * 查询备品备件列表
      */
-    @ApiOperation(value = "获取备品备件列表信息",notes = "json的数据格式")
     @PreAuthorize("@ss.hasPermi('devsys:spare:list')")
     @GetMapping("/list")
     public TableDataInfo list(DevSpare devSpare)
@@ -114,143 +91,13 @@ public class DevSpareController extends BaseController
     }
 
     /**
-     * 删除备品备件 判断有没有附件，如果有附件也需要删除
+     * 删除备品备件
      */
     @PreAuthorize("@ss.hasPermi('devsys:spare:remove')")
     @Log(title = "备品备件", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{spareIds}")
     public AjaxResult remove(@PathVariable Long[] spareIds)
     {
-        for (Long spareId : spareIds) {
-            DevSpare tmpSpare = devSpareService.selectDevSpareById(spareId);
-            if(StringUtils.isNotEmpty(tmpSpare.getFpath())){
-                devSpareService.deleteAnnex(tmpSpare.getFpath());
-                devSpareService.deleteDevSpareById(tmpSpare.getSpareId());
-            }else{
-                devSpareService.deleteDevSpareById(spareId);
-            }
-        }
-        return AjaxResult.success("删除成功");
+        return toAjax(devSpareService.deleteDevSpareByIds(spareIds));
     }
-
-    /**
-     * 上传文件的接口函数
-     *
-     * @param
-     * @return
-     * @throws IOException
-     */
-    // @PreAuthorize("@ss.hasPermi('devsys:spare:uploadFile')")
-    @PostMapping("/uploadFile")
-    public AjaxResult uploadFile(@RequestParam Long spareId,@RequestParam MultipartFile[] files) throws IOException {
-        System.out.println(spareId);
-        for (MultipartFile file : files) {
-            if (!file.isEmpty()) {
-                // 兼容IE
-                String fname = file.getOriginalFilename(); // IE浏览器返回的是路径 chrome浏览器返回的是文件名加后缀
-                int unixSep = fname.lastIndexOf("/");
-                int winSep = fname.lastIndexOf("\\");
-                int pos = (winSep > unixSep ? winSep : unixSep);
-                if (pos != -1) {
-                    fname = fname.substring(pos + 1);
-                }
-                List<DevFile> devFiles = devFileService.selectDevFileList(null);
-                for (DevFile devFile : devFiles) {
-                    if (devFile.getFname().equals(file.getOriginalFilename())) {
-                        devFileService.deleteDevFileById(devFile.getSpareId());
-                        devSpareService.deleteAnnex(devFile.getFpath());
-                    }
-                }
-                String fpath = FileUploadUtils.upload(RuoYiConfig.getAccoutPath(), file);
-                DevFile devFile = new DevFile();
-                devFile.setSpareId(spareId);
-                devFile.setFname(file.getOriginalFilename());
-                devFile.setFpath(fpath);
-                devFileService.insertDevFile(devFile);
-            }
-                return AjaxResult.success("上传成功！");
-            }
-        return AjaxResult.error("上传附件异常，请联系管理员");
-    }
-
-
-    /**
-     * 下载附件
-     *
-     * @param FileId
-     */
-    @PostMapping("/download/{FileId}")
-    public void downloadFile(@PathVariable Long FileId, HttpServletResponse response) {
-        DevFile devFile = devFileService.selectDevFileid(FileId);
-        String fname = devFile.getFname();
-        String fpath = devFile.getFpath();
-        int dirLastIndex = Constants.RESOURCE_PREFIX.length();
-        String realPath = RuoYiConfig.getProfile() + StringUtils.substring(fpath, dirLastIndex);
-        if (StringUtils.isNotEmpty(fname)) {
-            //设置文件路径
-            File file = new File(realPath);
-            if (file.exists()) {
-                response.setContentType("application/octet-stream");//
-                response.setHeader("content-type", "application/octet-stream");
-                response.setHeader("Content-Disposition", "attachment;fileName=" + fname);// 设置文件名
-                byte[] buffer = new byte[1024];
-                FileInputStream fis = null;
-                BufferedInputStream bis = null;
-                try {
-                    fis = new FileInputStream(file);
-                    bis = new BufferedInputStream(fis);
-                    OutputStream os = response.getOutputStream();
-                    int i = bis.read(buffer);
-                    while (i != -1) {
-                        os.write(buffer, 0, i);
-                        i = bis.read(buffer);
-                    }
-                    System.out.println("success");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {
-                    if (bis != null) {
-                        try {
-                            bis.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    if (fis != null) {
-                        try {
-                            fis.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }
-        }
-    }
-    //获取上传文件
-    @GetMapping("/obtainFile/{spareId}")
-    public AjaxResult obtainFile(@PathVariable Long spareId){
-        List<DevFile> devFile = devFileService.selectDevFileById(spareId);
-        return AjaxResult.success(devFile);
-    }
-    //删除文件
-    @DeleteMapping("delFile/{FileId}")
-    public AjaxResult delFile(@PathVariable Long FileId){
-        DevFile devFile=devFileService.selectDevFileid(FileId);
-        System.out.println(devFile);
-        devSpareService.deleteAnnex(devFile.getFpath());
-        devFileService.deleteDevFileByFileId(FileId);
-        return AjaxResult.success("删除成功");
-    }
-    @PostMapping("/importData")
-    public AjaxResult importData(MultipartFile file, boolean updateSupport) throws Exception{
-        ExcelUtil<DevSpare> util = new ExcelUtil<DevSpare>(DevSpare.class);
-        List<DevSpare> spareList = util.importExcel(file.getInputStream());
-        LoginUser loginUser = tokenService.getLoginUser(ServletUtils.getRequest());
-        String username = loginUser.getUsername();
-        String message = devSpareService.importUser(spareList,updateSupport,username);
-        return AjaxResult.success(message);
-    }
-
-
 }
