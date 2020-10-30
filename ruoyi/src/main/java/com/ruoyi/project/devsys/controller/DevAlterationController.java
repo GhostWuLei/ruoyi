@@ -7,6 +7,8 @@ import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.file.FileUploadUtils;
 import com.ruoyi.framework.config.RuoYiConfig;
+import com.ruoyi.project.devsys.domain.DevFile;
+import com.ruoyi.project.devsys.service.IDevFileService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +36,9 @@ public class DevAlterationController extends BaseController
 {
     @Autowired
     private IDevAlterationService devAlterationService;
+
+    @Autowired
+    private IDevFileService devFileService;
 
     /**
      * 查询异动变更列表
@@ -121,7 +126,7 @@ public class DevAlterationController extends BaseController
      */
     // @PreAuthorize("@ss.hasPermi('devsys:alteration:uploadFile')")
     @PostMapping("/uploadFile")
-    public AjaxResult uploadFile(@RequestParam Long alterationId, @RequestParam MultipartFile[] files) throws IOException {
+    public AjaxResult uploadFile(@RequestParam Long spareId,  @RequestParam(value = "multipartFile") MultipartFile[] files) throws IOException {
         for (MultipartFile file : files) {
             if(!file.isEmpty()){
                 // 兼容IE
@@ -132,18 +137,21 @@ public class DevAlterationController extends BaseController
                 if( pos != -1){
                     fname = fname.substring(pos + 1);
                 }
-                String fpath = FileUploadUtils.upload(RuoYiConfig.getAccoutPath(), file);
-                //判断原来的有没有附件 如果有则删除
-                DevAlteration alteration = devAlterationService.selectDevAlterationById(alterationId);
-                if(StringUtils.isNotEmpty(alteration.getFpath())){
-                    devAlterationService.deleteAnnex(alteration.getFpath());
+                List<DevFile> devFiles = devFileService.selectDevFileList(null);
+
+
+                for (DevFile devFile : devFiles) {
+                    if (devFile.getFname().equals(file.getOriginalFilename())) {
+                        devFileService.deleteDevFileById(devFile.getSpareId());
+                        devAlterationService.deleteAnnex(devFile.getFpath());
+                    }
                 }
-                // 修改附件
-                DevAlteration devAlteration = new DevAlteration();
-                devAlteration.setAlterationId(alterationId);
-                devAlteration.setFname(fname);
-                devAlteration.setFpath(fpath);
-                devAlterationService.updateDevAlteration(devAlteration);
+                String fpath = FileUploadUtils.upload(RuoYiConfig.getAccoutPath(), file);
+                DevFile devFile = new DevFile();
+                devFile.setSpareId(spareId);
+                devFile.setFname(file.getOriginalFilename());
+                devFile.setFpath(fpath);
+                devFileService.insertDevFile(devFile);
                 return AjaxResult.success("上传成功！");
             }
         }

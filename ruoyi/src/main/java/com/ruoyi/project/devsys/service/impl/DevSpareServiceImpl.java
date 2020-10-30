@@ -3,12 +3,15 @@ package com.ruoyi.project.devsys.service.impl;
 import java.io.File;
 import java.util.List;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.exception.CustomException;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.framework.aspectj.lang.annotation.Log;
 import com.ruoyi.framework.config.RuoYiConfig;
+import com.ruoyi.framework.security.LoginUser;
+import com.ruoyi.project.system.domain.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.project.devsys.mapper.DevSpareMapper;
@@ -18,13 +21,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 备品备件Service业务层处理
- * 
+ *
  * @author wulei
  * @date 2020-06-08
  */
 @Service
 @Transactional
-public class DevSpareServiceImpl implements IDevSpareService 
+public class DevSpareServiceImpl implements IDevSpareService
 {
 
     @Autowired
@@ -32,7 +35,7 @@ public class DevSpareServiceImpl implements IDevSpareService
 
     /**
      * 查询备品备件
-     * 
+     *
      * @param spareId 备品备件ID
      * @return 备品备件
      */
@@ -44,7 +47,7 @@ public class DevSpareServiceImpl implements IDevSpareService
 
     /**
      * 查询备品备件列表
-     * 
+     *
      * @param devSpare 备品备件
      * @return 备品备件
      */
@@ -56,7 +59,7 @@ public class DevSpareServiceImpl implements IDevSpareService
 
     /**
      * 新增备品备件
-     * 
+     *
      * @param devSpare 备品备件
      * @return 结果
      */
@@ -69,7 +72,7 @@ public class DevSpareServiceImpl implements IDevSpareService
 
     /**
      * 修改备品备件
-     * 
+     *
      * @param devSpare 备品备件
      * @return 结果
      */
@@ -82,7 +85,7 @@ public class DevSpareServiceImpl implements IDevSpareService
 
     /**
      * 批量删除备品备件
-     * 
+     *
      * @param spareIds 需要删除的备品备件ID
      * @return 结果
      */
@@ -94,7 +97,7 @@ public class DevSpareServiceImpl implements IDevSpareService
 
     /**
      * 删除备品备件信息
-     * 
+     *
      * @param spareId 备品备件ID
      * @return 结果
      */
@@ -119,4 +122,36 @@ public class DevSpareServiceImpl implements IDevSpareService
             }
         }
     }
+
+    @Override
+    public String importUser(List<DevSpare> spareList, boolean updateSupport, String operName) {
+        if(StringUtils.isNull(spareList)|| spareList.size() == 0){
+            throw new CustomException("导入的数据不能为空");
+        }
+        int insertNum = 0;
+        int updateNum = 0;
+        int repeatNum = 0;
+        StringBuilder successMsg = new StringBuilder();
+        for (DevSpare devSpare : spareList) {
+            DevSpare devSpareName = devSpareMapper.selectDevSpareByName(devSpare.getSpareName());
+            if (StringUtils.isNull(devSpareName)) {
+                devSpare.setConsumeNum(operName);
+                this.insertDevSpare(devSpare);
+                insertNum++;
+            } else {
+                if (updateSupport) {
+                    //允许修改
+                    devSpare.setSpareId(devSpareName.getSpareId());
+                    devSpare.setUpdateBy(operName);
+                    this.updateDevSpare(devSpare);
+                    updateNum++;
+                } else {
+                    repeatNum++;
+                }
+            }
+        }
+        successMsg.insert(0, "导入数据已完成！新增"+insertNum+"条，更新"+updateNum+"条，"+repeatNum+"条数据已存在，未修改");
+        return successMsg.toString();
+    }
+
 }

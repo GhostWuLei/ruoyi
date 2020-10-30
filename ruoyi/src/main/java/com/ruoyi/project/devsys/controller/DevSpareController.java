@@ -7,12 +7,17 @@ import java.util.List;
 import java.util.Map;
 
 import com.ruoyi.common.constant.Constants;
+import com.ruoyi.common.utils.ServletUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.file.FileUploadUtils;
 import com.ruoyi.framework.config.RuoYiConfig;
+import com.ruoyi.framework.security.LoginUser;
+import com.ruoyi.framework.security.service.TokenService;
 import com.ruoyi.project.devsys.domain.DevFile;
+import com.ruoyi.project.devsys.domain.DevKks;
 import com.ruoyi.project.devsys.service.IDevFileService;
 import com.ruoyi.project.picsys.domain.PicDiagram;
+import com.ruoyi.project.system.domain.SysUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -46,6 +51,9 @@ public class DevSpareController extends BaseController
     private IDevSpareService devSpareService;
     @Autowired
     private IDevFileService devFileService;
+
+    @Autowired
+    private TokenService tokenService;
 
     /**
      * 查询备品备件列表
@@ -134,8 +142,8 @@ public class DevSpareController extends BaseController
      */
     // @PreAuthorize("@ss.hasPermi('devsys:spare:uploadFile')")
     @PostMapping("/uploadFile")
-    public AjaxResult uploadFile(@RequestParam Long spareId,  @RequestParam MultipartFile[] files) throws IOException {
-        System.out.println("上传id");
+    public AjaxResult uploadFile(@RequestParam Long spareId,@RequestParam MultipartFile[] files) throws IOException {
+        System.out.println(spareId);
         for (MultipartFile file : files) {
             if (!file.isEmpty()) {
                 // 兼容IE
@@ -160,17 +168,6 @@ public class DevSpareController extends BaseController
                 devFile.setFpath(fpath);
                 devFileService.insertDevFile(devFile);
             }
-                //判断原来的有没有附件 如果有则删除
-//                DevSpare spare = devSpareService.selectDevSpareById(spareId);
-//                if (StringUtils.isNotEmpty(spare.getFpath())) {
-//                    devSpareService.deleteAnnex(spare.getFpath());
-//                }
-                // 修改附件
-//                DevSpare devSpare = new DevSpare();
-//                devSpare.setSpareId(spareId);
-//                devSpare.setFname(fname);
-//                devSpare.setFpath(fpath);
-//                devSpareService.updateDevSpare(devSpare);
                 return AjaxResult.success("上传成功！");
             }
         return AjaxResult.error("上传附件异常，请联系管理员");
@@ -180,13 +177,13 @@ public class DevSpareController extends BaseController
     /**
      * 下载附件
      *
-     * @param spareId
+     * @param FileId
      */
-    @PostMapping("/download/{spareId}")
-    public void downloadFile(@PathVariable Long spareId, HttpServletResponse response) {
-        DevSpare spare = devSpareService.selectDevSpareById(spareId);
-        String fname = spare.getFname();
-        String fpath = spare.getFpath();
+    @PostMapping("/download/{FileId}")
+    public void downloadFile(@PathVariable Long FileId, HttpServletResponse response) {
+        DevFile devFile = devFileService.selectDevFileid(FileId);
+        String fname = devFile.getFname();
+        String fpath = devFile.getFpath();
         int dirLastIndex = Constants.RESOURCE_PREFIX.length();
         String realPath = RuoYiConfig.getProfile() + StringUtils.substring(fpath, dirLastIndex);
         if (StringUtils.isNotEmpty(fname)) {
@@ -245,7 +242,15 @@ public class DevSpareController extends BaseController
         devFileService.deleteDevFileByFileId(FileId);
         return AjaxResult.success("删除成功");
     }
-
+    @PostMapping("/importData")
+    public AjaxResult importData(MultipartFile file, boolean updateSupport) throws Exception{
+        ExcelUtil<DevSpare> util = new ExcelUtil<DevSpare>(DevSpare.class);
+        List<DevSpare> spareList = util.importExcel(file.getInputStream());
+        LoginUser loginUser = tokenService.getLoginUser(ServletUtils.getRequest());
+        String username = loginUser.getUsername();
+        String message = devSpareService.importUser(spareList,updateSupport,username);
+        return AjaxResult.success(message);
+    }
 
 
 }
