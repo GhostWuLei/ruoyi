@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.devsys.mapper.DevInformationMapper">
+    
+    <resultMap type="DevInformation" id="DevInformationResult">
+        <result property="informationId"    column="information_id"    />
+        <result property="equipId"    column="equip_id"    />
+        <result property="equipName"    column="equip_name"    />
+        <result property="specification"    column="specification"    />
+        <result property="equipParam"    column="equip_param"    />
+        <result property="techParam"    column="tech_param"    />
+        <result property="cycle"    column="cycle"    />
+        <result property="installTime"    column="install_time"    />
+        <result property="installPlace"    column="install_place"    />
+        <result property="remark"    column="remark"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectDevInformationVo">
+        select information_id, equip_id, equip_name, specification, equip_param, tech_param, cycle, install_time, install_place, remark, create_by, create_time, update_by, update_time from dev_information
+    </sql>
+
+    <select id="selectDevInformationList" parameterType="DevInformation" resultMap="DevInformationResult">
+        <include refid="selectDevInformationVo"/>
+        <where>  
+            <if test="equipId != null "> and equip_id = #{equipId}</if>
+            <if test="equipName != null  and equipName != ''"> and equip_name like concat('%', #{equipName}, '%')</if>
+            <if test="installTime != null "> and install_time = #{installTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectDevInformationById" parameterType="Long" resultMap="DevInformationResult">
+        <include refid="selectDevInformationVo"/>
+        where information_id = #{informationId}
+    </select>
+        
+    <insert id="insertDevInformation" parameterType="DevInformation" useGeneratedKeys="true" keyProperty="informationId">
+        insert into dev_information
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="equipId != null ">equip_id,</if>
+            <if test="equipName != null  and equipName != ''">equip_name,</if>
+            <if test="specification != null  and specification != ''">specification,</if>
+            <if test="equipParam != null  and equipParam != ''">equip_param,</if>
+            <if test="techParam != null  and techParam != ''">tech_param,</if>
+            <if test="cycle != null  and cycle != ''">cycle,</if>
+            <if test="installTime != null ">install_time,</if>
+            <if test="installPlace != null ">install_place,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="equipId != null ">#{equipId},</if>
+            <if test="equipName != null  and equipName != ''">#{equipName},</if>
+            <if test="specification != null  and specification != ''">#{specification},</if>
+            <if test="equipParam != null  and equipParam != ''">#{equipParam},</if>
+            <if test="techParam != null  and techParam != ''">#{techParam},</if>
+            <if test="cycle != null  and cycle != ''">#{cycle},</if>
+            <if test="installTime != null ">#{installTime},</if>
+            <if test="installPlace != null ">#{installPlace},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDevInformation" parameterType="DevInformation">
+        update dev_information
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="equipId != null ">equip_id = #{equipId},</if>
+            <if test="equipName != null  and equipName != ''">equip_name = #{equipName},</if>
+            <if test="specification != null  and specification != ''">specification = #{specification},</if>
+            <if test="equipParam != null  and equipParam != ''">equip_param = #{equipParam},</if>
+            <if test="techParam != null  and techParam != ''">tech_param = #{techParam},</if>
+            <if test="cycle != null  and cycle != ''">cycle = #{cycle},</if>
+            <if test="installTime != null ">install_time = #{installTime},</if>
+            <if test="installPlace != null ">install_place = #{installPlace},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where information_id = #{informationId}
+    </update>
+
+    <delete id="deleteDevInformationById" parameterType="Long">
+        delete from dev_information where information_id = #{informationId}
+    </delete>
+
+    <delete id="deleteDevInformationByIds" parameterType="String">
+        delete from dev_information where information_id in 
+        <foreach item="informationId" collection="array" open="(" separator="," close=")">
+            #{informationId}
+        </foreach>
+    </delete>
+    
+</mapper>

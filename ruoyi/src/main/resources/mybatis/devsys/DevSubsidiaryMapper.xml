@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.devsys.mapper.DevSubsidiaryMapper">
+    
+    <resultMap type="DevSubsidiary" id="DevSubsidiaryResult">
+        <result property="subsidiaryId"    column="subsidiary_id"    />
+        <result property="equipId"    column="equip_id"    />
+        <result property="kks"    column="kks"    />
+        <result property="equipName"    column="equip_name"    />
+        <result property="subsType"    column="subs_type"    />
+        <result property="specification"    column="specification"    />
+        <result property="unit"    column="unit"    />
+        <result property="productor"    column="productor"    />
+        <result property="remark"    column="remark"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectDevSubsidiaryVo">
+        select subsidiary_id, equip_id, kks, equip_name, subs_type, specification, unit, productor, remark, create_by, create_time, update_by, update_time from dev_subsidiary
+    </sql>
+
+    <select id="selectDevSubsidiaryList" parameterType="DevSubsidiary" resultMap="DevSubsidiaryResult">
+        <include refid="selectDevSubsidiaryVo"/>
+        <where>  
+            <if test="equipId != null "> and equip_id = #{equipId}</if>
+            <if test="kks != null  and kks != ''"> and kks like concat('%', #{kks}, '%')</if>
+            <if test="equipName != null  and equipName != ''"> and equip_name like concat('%', #{equipName}, '%')</if>
+            <if test="subsType != null  and subsType != ''"> and subs_type like concat('%', #{subsType}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectDevSubsidiaryById" parameterType="Long" resultMap="DevSubsidiaryResult">
+        <include refid="selectDevSubsidiaryVo"/>
+        where subsidiary_id = #{subsidiaryId}
+    </select>
+        
+    <insert id="insertDevSubsidiary" parameterType="DevSubsidiary" useGeneratedKeys="true" keyProperty="subsidiaryId">
+        insert into dev_subsidiary
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="equipId != null ">equip_id,</if>
+            <if test="kks != null  and kks != ''">kks,</if>
+            <if test="equipName != null  and equipName != ''">equip_name,</if>
+            <if test="subsType != null  and subsType != ''">subs_type,</if>
+            <if test="specification != null  and specification != ''">specification,</if>
+            <if test="unit != null  and unit != ''">unit,</if>
+            <if test="productor != null  and productor != ''">productor,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="equipId != null ">#{equipId},</if>
+            <if test="kks != null  and kks != ''">#{kks},</if>
+            <if test="equipName != null  and equipName != ''">#{equipName},</if>
+            <if test="subsType != null  and subsType != ''">#{subsType},</if>
+            <if test="specification != null  and specification != ''">#{specification},</if>
+            <if test="unit != null  and unit != ''">#{unit},</if>
+            <if test="productor != null  and productor != ''">#{productor},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDevSubsidiary" parameterType="DevSubsidiary">
+        update dev_subsidiary
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="equipId != null ">equip_id = #{equipId},</if>
+            <if test="kks != null  and kks != ''">kks = #{kks},</if>
+            <if test="equipName != null  and equipName != ''">equip_name = #{equipName},</if>
+            <if test="subsType != null  and subsType != ''">subs_type = #{subsType},</if>
+            <if test="specification != null  and specification != ''">specification = #{specification},</if>
+            <if test="unit != null  and unit != ''">unit = #{unit},</if>
+            <if test="productor != null  and productor != ''">productor = #{productor},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where subsidiary_id = #{subsidiaryId}
+    </update>
+
+    <delete id="deleteDevSubsidiaryById" parameterType="Long">
+        delete from dev_subsidiary where subsidiary_id = #{subsidiaryId}
+    </delete>
+
+    <delete id="deleteDevSubsidiaryByIds" parameterType="String">
+        delete from dev_subsidiary where subsidiary_id in 
+        <foreach item="subsidiaryId" collection="array" open="(" separator="," close=")">
+            #{subsidiaryId}
+        </foreach>
+    </delete>
+    
+</mapper>

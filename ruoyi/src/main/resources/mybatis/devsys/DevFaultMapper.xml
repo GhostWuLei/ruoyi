@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.devsys.mapper.DevFaultMapper">
+    
+    <resultMap type="DevFault" id="DevFaultResult">
+        <result property="faultId"    column="fault_id"    />
+        <result property="equipId"    column="equip_id"    />
+        <result property="findTime"    column="find_time"    />
+        <result property="appearance"    column="appearance"    />
+        <result property="analysis"    column="analysis"    />
+        <result property="handleTime"    column="handle_time"    />
+        <result property="process"    column="process"    />
+        <result property="damage"    column="damage"    />
+        <result property="remark"    column="remark"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectDevFaultVo">
+        select fault_id, equip_id, find_time, appearance, analysis, handle_time, process, damage, remark, create_by, create_time, update_by, update_time from dev_fault
+    </sql>
+
+    <select id="selectDevFaultList" parameterType="DevFault" resultMap="DevFaultResult">
+        <include refid="selectDevFaultVo"/>
+        <where>  
+            <if test="equipId != null "> and equip_id = #{equipId}</if>
+            <if test="findTime != null "> and find_time = #{findTime}</if>
+            <if test="appearance != null  and appearance != ''"> and appearance like concat('%', #{appearance}, '%')</if>
+            <if test="handleTime != null "> and handle_time = #{handleTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectDevFaultById" parameterType="Long" resultMap="DevFaultResult">
+        <include refid="selectDevFaultVo"/>
+        where fault_id = #{faultId}
+    </select>
+        
+    <insert id="insertDevFault" parameterType="DevFault" useGeneratedKeys="true" keyProperty="faultId">
+        insert into dev_fault
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="equipId != null ">equip_id,</if>
+            <if test="findTime != null ">find_time,</if>
+            <if test="appearance != null  and appearance != ''">appearance,</if>
+            <if test="analysis != null  and analysis != ''">analysis,</if>
+            <if test="handleTime != null ">handle_time,</if>
+            <if test="process != null  and process != ''">process,</if>
+            <if test="damage != null  and damage != ''">damage,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="equipId != null ">#{equipId},</if>
+            <if test="findTime != null ">#{findTime},</if>
+            <if test="appearance != null  and appearance != ''">#{appearance},</if>
+            <if test="analysis != null  and analysis != ''">#{analysis},</if>
+            <if test="handleTime != null ">#{handleTime},</if>
+            <if test="process != null  and process != ''">#{process},</if>
+            <if test="damage != null  and damage != ''">#{damage},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDevFault" parameterType="DevFault">
+        update dev_fault
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="equipId != null ">equip_id = #{equipId},</if>
+            <if test="findTime != null ">find_time = #{findTime},</if>
+            <if test="appearance != null  and appearance != ''">appearance = #{appearance},</if>
+            <if test="analysis != null  and analysis != ''">analysis = #{analysis},</if>
+            <if test="handleTime != null ">handle_time = #{handleTime},</if>
+            <if test="process != null  and process != ''">process = #{process},</if>
+            <if test="damage != null  and damage != ''">damage = #{damage},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where fault_id = #{faultId}
+    </update>
+
+    <delete id="deleteDevFaultById" parameterType="Long">
+        delete from dev_fault where fault_id = #{faultId}
+    </delete>
+
+    <delete id="deleteDevFaultByIds" parameterType="String">
+        delete from dev_fault where fault_id in 
+        <foreach item="faultId" collection="array" open="(" separator="," close=")">
+            #{faultId}
+        </foreach>
+    </delete>
+    
+</mapper>
