@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.project.devsys.mapper.DevRepairMapper">
-    
+
     <resultMap type="DevRepair" id="DevRepairResult">
         <result property="repairId"    column="repair_id"    />
         <result property="equipId"    column="equip_id"    />
@@ -30,7 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectDevRepairList" parameterType="DevRepair" resultMap="DevRepairResult">
         <include refid="selectDevRepairVo"/>
-        <where>  
+        <where>
             <if test="equipId != null "> and equip_id = #{equipId}</if>
             <if test="startTime != null "> and start_time = #{startTime}</if>
             <if test="finishTime != null "> and finish_time = #{finishTime}</if>
@@ -44,12 +44,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="linkman != null  and linkman != ''"> and linkman = #{linkman}</if>
         </where>
     </select>
-    
+
     <select id="selectDevRepairById" parameterType="Long" resultMap="DevRepairResult">
         <include refid="selectDevRepairVo"/>
         where repair_id = #{repairId}
     </select>
-        
+    <select id="selectByName" resultType="com.ruoyi.project.devsys.domain.DevRepair">
+        select * from dev_repair
+        where repair_content=#{repairContent}
+    </select>
+
+
     <insert id="insertDevRepair" parameterType="DevRepair" useGeneratedKeys="true" keyProperty="repairId">
         insert into dev_repair
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -118,10 +123,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteDevRepairByIds" parameterType="String">
-        delete from dev_repair where repair_id in 
+        delete from dev_repair where repair_id in
         <foreach item="repairId" collection="array" open="(" separator="," close=")">
             #{repairId}
         </foreach>
     </delete>
-    
+
 </mapper>

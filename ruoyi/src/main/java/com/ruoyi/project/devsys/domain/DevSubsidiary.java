@@ -7,7 +7,7 @@ import com.ruoyi.framework.web.domain.BaseEntity;
 
 /**
  * 附属设备明细对象 dev_subsidiary
- * 
+ *
  * @author wulei
  * @date 2020-10-30
  */
@@ -22,7 +22,7 @@ public class DevSubsidiary extends BaseEntity
     private Long equipId;
 
     /** KKS编码 */
-    @Excel(name = "KKS编码")
+    @Excel(name = "KKS码")
     private String kks;
 
     /** 设备名称 */
@@ -45,95 +45,99 @@ public class DevSubsidiary extends BaseEntity
     @Excel(name = "生产厂家")
     private String productor;
 
-    public void setSubsidiaryId(Long subsidiaryId) 
-    {
+    @Excel(name = "备注")
+    private String remark;
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public Long getSubsidiaryId() {
+        return subsidiaryId;
+    }
+
+    public void setSubsidiaryId(Long subsidiaryId) {
         this.subsidiaryId = subsidiaryId;
     }
 
-    public Long getSubsidiaryId() 
-    {
-        return subsidiaryId;
+    public Long getEquipId() {
+        return equipId;
     }
-    public void setEquipId(Long equipId) 
-    {
+
+    public void setEquipId(Long equipId) {
         this.equipId = equipId;
     }
 
-    public Long getEquipId() 
-    {
-        return equipId;
+    public String getKks() {
+        return kks;
     }
-    public void setKks(String kks) 
-    {
+
+    public void setKks(String kks) {
         this.kks = kks;
     }
 
-    public String getKks() 
-    {
-        return kks;
+    public String getEquipName() {
+        return equipName;
     }
-    public void setEquipName(String equipName) 
-    {
+
+    public void setEquipName(String equipName) {
         this.equipName = equipName;
     }
 
-    public String getEquipName() 
-    {
-        return equipName;
+    public String getSubsType() {
+        return subsType;
     }
-    public void setSubsType(String subsType) 
-    {
+
+    public void setSubsType(String subsType) {
         this.subsType = subsType;
     }
 
-    public String getSubsType() 
-    {
-        return subsType;
+    public String getSpecification() {
+        return specification;
     }
-    public void setSpecification(String specification) 
-    {
+
+    public void setSpecification(String specification) {
         this.specification = specification;
     }
 
-    public String getSpecification() 
-    {
-        return specification;
+    public String getUnit() {
+        return unit;
     }
-    public void setUnit(String unit) 
-    {
+
+    public void setUnit(String unit) {
         this.unit = unit;
     }
 
-    public String getUnit() 
-    {
-        return unit;
+    public String getProductor() {
+        return productor;
     }
-    public void setProductor(String productor) 
-    {
+
+    public void setProductor(String productor) {
         this.productor = productor;
     }
 
-    public String getProductor() 
-    {
-        return productor;
+    @Override
+    public String getRemark() {
+        return remark;
+    }
+
+    @Override
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("subsidiaryId", getSubsidiaryId())
-            .append("equipId", getEquipId())
-            .append("kks", getKks())
-            .append("equipName", getEquipName())
-            .append("subsType", getSubsType())
-            .append("specification", getSpecification())
-            .append("unit", getUnit())
-            .append("productor", getProductor())
-            .append("remark", getRemark())
-            .append("createBy", getCreateBy())
-            .append("createTime", getCreateTime())
-            .append("updateBy", getUpdateBy())
-            .append("updateTime", getUpdateTime())
-            .toString();
+        return "DevSubsidiary{" +
+                "subsidiaryId=" + subsidiaryId +
+                ", equipId=" + equipId +
+                ", kks='" + kks + '\'' +
+                ", equipName='" + equipName + '\'' +
+                ", subsType='" + subsType + '\'' +
+                ", specification='" + specification + '\'' +
+                ", unit='" + unit + '\'' +
+                ", productor='" + productor + '\'' +
+                ", remark='" + remark + '\'' +
+                '}';
     }
 }

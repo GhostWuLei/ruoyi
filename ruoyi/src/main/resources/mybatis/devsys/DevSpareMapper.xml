@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.project.devsys.mapper.DevSpareMapper">
-    
+
     <resultMap type="DevSpare" id="DevSpareResult">
         <result property="spareId"    column="spare_id"    />
         <result property="equipId"    column="equip_id"    />
@@ -26,18 +26,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectDevSpareList" parameterType="DevSpare" resultMap="DevSpareResult">
         <include refid="selectDevSpareVo"/>
-        <where>  
+        <where>
             <if test="equipId != null "> and equip_id = #{equipId}</if>
             <if test="spareName != null  and spareName != ''"> and spare_name like concat('%', #{spareName}, '%')</if>
             <if test="productor != null  and productor != ''"> and productor like concat('%', #{productor}, '%')</if>
         </where>
     </select>
-    
+
     <select id="selectDevSpareById" parameterType="Long" resultMap="DevSpareResult">
         <include refid="selectDevSpareVo"/>
         where spare_id = #{spareId}
     </select>
-        
+    <select id="selectDevSpareByName" resultType="com.ruoyi.project.devsys.domain.DevSpare">
+        select * from dev_spare
+        where spare_name=#{spareName}
+    </select>
+
     <insert id="insertDevSpare" parameterType="DevSpare" useGeneratedKeys="true" keyProperty="spareId">
         insert into dev_spare
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -94,10 +98,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteDevSpareByIds" parameterType="String">
-        delete from dev_spare where spare_id in 
+        delete from dev_spare where spare_id in
         <foreach item="spareId" collection="array" open="(" separator="," close=")">
             #{spareId}
         </foreach>
     </delete>
-    
+
 </mapper>

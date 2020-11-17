@@ -8,7 +8,7 @@ import java.util.Date;
 
 /**
  * 设备信息对象 dev_information
- * 
+ *
  * @author wulei
  * @date 2020-10-30
  */
@@ -36,11 +36,16 @@ public class DevInformation extends BaseEntity
 
     /** 技术要求 */
     @Excel(name = "技术要求")
+
     private String techParam;
 
     /** 检修周期 */
     @Excel(name = "检修周期")
     private String cycle;
+
+    /** 备注 */
+    @Excel(name = "备注")
+    private String remark;
 
     /** 安装日期 */
     @Excel(name = "安装日期", width = 30, dateFormat = "yyyy-MM-dd")
@@ -50,105 +55,105 @@ public class DevInformation extends BaseEntity
     @Excel(name = "安装地点", width = 30, dateFormat = "yyyy-MM-dd")
     private Date installPlace;
 
-    public void setInformationId(Long informationId) 
-    {
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public Long getInformationId() {
+        return informationId;
+    }
+
+    public void setInformationId(Long informationId) {
         this.informationId = informationId;
     }
 
-    public Long getInformationId() 
-    {
-        return informationId;
+    public Long getEquipId() {
+        return equipId;
     }
-    public void setEquipId(Long equipId) 
-    {
+
+    public void setEquipId(Long equipId) {
         this.equipId = equipId;
     }
 
-    public Long getEquipId() 
-    {
-        return equipId;
+    public String getEquipName() {
+        return equipName;
     }
-    public void setEquipName(String equipName) 
-    {
+
+    public void setEquipName(String equipName) {
         this.equipName = equipName;
     }
 
-    public String getEquipName() 
-    {
-        return equipName;
+    public String getSpecification() {
+        return specification;
     }
-    public void setSpecification(String specification) 
-    {
+
+    public void setSpecification(String specification) {
         this.specification = specification;
     }
 
-    public String getSpecification() 
-    {
-        return specification;
+    public String getEquipParam() {
+        return equipParam;
     }
-    public void setEquipParam(String equipParam) 
-    {
+
+    public void setEquipParam(String equipParam) {
         this.equipParam = equipParam;
     }
 
-    public String getEquipParam() 
-    {
-        return equipParam;
+    public String getTechParam() {
+        return techParam;
     }
-    public void setTechParam(String techParam) 
-    {
+
+    public void setTechParam(String techParam) {
         this.techParam = techParam;
     }
 
-    public String getTechParam() 
-    {
-        return techParam;
+    public String getCycle() {
+        return cycle;
     }
-    public void setCycle(String cycle) 
-    {
+
+    public void setCycle(String cycle) {
         this.cycle = cycle;
     }
 
-    public String getCycle() 
-    {
-        return cycle;
+    @Override
+    public String getRemark() {
+        return remark;
     }
-    public void setInstallTime(Date installTime) 
-    {
+
+    @Override
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public Date getInstallTime() {
+        return installTime;
+    }
+
+    public void setInstallTime(Date installTime) {
         this.installTime = installTime;
     }
 
-    public Date getInstallTime() 
-    {
-        return installTime;
-    }
-    public void setInstallPlace(Date installPlace) 
-    {
-        this.installPlace = installPlace;
+    public Date getInstallPlace() {
+        return installPlace;
     }
 
-    public Date getInstallPlace() 
-    {
-        return installPlace;
+    public void setInstallPlace(Date installPlace) {
+        this.installPlace = installPlace;
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("informationId", getInformationId())
-            .append("equipId", getEquipId())
-            .append("equipName", getEquipName())
-            .append("specification", getSpecification())
-            .append("equipParam", getEquipParam())
-            .append("techParam", getTechParam())
-            .append("cycle", getCycle())
-            .append("installTime", getInstallTime())
-            .append("installPlace", getInstallPlace())
-            .append("remark", getRemark())
-            .append("createBy", getCreateBy())
-            .append("createTime", getCreateTime())
-            .append("updateBy", getUpdateBy())
-            .append("updateTime", getUpdateTime())
-            .toString();
+        return "DevInformation{" +
+                "informationId=" + informationId +
+                ", equipId=" + equipId +
+                ", equipName='" + equipName + '\'' +
+                ", specification='" + specification + '\'' +
+                ", equipParam='" + equipParam + '\'' +
+                ", techParam='" + techParam + '\'' +
+                ", cycle='" + cycle + '\'' +
+                ", remark='" + remark + '\'' +
+                ", installTime=" + installTime +
+                ", installPlace=" + installPlace +
+                '}';
     }
 }

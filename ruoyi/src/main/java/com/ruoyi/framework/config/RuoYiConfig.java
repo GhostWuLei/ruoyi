@@ -167,4 +167,31 @@ public class RuoYiConfig
     public static String getreformPath(){
         return getProfile()+"/accout/reform";
     }
+
+    /**
+     * 重大技改路径
+     */
+    public static String getinformation(){
+        return getProfile()+"/accout/information";
+    }
+    /**
+     * 故障记录
+     */
+    public static String getfault(){
+        return getProfile()+"/accout/fault";
+    }
+    /**
+     * 异动变更
+     */
+    public static String getalteration(){
+        return getProfile()+"/accout/alteration";
+    }
+
+    /**
+     *
+     * 附属设备明细id
+     */
+    public static String getsubsidiary(){
+        return getProfile()+"/accout/subsidiary";
+    }
 }

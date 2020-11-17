@@ -1,5 +1,6 @@
 package com.ruoyi.project.devsys.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.ruoyi.common.constant.EquipConstants;
@@ -8,14 +9,7 @@ import com.ruoyi.framework.web.domain.TreeSelect;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.ruoyi.framework.aspectj.lang.annotation.Log;
 import com.ruoyi.framework.aspectj.lang.enums.BusinessType;
 import com.ruoyi.project.devsys.domain.DevEquip;
@@ -24,6 +18,7 @@ import com.ruoyi.framework.web.controller.BaseController;
 import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.framework.web.page.TableDataInfo;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 设备Controller
@@ -135,6 +130,16 @@ public class DevEquipController extends BaseController
         }
         equip.setUpdateBy(SecurityUtils.getUsername());
         return toAjax(equipService.updateDevEquip(equip));
+    }
+
+    @PostMapping("/uploadFile")
+    public AjaxResult uploadFile(@RequestParam Long informationId, @RequestParam MultipartFile[] files) throws IOException {
+        boolean flag=equipService.uploadFile(informationId,files);
+        if(true){
+            return AjaxResult.success("上传成功");
+        }else{
+            return AjaxResult.error("上传失败");
+        }
     }
 
 

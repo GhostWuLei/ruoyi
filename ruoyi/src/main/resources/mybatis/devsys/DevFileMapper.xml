@@ -5,14 +5,11 @@
 <mapper namespace="com.ruoyi.project.devsys.mapper.DevFileMapper">
 
     <insert id="insertDevFile" parameterType="com.ruoyi.project.devsys.domain.DevFile">
-        insert into dev_file(spare_id,fname,fpath)values(#{spareId},#{fname},#{fpath})
+        insert into dev_file(spare_id,repair_id,fault_id,alteration_id,information_id,subsidiary_id,fname,fpath)values(#{spareId},#{repairId},#{faultId},#{alterationId},#{informationId},#{subsidiaryId},#{fname},#{fpath})
     </insert>
     <update id="updateDevFile" parameterType="com.ruoyi.project.devsys.domain.DevFile">
         update dev_file set spare_id=#{spareId}, fname=#{fname},fpath=${fpath} where spare_id=#{spareId}
     </update>
-    <delete id="deleteDevFileById">
-        delete from dev_file where spare_id=#{spareId}
-    </delete>
     <delete id="deleteDevFileByFileId">
         delete from dev_file where file_id=#{fileId}
     </delete>
@@ -26,7 +23,28 @@
         select file_id as fileId,spare_id as spareId ,fname,fpath from dev_file where fname=#{fname}
     </select>
     <select id="selectDevFileid" resultType="com.ruoyi.project.devsys.domain.DevFile">
-         select file_id as fileId,spare_id as spareId ,fname,fpath from dev_file where file_id=#{fileId}
+                select file_id as fileId,spare_id as spareId ,fname,fpath,
+				 information_id as informationId,
+				 repair_id as repairId,
+				 fault_id as faultId,
+				 alteration_id as alterationId,
+				 subsidiary_id as subsidiaryId
+				 from dev_file where file_id=#{fileId}
+</select>
+    <select id="selectinformationIdById" resultType="com.ruoyi.project.devsys.domain.DevFile">
+         select file_id as fileId,information_id as informationId,fname,fpath from dev_file where information_id=#{informationId}
+    </select>
+    <select id="selectrepairFileById" resultType="com.ruoyi.project.devsys.domain.DevFile">
+        select file_id as fileId,repair_id as repairId,fname,fpath from dev_file where repair_id=#{repairId}
+    </select>
+    <select id="selectfaultById" resultType="com.ruoyi.project.devsys.domain.DevFile">
+        select file_id as fileId,fault_id as faultId,fname,fpath from dev_file where fault_id=#{faultId}
+    </select>
+    <select id="selectalterationIdById" resultType="com.ruoyi.project.devsys.domain.DevFile">
+        select file_id as fileId,alteration_id as alterationId,fname,fpath from dev_file where alteration_id=#{alterationId}
+    </select>
+    <select id="selectsubsidiaryIdById" resultType="com.ruoyi.project.devsys.domain.DevFile">
+        select file_id as fileId,subsidiary_id as subsidiaryId,fname,fpath from dev_file where subsidiary_id=#{subsidiaryId}
     </select>
 
 

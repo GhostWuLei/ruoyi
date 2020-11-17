@@ -8,7 +8,7 @@ import java.util.Date;
 
 /**
  * 故障记录对象 dev_fault
- * 
+ *
  * @author wulei
  * @date 2020-10-30
  */
@@ -23,7 +23,7 @@ public class DevFault extends BaseEntity
     private Long equipId;
 
     /** 发现日期 */
-    @Excel(name = "发现日期", width = 30, dateFormat = "yyyy-MM-dd")
+    @Excel(name = "日期(发现日期)", width = 30, dateFormat = "yyyy-MM-dd")
     private Date findTime;
 
     /** 故障现象 */
@@ -46,95 +46,100 @@ public class DevFault extends BaseEntity
     @Excel(name = "损坏情况")
     private String damage;
 
-    public void setFaultId(Long faultId) 
-    {
+    /** 备注 */
+    @Excel(name = "备注")
+    private String remark;
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public Long getFaultId() {
+        return faultId;
+    }
+
+    public void setFaultId(Long faultId) {
         this.faultId = faultId;
     }
 
-    public Long getFaultId() 
-    {
-        return faultId;
+    public Long getEquipId() {
+        return equipId;
     }
-    public void setEquipId(Long equipId) 
-    {
+
+    public void setEquipId(Long equipId) {
         this.equipId = equipId;
     }
 
-    public Long getEquipId() 
-    {
-        return equipId;
+    public Date getFindTime() {
+        return findTime;
     }
-    public void setFindTime(Date findTime) 
-    {
+
+    public void setFindTime(Date findTime) {
         this.findTime = findTime;
     }
 
-    public Date getFindTime() 
-    {
-        return findTime;
+    public String getAppearance() {
+        return appearance;
     }
-    public void setAppearance(String appearance) 
-    {
+
+    public void setAppearance(String appearance) {
         this.appearance = appearance;
     }
 
-    public String getAppearance() 
-    {
-        return appearance;
+    public String getAnalysis() {
+        return analysis;
     }
-    public void setAnalysis(String analysis) 
-    {
+
+    public void setAnalysis(String analysis) {
         this.analysis = analysis;
     }
 
-    public String getAnalysis() 
-    {
-        return analysis;
+    public Date getHandleTime() {
+        return handleTime;
     }
-    public void setHandleTime(Date handleTime) 
-    {
+
+    public void setHandleTime(Date handleTime) {
         this.handleTime = handleTime;
     }
 
-    public Date getHandleTime() 
-    {
-        return handleTime;
+    public String getProcess() {
+        return process;
     }
-    public void setProcess(String process) 
-    {
+
+    public void setProcess(String process) {
         this.process = process;
     }
 
-    public String getProcess() 
-    {
-        return process;
+    public String getDamage() {
+        return damage;
     }
-    public void setDamage(String damage) 
-    {
+
+    public void setDamage(String damage) {
         this.damage = damage;
     }
 
-    public String getDamage() 
-    {
-        return damage;
+    @Override
+    public String getRemark() {
+        return remark;
+    }
+
+    @Override
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("faultId", getFaultId())
-            .append("equipId", getEquipId())
-            .append("findTime", getFindTime())
-            .append("appearance", getAppearance())
-            .append("analysis", getAnalysis())
-            .append("handleTime", getHandleTime())
-            .append("process", getProcess())
-            .append("damage", getDamage())
-            .append("remark", getRemark())
-            .append("createBy", getCreateBy())
-            .append("createTime", getCreateTime())
-            .append("updateBy", getUpdateBy())
-            .append("updateTime", getUpdateTime())
-            .toString();
+        return "DevFault{" +
+                "faultId=" + faultId +
+                ", equipId=" + equipId +
+                ", findTime=" + findTime +
+                ", appearance='" + appearance + '\'' +
+                ", analysis='" + analysis + '\'' +
+                ", handleTime=" + handleTime +
+                ", process='" + process + '\'' +
+                ", damage='" + damage + '\'' +
+                ", remark='" + remark + '\'' +
+                '}';
     }
 }

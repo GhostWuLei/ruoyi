@@ -8,7 +8,7 @@ import java.util.Date;
 
 /**
  * 检修记录对象 dev_repair
- * 
+ *
  * @author wulei
  * @date 2020-10-26
  */
@@ -20,12 +20,11 @@ public class DevRepair extends BaseEntity
     private Long repairId;
 
     /** 设备ID */
-    @Excel(name = "设备ID")
     private Long equipId;
 
     /** 检修开始时间 */
-    @Excel(name = "检修开始时间", width = 30, dateFormat = "yyyy-MM-dd")
-    private Date startTime;
+    @Excel(name = "检修开始时间")
+    private String startTime;
 
     /** 检修结束时间 */
     @Excel(name = "检修结束时间", width = 30, dateFormat = "yyyy-MM-dd")
@@ -56,142 +55,143 @@ public class DevRepair extends BaseEntity
     private String repairUnit;
 
     /** 负责人（可以有多个） */
-    @Excel(name = "负责人", readConverterExp = "可=以有多个")
+    @Excel(name = "工作负责人", readConverterExp = "可=以有多个")
     private String leader;
 
     /** 工作联系人（可以有多个） */
-    @Excel(name = "工作联系人", readConverterExp = "可=以有多个")
+    @Excel(name = "工作联系人（是否需要）", readConverterExp = "可=以有多个")
     private String linkman;
 
-    public void setRepairId(Long repairId) 
-    {
+    /** 备注 */
+    @Excel(name = "备注")
+    private String remark;
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public Long getRepairId() {
+        return repairId;
+    }
+
+    public void setRepairId(Long repairId) {
         this.repairId = repairId;
     }
 
-    public Long getRepairId() 
-    {
-        return repairId;
+    public Long getEquipId() {
+        return equipId;
     }
-    public void setEquipId(Long equipId) 
-    {
+
+    public void setEquipId(Long equipId) {
         this.equipId = equipId;
     }
 
-    public Long getEquipId() 
-    {
-        return equipId;
+    public String getStartTime() {
+        return startTime;
     }
-    public void setStartTime(Date startTime) 
-    {
+
+    public void setStartTime(String startTime) {
         this.startTime = startTime;
     }
 
-    public Date getStartTime() 
-    {
-        return startTime;
+    public Date getFinishTime() {
+        return finishTime;
     }
-    public void setFinishTime(Date finishTime) 
-    {
+
+    public void setFinishTime(Date finishTime) {
         this.finishTime = finishTime;
     }
 
-    public Date getFinishTime() 
-    {
-        return finishTime;
+    public String getRepairLevel() {
+        return repairLevel;
     }
-    public void setRepairLevel(String repairLevel) 
-    {
+
+    public void setRepairLevel(String repairLevel) {
         this.repairLevel = repairLevel;
     }
 
-    public String getRepairLevel() 
-    {
-        return repairLevel;
+    public String getRepairContent() {
+        return repairContent;
     }
-    public void setRepairContent(String repairContent) 
-    {
+
+    public void setRepairContent(String repairContent) {
         this.repairContent = repairContent;
     }
 
-    public String getRepairContent() 
-    {
-        return repairContent;
+    public String getHandleProblem() {
+        return handleProblem;
     }
-    public void setHandleProblem(String handleProblem) 
-    {
+
+    public void setHandleProblem(String handleProblem) {
         this.handleProblem = handleProblem;
     }
 
-    public String getHandleProblem() 
-    {
-        return handleProblem;
+    public String getRemainProblem() {
+        return remainProblem;
     }
-    public void setRemainProblem(String remainProblem) 
-    {
+
+    public void setRemainProblem(String remainProblem) {
         this.remainProblem = remainProblem;
     }
 
-    public String getRemainProblem() 
-    {
-        return remainProblem;
+    public String getClazz() {
+        return clazz;
     }
-    public void setClazz(String clazz) 
-    {
+
+    public void setClazz(String clazz) {
         this.clazz = clazz;
     }
 
-    public String getClazz() 
-    {
-        return clazz;
+    public String getRepairUnit() {
+        return repairUnit;
     }
-    public void setRepairUnit(String repairUnit) 
-    {
+
+    public void setRepairUnit(String repairUnit) {
         this.repairUnit = repairUnit;
     }
 
-    public String getRepairUnit() 
-    {
-        return repairUnit;
+    public String getLeader() {
+        return leader;
     }
-    public void setLeader(String leader) 
-    {
+
+    public void setLeader(String leader) {
         this.leader = leader;
     }
 
-    public String getLeader() 
-    {
-        return leader;
+    public String getLinkman() {
+        return linkman;
     }
-    public void setLinkman(String linkman) 
-    {
+
+    public void setLinkman(String linkman) {
         this.linkman = linkman;
     }
 
-    public String getLinkman() 
-    {
-        return linkman;
+    @Override
+    public String getRemark() {
+        return remark;
+    }
+
+    @Override
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("repairId", getRepairId())
-            .append("equipId", getEquipId())
-            .append("startTime", getStartTime())
-            .append("finishTime", getFinishTime())
-            .append("repairLevel", getRepairLevel())
-            .append("repairContent", getRepairContent())
-            .append("handleProblem", getHandleProblem())
-            .append("remainProblem", getRemainProblem())
-            .append("clazz", getClazz())
-            .append("repairUnit", getRepairUnit())
-            .append("leader", getLeader())
-            .append("linkman", getLinkman())
-            .append("remark", getRemark())
-            .append("createBy", getCreateBy())
-            .append("createTime", getCreateTime())
-            .append("updateBy", getUpdateBy())
-            .append("updateTime", getUpdateTime())
-            .toString();
+        return "DevRepair{" +
+                "repairId=" + repairId +
+                ", equipId=" + equipId +
+                ", startTime='" + startTime + '\'' +
+                ", finishTime=" + finishTime +
+                ", repairLevel='" + repairLevel + '\'' +
+                ", repairContent='" + repairContent + '\'' +
+                ", handleProblem='" + handleProblem + '\'' +
+                ", remainProblem='" + remainProblem + '\'' +
+                ", clazz='" + clazz + '\'' +
+                ", repairUnit='" + repairUnit + '\'' +
+                ", leader='" + leader + '\'' +
+                ", linkman='" + linkman + '\'' +
+                ", remark='" + remark + '\'' +
+                '}';
     }
 }

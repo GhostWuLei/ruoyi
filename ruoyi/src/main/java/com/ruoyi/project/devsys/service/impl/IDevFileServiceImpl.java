@@ -1,11 +1,19 @@
 package com.ruoyi.project.devsys.service.impl;
 
+
+import com.ruoyi.common.constant.Constants;
+import com.ruoyi.common.exception.CustomException;
+import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.framework.config.RuoYiConfig;
 import com.ruoyi.project.devsys.domain.DevFile;
+import com.ruoyi.project.devsys.domain.DevSpare;
+import com.ruoyi.project.devsys.domain.DevSubsidiary;
 import com.ruoyi.project.devsys.mapper.DevFileMapper;
 import com.ruoyi.project.devsys.service.IDevFileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.util.List;
 
 @Service
@@ -19,7 +27,6 @@ public class IDevFileServiceImpl implements IDevFileService {
 
     @Override
     public int updateDevFile(DevFile devFile) {
-        System.out.println("update devfile"+devFile);
         return mapper.updateDevFile(devFile);
     }
 
@@ -33,10 +40,6 @@ public class IDevFileServiceImpl implements IDevFileService {
         return mapper.selectDevFileById(spareId);
     }
 
-    @Override
-    public int deleteDevFileById(Long spareId) {
-        return mapper.deleteDevFileById(spareId);
-    }
 
     @Override
     public DevFile selectDevFileByName(String fname) {
@@ -52,4 +55,44 @@ public class IDevFileServiceImpl implements IDevFileService {
     public DevFile selectDevFileid(Long fileId) {
         return mapper.selectDevFileid(fileId);
     }
+
+    @Override
+    public void deleteAnne(String fpath) {
+        //将相对路径转换为绝对路径
+        String newPath = fpath.replaceAll(Constants.RESOURCE_PREFIX, RuoYiConfig.getProfile());
+        File file = new File(newPath);
+        if(file.exists()){
+            if(!file.delete()){
+                throw new CustomException("删除失败", 401);
+            }
+        }
+    }
+
+    @Override
+    public List<DevFile> selectinformationIdById(Long informationId) {
+        return mapper.selectinformationIdById(informationId);
+    }
+
+    @Override
+    public List<DevFile> selectrepairFileById(Long repairId) {
+        return mapper.selectrepairFileById(repairId);
+    }
+
+    @Override
+    public List<DevFile> selectfaultById(Long faultId) {
+        return mapper.selectfaultById(faultId);
+    }
+
+    @Override
+    public List<DevFile> selectalterationIdById(Long alterationId) {
+        return mapper.selectalterationIdById(alterationId);
+    }
+
+    @Override
+    public List<DevFile> selectsubsidiaryIdById(Long subsidiaryId) {
+        return mapper.selectsubsidiaryIdById(subsidiaryId);
+    }
+
+
+
 }

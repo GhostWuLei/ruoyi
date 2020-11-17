@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.project.devsys.mapper.DevAlterationMapper">
-    
+
     <resultMap type="DevAlteration" id="DevAlterationResult">
         <result property="alterationId"    column="alteration_id"    />
         <result property="equipId"    column="equip_id"    />
@@ -25,19 +25,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectDevAlterationList" parameterType="DevAlteration" resultMap="DevAlterationResult">
         <include refid="selectDevAlterationVo"/>
-        <where>  
+        <where>
             <if test="equipId != null "> and equip_id = #{equipId}</if>
             <if test="equipName != null  and equipName != ''"> and equip_name like concat('%', #{equipName}, '%')</if>
             <if test="reason != null  and reason != ''"> and reason like concat('%', #{reason}, '%')</if>
             <if test="leader != null  and leader != ''"> and leader like concat('%', #{leader}, '%')</if>
         </where>
     </select>
-    
+
     <select id="selectDevAlterationById" parameterType="Long" resultMap="DevAlterationResult">
         <include refid="selectDevAlterationVo"/>
         where alteration_id = #{alterationId}
     </select>
-        
+    <select id="selectByName" resultType="com.ruoyi.project.devsys.domain.DevAlteration">
+        select * from dev_alteration
+        where equip_name=#{equipName}
+    </select>
+
     <insert id="insertDevAlteration" parameterType="DevAlteration" useGeneratedKeys="true" keyProperty="alterationId">
         insert into dev_alteration
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -91,10 +95,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteDevAlterationByIds" parameterType="String">
-        delete from dev_alteration where alteration_id in 
+        delete from dev_alteration where alteration_id in
         <foreach item="alterationId" collection="array" open="(" separator="," close=")">
             #{alterationId}
         </foreach>
     </delete>
-    
+
 </mapper>

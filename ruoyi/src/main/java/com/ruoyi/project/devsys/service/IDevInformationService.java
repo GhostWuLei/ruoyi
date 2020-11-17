@@ -2,18 +2,19 @@ package com.ruoyi.project.devsys.service;
 
 import java.util.List;
 import com.ruoyi.project.devsys.domain.DevInformation;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 设备信息Service接口
- * 
+ *
  * @author wulei
  * @date 2020-10-30
  */
-public interface IDevInformationService 
+public interface IDevInformationService
 {
     /**
      * 查询设备信息
-     * 
+     *
      * @param informationId 设备信息ID
      * @return 设备信息
      */
@@ -21,7 +22,7 @@ public interface IDevInformationService
 
     /**
      * 查询设备信息列表
-     * 
+     *
      * @param devInformation 设备信息
      * @return 设备信息集合
      */
@@ -29,7 +30,7 @@ public interface IDevInformationService
 
     /**
      * 新增设备信息
-     * 
+     *
      * @param devInformation 设备信息
      * @return 结果
      */
@@ -37,7 +38,7 @@ public interface IDevInformationService
 
     /**
      * 修改设备信息
-     * 
+     *
      * @param devInformation 设备信息
      * @return 结果
      */
@@ -45,7 +46,7 @@ public interface IDevInformationService
 
     /**
      * 批量删除设备信息
-     * 
+     *
      * @param informationIds 需要删除的设备信息ID
      * @return 结果
      */
@@ -53,9 +54,15 @@ public interface IDevInformationService
 
     /**
      * 删除设备信息信息
-     * 
+     *
      * @param informationId 设备信息ID
      * @return 结果
      */
     public int deleteDevInformationById(Long informationId);
+
+    boolean uploadFile(Long informationId, MultipartFile[] files);
+
+    void deleteAnnex(String fpath);
+
+    String importUser(List<DevInformation> devInformationList, boolean updateSupport, String username, Long equipId);
 }

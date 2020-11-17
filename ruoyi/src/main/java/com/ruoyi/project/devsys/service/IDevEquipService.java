@@ -4,18 +4,19 @@ import java.util.List;
 
 import com.ruoyi.framework.web.domain.TreeSelect;
 import com.ruoyi.project.devsys.domain.DevEquip;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 设备Service接口
- * 
+ *
  * @author wulei
  * @date 2020-05-27
  */
-public interface IDevEquipService 
+public interface IDevEquipService
 {
     /**
      * 查询设备
-     * 
+     *
      * @param equipId 设备ID
      * @return 设备
      */
@@ -23,7 +24,7 @@ public interface IDevEquipService
 
     /**
      * 查询设备列表
-     * 
+     *
      * @param devEquip 设备
      * @return 设备集合
      */
@@ -31,7 +32,7 @@ public interface IDevEquipService
 
     /**
      * 新增设备
-     * 
+     *
      * @param devEquip 设备
      * @return 结果
      */
@@ -39,7 +40,7 @@ public interface IDevEquipService
 
     /**
      * 修改设备
-     * 
+     *
      * @param devEquip 设备
      * @return 结果
      */
@@ -47,7 +48,7 @@ public interface IDevEquipService
 
     /**
      * 批量删除设备
-     * 
+     *
      * @param equipIds 需要删除的设备ID
      * @return 结果
      */
@@ -55,7 +56,7 @@ public interface IDevEquipService
 
     /**
      * 删除设备信息
-     * 
+     *
      * @param equipId 设备ID
      * @return 结果
      */
@@ -89,4 +90,6 @@ public interface IDevEquipService
      * @return
      */
     boolean hasChildByEquipId(Long equipId);
+
+    boolean uploadFile(Long informationId, MultipartFile[] files);
 }

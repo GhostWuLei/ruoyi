@@ -6,11 +6,21 @@ import lombok.Data;
 @Data
 public class DevFile {
     private static final long serialVersionUID = 1L;
-    private Long fileId;
+    private Long fileId;//文件id
 
-    private Long spareId;
+    private Long spareId;//备品备件id
 
-    private Long repairId;
+    private Long repairId;//检修记录id
+
+    private Long faultId;//故障报记录id
+
+    private Long alterationId;//异动变更id
+
+    private Long subsidiaryId;//附属设备明细id
+
+    private Long informationId;//设备信息id
+
+    private Long equipId;
 
     private String fname;
 
