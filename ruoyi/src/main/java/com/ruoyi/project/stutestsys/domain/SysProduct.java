@@ -27,9 +27,9 @@ public class SysProduct extends BaseEntity
     @Excel(name = "产品名称")
     private String productName;
 
-//    /** 显示顺序 */
-//    @Excel(name = "显示顺序")
-//    private Integer orderNum;
+    /** 显示顺序 */
+    @Excel(name = "显示顺序")
+    private Integer orderNum;
 
     /** 产品状态（0正常 1停用） */
     @Excel(name = "产品状态", readConverterExp = "0=正常,1=停用")
