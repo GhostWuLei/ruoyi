@@ -11,6 +11,7 @@ import com.ruoyi.framework.web.domain.BaseEntity;
  * @author wulei
  * @date 2020-05-27
  */
+
 public class SysProduct extends BaseEntity
 {
     private static final long serialVersionUID = 1L;

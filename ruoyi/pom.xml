@@ -36,7 +36,7 @@
 		<poi.version>3.17</poi.version>
 		<oshi.version>3.9.1</oshi.version>
 		<velocity.version>1.7</velocity.version>
-		<mybatis-plus.version>3.3.2</mybatis-plus.version>
+		<!--<mybatis-plus.version>3.3.2</mybatis-plus.version>-->
 	</properties>
 
 	<dependencies>
@@ -90,12 +90,11 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-pool2</artifactId>
 		</dependency>
-<!--		&lt;!&ndash;mybatis-plus&ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>com.baomidou</groupId>-->
-<!--            <artifactId>mybatis-plus-boot-starter</artifactId>-->
-<!--            <version>${mybatis-plus.version}</version>-->
-<!--        </dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>com.baomidou</groupId>-->
+            <!--<artifactId>mybatis-plus-boot-starter</artifactId>-->
+            <!--<version>${mybatis-plus.version}</version>-->
+        <!--</dependency>-->
 
 		<!-- Mysql驱动包 -->
 		<dependency>
