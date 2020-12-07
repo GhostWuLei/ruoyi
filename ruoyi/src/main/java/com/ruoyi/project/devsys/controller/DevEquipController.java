@@ -1,24 +1,23 @@
 package com.ruoyi.project.devsys.controller;
 
-import java.io.IOException;
-import java.util.List;
-
 import com.ruoyi.common.constant.EquipConstants;
 import com.ruoyi.common.utils.SecurityUtils;
-import com.ruoyi.framework.web.domain.TreeSelect;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.framework.aspectj.lang.annotation.Log;
 import com.ruoyi.framework.aspectj.lang.enums.BusinessType;
-import com.ruoyi.project.devsys.domain.DevEquip;
-import com.ruoyi.project.devsys.service.IDevEquipService;
 import com.ruoyi.framework.web.controller.BaseController;
 import com.ruoyi.framework.web.domain.AjaxResult;
-import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.framework.web.page.TableDataInfo;
+import com.ruoyi.project.devsys.domain.DevEquip;
+import com.ruoyi.project.devsys.service.IDevEquipService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.List;
 
 /**
  * 设备Controller

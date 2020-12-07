@@ -1,8 +1,10 @@
 package com.ruoyi.project.devsys.service;
 
-import java.util.List;
+import com.ruoyi.project.devsys.domain.DevEquip;
 import com.ruoyi.project.devsys.domain.DevInformation;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 /**
  * 设备信息Service接口
@@ -65,4 +67,8 @@ public interface IDevInformationService
     void deleteAnnex(String fpath);
 
     String importUser(List<DevInformation> devInformationList, boolean updateSupport, String username, Long equipId);
+
+    List<DevInformation> selectDevInformationListIn(List<DevEquip> devEquips);
+
+    int deleteequipId(Long equipId);
 }

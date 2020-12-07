@@ -53,6 +53,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select * from dev_repair
         where repair_content=#{repairContent}
     </select>
+    <select id="selectDevRepairListIn" resultType="com.ruoyi.project.devsys.domain.DevRepair" resultMap="DevRepairResult">
+        <include refid="selectDevRepairVo"/>
+        where equip_id in
+        <foreach item="item" index="index" collection="list" open="("  close=")" separator=",">
+            #{item}
+        </foreach>
+    </select>
 
 
     <insert id="insertDevRepair" parameterType="DevRepair" useGeneratedKeys="true" keyProperty="repairId">
@@ -127,6 +134,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <foreach item="repairId" collection="array" open="(" separator="," close=")">
             #{repairId}
         </foreach>
+    </delete>
+    <delete id="deleteequipId">
+        delete   from dev_repair where equip_id=#{equipId}
     </delete>
 
 </mapper>

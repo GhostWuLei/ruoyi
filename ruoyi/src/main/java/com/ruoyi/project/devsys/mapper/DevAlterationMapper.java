@@ -1,8 +1,9 @@
 package com.ruoyi.project.devsys.mapper;
 
-import java.util.List;
 import com.ruoyi.project.devsys.domain.DevAlteration;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 设备变更Mapper接口
@@ -61,4 +62,8 @@ public interface DevAlterationMapper
     public int deleteDevAlterationByIds(Long[] alterationIds);
 
     DevAlteration selectByName(@Param("equipName") String equipName);
+
+    List<DevAlteration> selectDevAlterationListIn(List<Long> list);
+
+    int deleteequipId(@Param("equipId") Long equipId);
 }

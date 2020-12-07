@@ -1,8 +1,10 @@
 package com.ruoyi.project.devsys.service;
 
-import java.util.List;
+import com.ruoyi.project.devsys.domain.DevEquip;
 import com.ruoyi.project.devsys.domain.DevRepair;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 /**
  * 检修记录Service接口
@@ -65,4 +67,8 @@ public interface IDevRepairService
     void deleteAnne(String fpath);
 
     String importUser(List<DevRepair> devRepairList, boolean updateSupport, String username, Long equipId);
+
+    List<DevRepair> selectDevRepairListIn(List<DevEquip> devEquips);
+
+    int deleteequipId(Long equipId);
 }

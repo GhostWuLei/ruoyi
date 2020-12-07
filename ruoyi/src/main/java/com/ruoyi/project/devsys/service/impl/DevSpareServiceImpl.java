@@ -1,9 +1,5 @@
 package com.ruoyi.project.devsys.service.impl;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
-
 import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.exception.CustomException;
 import com.ruoyi.common.utils.DateUtils;
@@ -12,17 +8,18 @@ import com.ruoyi.common.utils.file.FileUploadUtils;
 import com.ruoyi.framework.config.RuoYiConfig;
 import com.ruoyi.project.devsys.domain.DevEquip;
 import com.ruoyi.project.devsys.domain.DevFile;
-import com.ruoyi.project.devsys.service.IDevEquipService;
+import com.ruoyi.project.devsys.domain.DevSpare;
+import com.ruoyi.project.devsys.mapper.DevSpareMapper;
 import com.ruoyi.project.devsys.service.IDevFileService;
-import lombok.SneakyThrows;
+import com.ruoyi.project.devsys.service.IDevSpareService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.project.devsys.mapper.DevSpareMapper;
-import com.ruoyi.project.devsys.domain.DevSpare;
-import com.ruoyi.project.devsys.service.IDevSpareService;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 备品备件Service业务层处理
@@ -197,6 +194,26 @@ public class DevSpareServiceImpl  implements IDevSpareService {
         }
         successMsg.insert(0, "导入数据已完成！新增"+insertNum+"条，更新"+updateNum+"条，"+repeatNum+"条数据已存在，未修改");
         return successMsg.toString();
+    }
+
+    @Override
+    public List<DevSpare> selectDevSpareListIn(List<DevEquip> devEquipList) {
+        List<Long> list=new ArrayList<>();
+        for (DevEquip devEquip : devEquipList) {
+            list.add(devEquip.getEquipId());
+            list.add(devEquip.getParentId());
+        }
+        List<DevSpare> devSpares=devSpareMapper.selectDevSpareListIn(list);
+        for (DevSpare spare : devSpares) {
+            String techParam = spare.getTechParam();
+            spare.setTechParam(techParam.replace("\n","</br>"));
+        }
+        return devSpares;
+    }
+
+    @Override
+    public int deleteequipId(Long equipId) {
+        return devSpareMapper.deleteequipId(equipId);
     }
 
     public static void deleteAnnex(String fpath){

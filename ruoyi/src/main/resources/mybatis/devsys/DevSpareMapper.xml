@@ -41,6 +41,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select * from dev_spare
         where spare_name=#{spareName}
     </select>
+    <select id="selectDevSpareListIn" resultType="com.ruoyi.project.devsys.domain.DevSpare" resultMap="DevSpareResult">
+        <include refid="selectDevSpareVo"/>
+        where equip_id in
+        <foreach item="item" index="index" collection="list" open="("  close=")" separator=",">
+            #{item}
+        </foreach>
+    </select>
 
     <insert id="insertDevSpare" parameterType="DevSpare" useGeneratedKeys="true" keyProperty="spareId">
         insert into dev_spare
@@ -102,6 +109,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <foreach item="spareId" collection="array" open="(" separator="," close=")">
             #{spareId}
         </foreach>
+    </delete>
+    <delete id="deleteequipId">
+        delete   from dev_spare where equip_id=#{equipId}
     </delete>
 
 </mapper>

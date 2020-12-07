@@ -1,31 +1,31 @@
 package com.ruoyi.project.devsys.controller;
 
-import java.io.*;
-import java.util.List;
-
 import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.utils.ServletUtils;
 import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.framework.aspectj.lang.annotation.Log;
+import com.ruoyi.framework.aspectj.lang.enums.BusinessType;
 import com.ruoyi.framework.config.RuoYiConfig;
 import com.ruoyi.framework.security.LoginUser;
 import com.ruoyi.framework.security.service.TokenService;
-import com.ruoyi.project.devsys.domain.DevFile;
-import com.ruoyi.project.devsys.domain.DevSpare;
-import com.ruoyi.project.devsys.service.IDevFileService;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-import com.ruoyi.framework.aspectj.lang.annotation.Log;
-import com.ruoyi.framework.aspectj.lang.enums.BusinessType;
-import com.ruoyi.project.devsys.domain.DevRepair;
-import com.ruoyi.project.devsys.service.IDevRepairService;
 import com.ruoyi.framework.web.controller.BaseController;
 import com.ruoyi.framework.web.domain.AjaxResult;
-import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.framework.web.page.TableDataInfo;
+import com.ruoyi.project.devsys.domain.DevEquip;
+import com.ruoyi.project.devsys.domain.DevFile;
+import com.ruoyi.project.devsys.domain.DevRepair;
+import com.ruoyi.project.devsys.service.IDevEquipService;
+import com.ruoyi.project.devsys.service.IDevFileService;
+import com.ruoyi.project.devsys.service.IDevRepairService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.util.List;
 
 /**
  * 检修记录Controller
@@ -45,6 +45,8 @@ public class DevRepairController extends BaseController
 
     @Autowired
     private TokenService tokenService;
+    @Autowired
+    private IDevEquipService equipService;
 
     /**
      * 查询检修记录列表
@@ -53,6 +55,14 @@ public class DevRepairController extends BaseController
     @GetMapping("/list")
     public TableDataInfo list(DevRepair devRepair)
     {
+        DevEquip devEquip=new DevEquip();
+        devEquip.setParentId(devRepair.getEquipId());
+        List<DevEquip> devEquips = equipService.selectDevEquipList(devEquip);
+            if(devEquips.size()>0){
+                startPage();
+                List<DevRepair> devRepairs=devRepairService.selectDevRepairListIn(devEquips);
+                return getDataTable(devRepairs);
+            }
         startPage();
         List<DevRepair> list = devRepairService.selectDevRepairList(devRepair);
         return getDataTable(list);

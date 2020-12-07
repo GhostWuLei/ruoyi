@@ -1,10 +1,9 @@
 package com.ruoyi.project.devsys.mapper;
 
-import java.util.Date;
-import java.util.List;
 import com.ruoyi.project.devsys.domain.DevFault;
-import com.ruoyi.project.devsys.domain.DevSpare;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 故障记录Mapper接口
@@ -63,4 +62,8 @@ public interface DevFaultMapper
     public int deleteDevFaultByIds(Long[] faultIds);
 
     DevFault selectByName(@Param("appearance") String appearance);
+
+    List<DevFault> selectDevFaultListIn(List<Long> list);
+
+    int deleteequipId(@Param("equipId") Long equipId);
 }

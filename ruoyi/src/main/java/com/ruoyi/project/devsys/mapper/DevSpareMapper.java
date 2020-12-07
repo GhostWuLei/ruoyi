@@ -1,7 +1,9 @@
 package com.ruoyi.project.devsys.mapper;
 
-import java.util.List;
 import com.ruoyi.project.devsys.domain.DevSpare;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 备品备件Mapper接口
@@ -60,4 +62,8 @@ public interface DevSpareMapper
     public int deleteDevSpareByIds(Long[] spareIds);
 
     DevSpare selectDevSpareByName(String spareName);
+
+    List<DevSpare> selectDevSpareListIn(List<Long> list);
+
+    int deleteequipId(@Param("equipId") Long equipId);
 }

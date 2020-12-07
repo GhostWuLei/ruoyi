@@ -1,22 +1,24 @@
 package com.ruoyi.project.devsys.service.impl;
 
-import java.io.IOException;
-import java.util.List;
-
 import com.ruoyi.common.exception.CustomException;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.file.FileUploadUtils;
 import com.ruoyi.framework.config.RuoYiConfig;
+import com.ruoyi.project.devsys.domain.DevEquip;
+import com.ruoyi.project.devsys.domain.DevFault;
 import com.ruoyi.project.devsys.domain.DevFile;
-import com.ruoyi.project.devsys.domain.DevSpare;
+import com.ruoyi.project.devsys.mapper.DevEquipMapper;
+import com.ruoyi.project.devsys.mapper.DevFaultMapper;
+import com.ruoyi.project.devsys.service.IDevFaultService;
 import com.ruoyi.project.devsys.service.IDevFileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.project.devsys.mapper.DevFaultMapper;
-import com.ruoyi.project.devsys.domain.DevFault;
-import com.ruoyi.project.devsys.service.IDevFaultService;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 故障记录Service业务层处理
@@ -31,6 +33,8 @@ public class DevFaultServiceImpl implements IDevFaultService
     private DevFaultMapper devFaultMapper;
     @Autowired
     private IDevFileService fileService;
+    @Autowired
+    private DevEquipMapper devEquipMapper;
 
     /**
      * 查询故障记录
@@ -177,5 +181,20 @@ public class DevFaultServiceImpl implements IDevFaultService
         }
         successMsg.insert(0, "导入数据已完成！新增"+insertNum+"条，更新"+updateNum+"条，"+repeatNum+"条数据已存在，未修改");
         return successMsg.toString();
+    }
+
+    @Override
+    public List<DevFault> selectDevFaultListIn(List<DevEquip> devEquips) {
+        List<Long> list=new ArrayList<>();
+        for (DevEquip devEquip : devEquips) {
+            list.add(devEquip.getParentId());
+            list.add(devEquip.getEquipId());
+        }
+        return devFaultMapper.selectDevFaultListIn(list);
+    }
+
+    @Override
+    public int deleteequipId(Long equipId) {
+        return devFaultMapper.deleteequipId(equipId);
     }
 }

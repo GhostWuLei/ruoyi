@@ -1,8 +1,10 @@
 package com.ruoyi.project.devsys.service;
 
-import java.util.List;
+import com.ruoyi.project.devsys.domain.DevEquip;
 import com.ruoyi.project.devsys.domain.DevSubsidiary;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 /**
  * 附属设备明细Service接口
@@ -63,4 +65,8 @@ public interface IDevSubsidiaryService
     boolean uploadFile(Long subsidiaryId, MultipartFile[] files);
 
     String importUser(List<DevSubsidiary> devSubsidiaries, boolean updateSupport, String username, Long equipId);
+
+    List<DevSubsidiary> selectDevSubsidiaryListIn(List<DevEquip> devEquipList);
+
+    int deleteequipId(Long equipId);
 }

@@ -42,6 +42,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             select * from dev_information
             where equip_name=#{equipName}
     </select>
+    <select id="selectDevInformationListIn" resultType="com.ruoyi.project.devsys.domain.DevInformation" resultMap="DevInformationResult">
+        <include refid="selectDevInformationVo"/>
+         where equip_id in
+         <foreach item="item" index="index" collection="list" open="("  close=")" separator=",">
+            #{item}
+         </foreach>
+
+    </select>
 
     <insert id="insertDevInformation" parameterType="DevInformation" useGeneratedKeys="true" keyProperty="informationId">
         insert into dev_information
@@ -106,6 +114,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <foreach item="informationId" collection="array" open="(" separator="," close=")">
             #{informationId}
         </foreach>
+    </delete>
+    <delete id="deleteequipId">
+        delete   from dev_information where equip_id=#{equipId}
     </delete>
 
 </mapper>

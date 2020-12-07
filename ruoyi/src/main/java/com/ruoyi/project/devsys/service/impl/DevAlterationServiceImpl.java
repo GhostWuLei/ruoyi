@@ -1,22 +1,23 @@
 package com.ruoyi.project.devsys.service.impl;
 
-import java.io.IOException;
-import java.util.List;
-
 import com.ruoyi.common.exception.CustomException;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.file.FileUploadUtils;
 import com.ruoyi.framework.config.RuoYiConfig;
+import com.ruoyi.project.devsys.domain.DevAlteration;
+import com.ruoyi.project.devsys.domain.DevEquip;
 import com.ruoyi.project.devsys.domain.DevFile;
-import com.ruoyi.project.devsys.domain.DevSpare;
+import com.ruoyi.project.devsys.mapper.DevAlterationMapper;
+import com.ruoyi.project.devsys.service.IDevAlterationService;
 import com.ruoyi.project.devsys.service.IDevFileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.project.devsys.mapper.DevAlterationMapper;
-import com.ruoyi.project.devsys.domain.DevAlteration;
-import com.ruoyi.project.devsys.service.IDevAlterationService;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 设备变更Service业务层处理
@@ -177,5 +178,21 @@ public class DevAlterationServiceImpl implements IDevAlterationService
         }
         successMsg.insert(0, "导入数据已完成！新增"+insertNum+"条，更新"+updateNum+"条，"+repeatNum+"条数据已存在，未修改");
         return successMsg.toString();
+    }
+
+    @Override
+    public List<DevAlteration> selectDevAlterationListIn(List<DevEquip> devEquips) {
+        List<Long> list=new ArrayList<>();
+        for (DevEquip devEquip : devEquips) {
+            list.add(devEquip.getEquipId());
+            list.add(devEquip.getParentId());
+        }
+        List<DevAlteration> devAlterations=devAlterationMapper.selectDevAlterationListIn(list);
+        return devAlterations;
+    }
+
+    @Override
+    public int deleteequipId(Long equipId) {
+        return devAlterationMapper.deleteequipId(equipId);
     }
 }

@@ -1,38 +1,32 @@
 package com.ruoyi.project.devsys.controller;
 
-import java.io.*;
-import java.util.List;
-
 import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.utils.ServletUtils;
 import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.framework.aspectj.lang.annotation.Log;
+import com.ruoyi.framework.aspectj.lang.enums.BusinessType;
 import com.ruoyi.framework.config.RuoYiConfig;
 import com.ruoyi.framework.security.LoginUser;
 import com.ruoyi.framework.security.service.TokenService;
-import com.ruoyi.project.devsys.domain.DevFile;
-import com.ruoyi.project.devsys.service.IDevEquipService;
-import com.ruoyi.project.devsys.service.IDevFileService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-import com.ruoyi.framework.aspectj.lang.annotation.Log;
-import com.ruoyi.framework.aspectj.lang.enums.BusinessType;
-import com.ruoyi.project.devsys.domain.DevSpare;
-import com.ruoyi.project.devsys.service.IDevSpareService;
 import com.ruoyi.framework.web.controller.BaseController;
 import com.ruoyi.framework.web.domain.AjaxResult;
-import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.framework.web.page.TableDataInfo;
+import com.ruoyi.project.devsys.domain.DevEquip;
+import com.ruoyi.project.devsys.domain.DevFile;
+import com.ruoyi.project.devsys.domain.DevSpare;
+import com.ruoyi.project.devsys.service.IDevEquipService;
+import com.ruoyi.project.devsys.service.IDevFileService;
+import com.ruoyi.project.devsys.service.IDevSpareService;
+import io.swagger.annotations.Api;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.util.List;
 
 /**
  * 备品备件Controller
@@ -51,6 +45,8 @@ public class DevSpareController extends BaseController
     private IDevFileService fileService;
     @Autowired
     private TokenService tokenService;
+    @Autowired
+    private IDevEquipService equipService;
     /**
      * 查询备品备件列表
      */
@@ -58,6 +54,14 @@ public class DevSpareController extends BaseController
     @GetMapping("/list")
     public TableDataInfo list(DevSpare devSpare)
     {
+        DevEquip devEquip=new DevEquip();
+        devEquip.setParentId(devSpare.getEquipId());
+        List<DevEquip> devEquipList = equipService.selectDevEquipList(devEquip);
+        if(devEquipList.size()>0){
+            startPage();
+            List<DevSpare> devSpares=devSpareService.selectDevSpareListIn(devEquipList);
+            return getDataTable(devSpares);
+        }
         startPage();
         List<DevSpare> list = devSpareService.selectDevSpareList(devSpare);
         return getDataTable(list);

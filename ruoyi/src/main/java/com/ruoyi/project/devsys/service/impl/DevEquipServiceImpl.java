@@ -1,27 +1,21 @@
 package com.ruoyi.project.devsys.service.impl;
 
+import com.ruoyi.common.constant.EquipConstants;
+import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.framework.web.domain.TreeSelect;
+import com.ruoyi.project.devsys.domain.DevEquip;
+import com.ruoyi.project.devsys.mapper.DevEquipMapper;
+import com.ruoyi.project.devsys.service.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import com.ruoyi.common.constant.EquipConstants;
-import com.ruoyi.common.constant.UserConstants;
-import com.ruoyi.common.exception.CustomException;
-import com.ruoyi.common.utils.DateUtils;
-import com.ruoyi.common.utils.StringUtils;
-import com.ruoyi.common.utils.file.FileUploadUtils;
-import com.ruoyi.framework.config.RuoYiConfig;
-import com.ruoyi.framework.web.domain.TreeSelect;
-import com.ruoyi.project.devsys.domain.DevFile;
-import com.ruoyi.project.devsys.service.IDevFileService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import com.ruoyi.project.devsys.mapper.DevEquipMapper;
-import com.ruoyi.project.devsys.domain.DevEquip;
-import com.ruoyi.project.devsys.service.IDevEquipService;
-import org.springframework.web.multipart.MultipartFile;
-import oshi.util.StringUtil;
 
 /**
  * 设备Service业务层处理
@@ -36,7 +30,18 @@ public class DevEquipServiceImpl implements IDevEquipService
     private DevEquipMapper equipMapper;
     @Autowired
     private IDevFileService fileService;
-
+    @Autowired
+    private IDevInformationService  devInformationService;
+    @Autowired
+    private IDevRepairService devRepairService;
+    @Autowired
+    private IDevFaultService devFaultService;
+    @Autowired
+    private IDevAlterationService devAlterationService;
+    @Autowired
+    private DevSubsidiaryServiceImpl devSubsidiaryService;
+    @Autowired
+    private DevSpareServiceImpl devSpareService;
     /**
      * 查询设备
      *
@@ -80,9 +85,17 @@ public class DevEquipServiceImpl implements IDevEquipService
      * @param equipId 设备ID
      * @return 结果
      */
+
+    @Transactional
     @Override
     public int deleteDevEquipById(Long equipId)
     {
+        devInformationService.deleteequipId(equipId);
+        devRepairService.deleteequipId(equipId);
+        devFaultService.deleteequipId(equipId);
+        devAlterationService.deleteequipId(equipId);
+        devSubsidiaryService.deleteequipId(equipId);
+        devSpareService.deleteequipId(equipId);
         return equipMapper.deleteDevEquipById(equipId);
     }
 

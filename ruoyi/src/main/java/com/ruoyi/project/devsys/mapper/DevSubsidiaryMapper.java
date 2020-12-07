@@ -1,8 +1,9 @@
 package com.ruoyi.project.devsys.mapper;
 
-import java.util.List;
 import com.ruoyi.project.devsys.domain.DevSubsidiary;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 附属设备明细Mapper接口
@@ -61,4 +62,8 @@ public interface DevSubsidiaryMapper
     public int deleteDevSubsidiaryByIds(Long[] subsidiaryIds);
 
     DevSubsidiary selectName(@Param("equipName") String equipName);
+
+    List<DevSubsidiary> selectDevSubsidiaryListIn(List<Long> list);
+
+    int deleteequipId(@Param("equipId") Long equipId);
 }

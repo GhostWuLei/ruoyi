@@ -1,10 +1,10 @@
 package com.ruoyi.project.devsys.service;
 
-import java.util.List;
+import com.ruoyi.project.devsys.domain.DevEquip;
 import com.ruoyi.project.devsys.domain.DevSpare;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * 备品备件Service接口
@@ -67,4 +67,8 @@ public interface IDevSpareService
     void deleteAnnexFile(String fpath);
 
     String importUser(List<DevSpare> spareList, boolean updateSupport, String username,Long equipId);
+
+    List<DevSpare> selectDevSpareListIn(List<DevEquip> devEquipList);
+
+    int deleteequipId(Long equipId);
 }

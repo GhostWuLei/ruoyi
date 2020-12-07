@@ -1,8 +1,10 @@
 package com.ruoyi.project.devsys.service;
 
-import java.util.List;
+import com.ruoyi.project.devsys.domain.DevEquip;
 import com.ruoyi.project.devsys.domain.DevFault;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 /**
  * 故障记录Service接口
@@ -63,4 +65,8 @@ public interface IDevFaultService
     boolean uploadFile(Long faultId, MultipartFile[] files);
 
     String importUser(List<DevFault> devFaultList, boolean updateSupport, String username, Long equipId);
+
+    List<DevFault> selectDevFaultListIn(List<DevEquip> devEquips);
+
+    int deleteequipId(Long equipId);
 }

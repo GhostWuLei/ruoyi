@@ -1,9 +1,9 @@
 package com.ruoyi.project.devsys.mapper;
 
-import java.util.List;
 import com.ruoyi.project.devsys.domain.DevInformation;
-import com.ruoyi.project.devsys.domain.DevSpare;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 设备信息Mapper接口
@@ -62,4 +62,8 @@ public interface DevInformationMapper
     public int deleteDevInformationByIds(Long[] informationIds);
 
     DevInformation selectName(@Param("equipName") String equipName);
+
+    List<DevInformation> selectDevInformationListIn(List<Long> list);
+
+    int deleteequipId(@Param("equipId") Long equipId);
 }

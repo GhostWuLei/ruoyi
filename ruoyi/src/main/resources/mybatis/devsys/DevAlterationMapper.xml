@@ -41,6 +41,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select * from dev_alteration
         where equip_name=#{equipName}
     </select>
+    <select id="selectDevAlterationListIn" resultType="com.ruoyi.project.devsys.domain.DevAlteration" resultMap="DevAlterationResult">
+        <include refid="selectDevAlterationVo"/>
+        where equip_id in
+        <foreach item="item" index="index" collection="list" open="("  close=")" separator=",">
+            #{item}
+        </foreach>
+    </select>
 
     <insert id="insertDevAlteration" parameterType="DevAlteration" useGeneratedKeys="true" keyProperty="alterationId">
         insert into dev_alteration
@@ -54,7 +61,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="remark != null  and remark != ''">remark,</if>
             <if test="createBy != null  and createBy != ''">create_by,</if>
             <if test="createTime != null ">create_time,</if>
-            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+              <if test="updateBy != null  and updateBy != ''">update_by,</if>
             <if test="updateTime != null ">update_time,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -99,6 +106,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <foreach item="alterationId" collection="array" open="(" separator="," close=")">
             #{alterationId}
         </foreach>
+    </delete>
+    <delete id="deleteequipId">
+        delete   from dev_alteration where equip_id=#{equipId}
     </delete>
 
 </mapper>

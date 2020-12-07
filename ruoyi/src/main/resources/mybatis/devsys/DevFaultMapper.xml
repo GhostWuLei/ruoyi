@@ -42,6 +42,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select * from dev_fault
         where appearance=#{appearance}
     </select>
+    <select id="selectDevFaultListIn" resultType="com.ruoyi.project.devsys.domain.DevFault" resultMap="DevFaultResult">
+        <include refid="selectDevFaultVo"/>
+        where equip_id in
+        <foreach item="item" index="index" collection="list" open="("  close=")" separator=",">
+            #{item}
+        </foreach>
+    </select>
 
     <insert id="insertDevFault" parameterType="DevFault" useGeneratedKeys="true" keyProperty="faultId">
         insert into dev_fault
@@ -103,6 +110,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <foreach item="faultId" collection="array" open="(" separator="," close=")">
             #{faultId}
         </foreach>
+    </delete>
+    <delete id="deleteequipId">
+        delete   from dev_fault where equip_id=#{equipId}
     </delete>
 
 </mapper>

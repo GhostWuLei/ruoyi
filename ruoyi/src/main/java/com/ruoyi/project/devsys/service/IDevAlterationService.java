@@ -1,8 +1,10 @@
 package com.ruoyi.project.devsys.service;
 
-import java.util.List;
 import com.ruoyi.project.devsys.domain.DevAlteration;
+import com.ruoyi.project.devsys.domain.DevEquip;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 /**
  * 设备变更Service接口
@@ -63,4 +65,8 @@ public interface IDevAlterationService
     boolean uploadFile(Long alterationId, MultipartFile[] files);
 
     String importUser(List<DevAlteration> devAlterationList, boolean updateSupport, String username, Long equipId);
+
+    List<DevAlteration> selectDevAlterationListIn(List<DevEquip> devEquips);
+
+    int deleteequipId(Long equipId);
 }

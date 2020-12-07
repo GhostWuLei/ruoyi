@@ -16,6 +16,7 @@ import java.util.Date;
 public class DevInformation extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
+    
 
     /** 信息ID */
     private Long informationId;

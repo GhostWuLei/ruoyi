@@ -1,31 +1,31 @@
 package com.ruoyi.project.devsys.controller;
 
-import java.io.*;
-import java.util.List;
-
 import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.utils.ServletUtils;
 import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.framework.aspectj.lang.annotation.Log;
+import com.ruoyi.framework.aspectj.lang.enums.BusinessType;
 import com.ruoyi.framework.config.RuoYiConfig;
 import com.ruoyi.framework.security.LoginUser;
 import com.ruoyi.framework.security.service.TokenService;
-import com.ruoyi.project.devsys.domain.DevFile;
-import com.ruoyi.project.devsys.domain.DevSpare;
-import com.ruoyi.project.devsys.service.IDevFileService;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-import com.ruoyi.framework.aspectj.lang.annotation.Log;
-import com.ruoyi.framework.aspectj.lang.enums.BusinessType;
-import com.ruoyi.project.devsys.domain.DevSubsidiary;
-import com.ruoyi.project.devsys.service.IDevSubsidiaryService;
 import com.ruoyi.framework.web.controller.BaseController;
 import com.ruoyi.framework.web.domain.AjaxResult;
-import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.framework.web.page.TableDataInfo;
+import com.ruoyi.project.devsys.domain.DevEquip;
+import com.ruoyi.project.devsys.domain.DevFile;
+import com.ruoyi.project.devsys.domain.DevSubsidiary;
+import com.ruoyi.project.devsys.service.IDevEquipService;
+import com.ruoyi.project.devsys.service.IDevFileService;
+import com.ruoyi.project.devsys.service.IDevSubsidiaryService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.util.List;
 
 /**
  * 附属设备明细Controller
@@ -43,6 +43,8 @@ public class DevSubsidiaryController extends BaseController
     private IDevFileService fileService;
     @Autowired
     private TokenService tokenService;
+    @Autowired
+    private IDevEquipService equipService;
 
     /**
      * 查询附属设备明细列表
@@ -51,6 +53,14 @@ public class DevSubsidiaryController extends BaseController
     @GetMapping("/list")
     public TableDataInfo list(DevSubsidiary devSubsidiary)
     {
+        DevEquip devEquip=new DevEquip();
+        devEquip.setParentId(devSubsidiary.getEquipId());
+        List<DevEquip> devEquipList = equipService.selectDevEquipList(devEquip);
+        if(devEquipList.size()>0){
+            startPage();
+            List<DevSubsidiary>   devSubsidiaries=devSubsidiaryService.selectDevSubsidiaryListIn(devEquipList);
+            return getDataTable(devSubsidiaries);
+        }
         startPage();
         List<DevSubsidiary> list = devSubsidiaryService.selectDevSubsidiaryList(devSubsidiary);
         return getDataTable(list);
