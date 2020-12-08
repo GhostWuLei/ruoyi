@@ -12,7 +12,6 @@ import com.ruoyi.framework.security.service.TokenService;
 import com.ruoyi.framework.web.controller.BaseController;
 import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.framework.web.page.TableDataInfo;
-import com.ruoyi.project.devsys.domain.DevEquip;
 import com.ruoyi.project.devsys.domain.DevFile;
 import com.ruoyi.project.devsys.domain.DevSubsidiary;
 import com.ruoyi.project.devsys.service.IDevEquipService;
@@ -53,14 +52,6 @@ public class DevSubsidiaryController extends BaseController
     @GetMapping("/list")
     public TableDataInfo list(DevSubsidiary devSubsidiary)
     {
-        DevEquip devEquip=new DevEquip();
-        devEquip.setParentId(devSubsidiary.getEquipId());
-        List<DevEquip> devEquipList = equipService.selectDevEquipList(devEquip);
-        if(devEquipList.size()>0){
-            startPage();
-            List<DevSubsidiary>   devSubsidiaries=devSubsidiaryService.selectDevSubsidiaryListIn(devEquipList);
-            return getDataTable(devSubsidiaries);
-        }
         startPage();
         List<DevSubsidiary> list = devSubsidiaryService.selectDevSubsidiaryList(devSubsidiary);
         return getDataTable(list);

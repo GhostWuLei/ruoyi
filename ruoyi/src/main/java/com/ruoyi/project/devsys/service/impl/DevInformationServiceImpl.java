@@ -48,7 +48,7 @@ public class DevInformationServiceImpl implements IDevInformationService
     {
         DevInformation devInformation = devInformationMapper.selectDevInformationById(informationId);
         String equipParam = devInformation.getEquipParam();
-        devInformation.setEquipParam(equipParam.replace("</br>","\n"));
+        devInformation.setEquipParam(equipParam.replace("<br/>","\n"));
         return devInformation;
 
     }
@@ -65,7 +65,7 @@ public class DevInformationServiceImpl implements IDevInformationService
         List<DevInformation> devInformationList = devInformationMapper.selectDevInformationList(devInformation);
         for (DevInformation information : devInformationList) {
             String equipParam = information.getEquipParam();
-            information.setEquipParam(equipParam.replace("\n","</br>"));
+            information.setEquipParam(equipParam.replace("\n","<br/>"));
         }
         return devInformationList;
     }
@@ -80,6 +80,8 @@ public class DevInformationServiceImpl implements IDevInformationService
     public int insertDevInformation(DevInformation devInformation)
     {
         devInformation.setCreateTime(DateUtils.getNowDate());
+        String equipParam = devInformation.getEquipParam();
+        devInformation.setEquipParam(equipParam.replace("\n","<br/>"));
         return devInformationMapper.insertDevInformation(devInformation);
     }
 
@@ -93,6 +95,8 @@ public class DevInformationServiceImpl implements IDevInformationService
     public int updateDevInformation(DevInformation devInformation)
     {
         devInformation.setUpdateTime(DateUtils.getNowDate());
+        String equipParam = devInformation.getEquipParam();
+        devInformation.setEquipParam(equipParam.replace("\n","</br>"));
         return devInformationMapper.updateDevInformation(devInformation);
     }
 
@@ -212,7 +216,7 @@ public class DevInformationServiceImpl implements IDevInformationService
         List<DevInformation> devInformationList=devInformationMapper.selectDevInformationListIn(list);
         for (DevInformation information : devInformationList) {
             String equipParam = information.getEquipParam();
-            information.setEquipParam(equipParam.replace("\n","</br>"));
+            information.setEquipParam(equipParam.replace("\n","<br/>"));
         }
         return devInformationList;
     }
@@ -227,7 +231,7 @@ public class DevInformationServiceImpl implements IDevInformationService
         List<DevInformation> devInformations = devInformationMapper.selectDevInformationList(devInformation);
             for (DevInformation information : devInformations) {
                 String equipParam = information.getEquipParam();
-                information.setEquipParam(equipParam.replace("</br>","\n"));
+                information.setEquipParam(equipParam.replace("<br/>","\n"));
             }
         return devInformations;
     }

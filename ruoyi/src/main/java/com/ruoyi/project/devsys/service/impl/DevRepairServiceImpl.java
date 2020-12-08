@@ -49,7 +49,7 @@ public class DevRepairServiceImpl implements IDevRepairService
     {
         DevRepair devRepair = devRepairMapper.selectDevRepairById(repairId);
         String repairContent = devRepair.getRepairContent();
-        devRepair.setRepairContent(repairContent.replace("</br>","\n"));
+        devRepair.setRepairContent(repairContent.replace("<br/>","\n"));
         return devRepair;
     }
 
@@ -65,7 +65,7 @@ public class DevRepairServiceImpl implements IDevRepairService
         List<DevRepair> devRepairList = devRepairMapper.selectDevRepairList(devRepair);
         for (DevRepair repair : devRepairList) {
             String repairContent = repair.getRepairContent();
-            repair.setRepairContent(repairContent.replace("\n","</br>"));
+            repair.setRepairContent(repairContent.replace("\n","<br/>"));
         }
         return devRepairList;
     }
@@ -81,12 +81,13 @@ public class DevRepairServiceImpl implements IDevRepairService
     {
         //对换行进行处理检修情况、主要处理问题、遗留问题的换行进行处理
         String repairContent = repair.getRepairContent();
-        System.out.println(repairContent);
         repair.setCreateTime(DateUtils.getNowDate());
         repair.setCreateBy(SecurityUtils.getUsername());
+
+        String repairRepairContent = repair.getRepairContent();
+        repair.setRepairContent(repairContent.replace("\n","<br/>"));
         return devRepairMapper.insertDevRepair(repair);
     }
-
     /**
      * 修改检修记录
      *
@@ -97,6 +98,8 @@ public class DevRepairServiceImpl implements IDevRepairService
     public int updateDevRepair(DevRepair devRepair)
     {
         devRepair.setUpdateTime(DateUtils.getNowDate());
+        String repairContent = devRepair.getRepairContent();
+        devRepair.setRepairContent(repairContent.replace("\n","</br>"));
         return devRepairMapper.updateDevRepair(devRepair);
     }
 
@@ -218,7 +221,7 @@ public class DevRepairServiceImpl implements IDevRepairService
         List<DevRepair> devRepairList=devRepairMapper.selectDevRepairListIn(list);
         for (DevRepair repair : devRepairList) {
             String repairContent = repair.getRepairContent();
-            repair.setRepairContent(repairContent.replace("\n","</br>"));
+            repair.setRepairContent(repairContent.replace("\n","<br/>"));
 
         }
         return devRepairList;
@@ -234,7 +237,7 @@ public class DevRepairServiceImpl implements IDevRepairService
         List<DevRepair> devRepairs = devRepairMapper.selectDevRepairList(devRepair);
         for (DevRepair repair : devRepairs) {
             String repairContent = repair.getRepairContent();
-            repair.setRepairContent(repairContent.replace("</br>","\n"));
+            repair.setRepairContent(repairContent.replace("<br/>","\n"));
         }
         return devRepairs;
     }

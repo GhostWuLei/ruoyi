@@ -44,7 +44,7 @@ public class DevSpareServiceImpl  implements IDevSpareService {
     public DevSpare selectDevSpareById(Long spareId) {
         DevSpare devSpare = devSpareMapper.selectDevSpareById(spareId);
         String techParam = devSpare.getTechParam();
-        devSpare.setTechParam(techParam.replace("</br>","\n"));
+        devSpare.setTechParam(techParam.replace("<br/>","\n"));
         return devSpare;
     }
 
@@ -59,7 +59,7 @@ public class DevSpareServiceImpl  implements IDevSpareService {
         List<DevSpare> devSpares = devSpareMapper.selectDevSpareList(devSpare);
         for (DevSpare spare : devSpares) {
             String techParam = spare.getTechParam();
-            spare.setTechParam(techParam.replace("\n","</br>"));
+            spare.setTechParam(techParam.replace("\n","<br/>"));
         }
         return devSpares;
     }
@@ -73,6 +73,8 @@ public class DevSpareServiceImpl  implements IDevSpareService {
     @Override
     public int insertDevSpare(DevSpare devSpare) {
         devSpare.setCreateTime(DateUtils.getNowDate());
+        String techParam = devSpare.getTechParam();
+        devSpare.setTechParam(techParam.replace("\n","<br/>"));
         return devSpareMapper.insertDevSpare(devSpare);
     }
 
@@ -206,7 +208,7 @@ public class DevSpareServiceImpl  implements IDevSpareService {
         List<DevSpare> devSpares=devSpareMapper.selectDevSpareListIn(list);
         for (DevSpare spare : devSpares) {
             String techParam = spare.getTechParam();
-            spare.setTechParam(techParam.replace("\n","</br>"));
+            spare.setTechParam(techParam.replace("\n","<br/>"));
         }
         return devSpares;
     }

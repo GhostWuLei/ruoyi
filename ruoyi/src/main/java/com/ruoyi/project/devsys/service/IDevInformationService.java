@@ -67,10 +67,11 @@ public interface IDevInformationService
     void deleteAnnex(String fpath);
 
     String importUser(List<DevInformation> devInformationList, boolean updateSupport, String username, Long equipId);
-
-    List<DevInformation> selectDevInformationListIn(List<DevEquip> devEquips);
+    
 
     int deleteequipId(Long equipId);
 
     List<DevInformation> selectDevInformationListAll(DevInformation devInformation);
+
+    List<DevInformation> selectDevInformationListIn(List<DevEquip> devEquips);
 }

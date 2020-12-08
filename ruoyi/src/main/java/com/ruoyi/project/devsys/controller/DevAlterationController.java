@@ -13,7 +13,6 @@ import com.ruoyi.framework.web.controller.BaseController;
 import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.framework.web.page.TableDataInfo;
 import com.ruoyi.project.devsys.domain.DevAlteration;
-import com.ruoyi.project.devsys.domain.DevEquip;
 import com.ruoyi.project.devsys.domain.DevFile;
 import com.ruoyi.project.devsys.service.IDevAlterationService;
 import com.ruoyi.project.devsys.service.IDevEquipService;
@@ -53,14 +52,6 @@ public class DevAlterationController extends BaseController
     @GetMapping("/list")
     public TableDataInfo list(DevAlteration devAlteration)
     {
-        DevEquip devEquip=new DevEquip();
-        devEquip.setParentId(devAlteration.getEquipId());
-        List<DevEquip> devEquips = equipService.selectDevEquipList(devEquip);
-        if(devEquips.size()>0){
-            startPage();
-            List<DevAlteration> devEquipList=devAlterationService.selectDevAlterationListIn(devEquips);
-            return getDataTable(devEquipList);
-        }
         startPage();
         List<DevAlteration> list = devAlterationService.selectDevAlterationList(devAlteration);
         return getDataTable(list);
