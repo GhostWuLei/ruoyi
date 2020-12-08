@@ -71,4 +71,6 @@ public interface IDevInformationService
     List<DevInformation> selectDevInformationListIn(List<DevEquip> devEquips);
 
     int deleteequipId(Long equipId);
+
+    List<DevInformation> selectDevInformationListAll(DevInformation devInformation);
 }

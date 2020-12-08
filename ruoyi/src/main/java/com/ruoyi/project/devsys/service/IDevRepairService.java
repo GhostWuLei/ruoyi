@@ -71,4 +71,6 @@ public interface IDevRepairService
     List<DevRepair> selectDevRepairListIn(List<DevEquip> devEquips);
 
     int deleteequipId(Long equipId);
+
+    List<DevRepair> selectDevRepairListAll(DevRepair devRepair);
 }

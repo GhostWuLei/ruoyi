@@ -89,17 +89,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         update dev_information
         <trim prefix="SET" suffixOverrides=",">
             <if test="equipId != null ">equip_id = #{equipId},</if>
-            <if test="equipName != null  and equipName != ''">equip_name = #{equipName},</if>
-            <if test="specification != null  and specification != ''">specification = #{specification},</if>
-            <if test="equipParam != null  and equipParam != ''">equip_param = #{equipParam},</if>
-            <if test="techParam != null  and techParam != ''">tech_param = #{techParam},</if>
-            <if test="cycle != null  and cycle != ''">cycle = #{cycle},</if>
-            <if test="installTime != null ">install_time = #{installTime},</if>
-            <if test="installPlace != null ">install_place = #{installPlace},</if>
-            <if test="remark != null  and remark != ''">remark = #{remark},</if>
-            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="equipName != null">equip_name = #{equipName},</if>
+            <if test="specification != null">specification = #{specification},</if>
+            <if test="equipParam != null">equip_param = #{equipParam},</if>
+            <if test="techParam != null">tech_param = #{techParam},</if>
+            <if test="cycle != null">cycle = #{cycle},</if>
+            <if test="installTime != null">install_time = #{installTime},</if>
+            <if test="installPlace != null">install_place = #{installPlace},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
             <if test="createTime != null ">create_time = #{createTime},</if>
-            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
             <if test="updateTime != null ">update_time = #{updateTime},</if>
         </trim>
         where information_id = #{informationId}

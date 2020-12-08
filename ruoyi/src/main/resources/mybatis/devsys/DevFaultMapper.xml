@@ -87,15 +87,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="SET" suffixOverrides=",">
             <if test="equipId != null ">equip_id = #{equipId},</if>
             <if test="findTime != null ">find_time = #{findTime},</if>
-            <if test="appearance != null  and appearance != ''">appearance = #{appearance},</if>
-            <if test="analysis != null  and analysis != ''">analysis = #{analysis},</if>
+            <if test="appearance != null">appearance = #{appearance},</if>
+            <if test="analysis != null ">analysis = #{analysis},</if>
             <if test="handleTime != null ">handle_time = #{handleTime},</if>
-            <if test="process != null  and process != ''">process = #{process},</if>
-            <if test="damage != null  and damage != ''">damage = #{damage},</if>
-            <if test="remark != null  and remark != ''">remark = #{remark},</if>
-            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="process != null">process = #{process},</if>
+            <if test="damage != null">damage = #{damage},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
             <if test="createTime != null ">create_time = #{createTime},</if>
-            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
             <if test="updateTime != null ">update_time = #{updateTime},</if>
         </trim>
         where fault_id = #{faultId}

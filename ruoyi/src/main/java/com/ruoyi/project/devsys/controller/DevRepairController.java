@@ -76,7 +76,7 @@ public class DevRepairController extends BaseController
     @GetMapping("/export")
     public AjaxResult export(DevRepair devRepair)
     {
-        List<DevRepair> list = devRepairService.selectDevRepairList(devRepair);
+        List<DevRepair> list = devRepairService.selectDevRepairListAll(devRepair);
         ExcelUtil<DevRepair> util = new ExcelUtil<DevRepair>(DevRepair.class);
         return util.exportExcel(list, "repair");
     }

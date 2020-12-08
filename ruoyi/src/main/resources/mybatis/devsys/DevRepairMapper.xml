@@ -108,18 +108,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="equipId != null ">equip_id = #{equipId},</if>
             <if test="startTime != null ">start_time = #{startTime},</if>
             <if test="finishTime != null ">finish_time = #{finishTime},</if>
-            <if test="repairLevel != null  and repairLevel != ''">repair_level = #{repairLevel},</if>
-            <if test="repairContent != null  and repairContent != ''">repair_content = #{repairContent},</if>
-            <if test="handleProblem != null  and handleProblem != ''">handle_problem = #{handleProblem},</if>
-            <if test="remainProblem != null  and remainProblem != ''">remain_problem = #{remainProblem},</if>
-            <if test="clazz != null  and clazz != ''">clazz = #{clazz},</if>
-            <if test="repairUnit != null  and repairUnit != ''">repair_unit = #{repairUnit},</if>
-            <if test="leader != null  and leader != ''">leader = #{leader},</if>
-            <if test="linkman != null  and linkman != ''">linkman = #{linkman},</if>
-            <if test="remark != null  and remark != ''">remark = #{remark},</if>
-            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
-            <if test="createTime != null ">create_time = #{createTime},</if>
-            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="repairLevel != null ">repair_level = #{repairLevel},</if>
+            <if test="repairContent != null">repair_content = #{repairContent},</if>
+            <if test="handleProblem != null">handle_problem = #{handleProblem},</if>
+            <if test="remainProblem != null">remain_problem = #{remainProblem},</if>
+            <if test="clazz != null">clazz = #{clazz},</if>
+            <if test="repairUnit != null">repair_unit = #{repairUnit},</if>
+            <if test="leader != null">leader = #{leader},</if>
+            <if test="linkman != null">linkman = #{linkman},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
             <if test="updateTime != null ">update_time = #{updateTime},</if>
         </trim>
         where repair_id = #{repairId}

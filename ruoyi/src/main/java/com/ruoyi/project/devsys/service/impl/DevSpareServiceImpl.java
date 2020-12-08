@@ -44,7 +44,7 @@ public class DevSpareServiceImpl  implements IDevSpareService {
     public DevSpare selectDevSpareById(Long spareId) {
         DevSpare devSpare = devSpareMapper.selectDevSpareById(spareId);
         String techParam = devSpare.getTechParam();
-        devSpare.setTechParam(techParam.replace("\n","</br>"));
+        devSpare.setTechParam(techParam.replace("</br>","\n"));
         return devSpare;
     }
 

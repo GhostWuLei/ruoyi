@@ -85,16 +85,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         update dev_spare
         <trim prefix="SET" suffixOverrides=",">
             <if test="equipId != null ">equip_id = #{equipId},</if>
-            <if test="spareName != null  and spareName != ''">spare_name = #{spareName},</if>
-            <if test="specification != null  and specification != ''">specification = #{specification},</if>
-            <if test="techParam != null  and techParam != ''">tech_param = #{techParam},</if>
-            <if test="num != null  and num != ''">num = #{num},</if>
-            <if test="pictureNum != null  and pictureNum != ''">picture_num = #{pictureNum},</if>
-            <if test="productor != null  and productor != ''">productor = #{productor},</if>
-            <if test="remark != null  and remark != ''">remark = #{remark},</if>
-            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="spareName != null ">spare_name = #{spareName},</if>
+            <if test="specification != null ">specification = #{specification},</if>
+            <if test="techParam != null ">tech_param = #{techParam},</if>
+            <if test="num != null ">num = #{num},</if>
+            <if test="pictureNum != null  ">picture_num = #{pictureNum},</if>
+            <if test="productor != null  ">productor = #{productor},</if>
+            <if test="remark != null ">remark = #{remark},</if>
+            <if test="createBy != null ">create_by = #{createBy},</if>
             <if test="createTime != null ">create_time = #{createTime},</if>
-            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateBy != null ">update_by = #{updateBy},</if>
             <if test="updateTime != null ">update_time = #{updateTime},</if>
         </trim>
         where spare_id = #{spareId}

@@ -48,7 +48,7 @@ public class DevInformationServiceImpl implements IDevInformationService
     {
         DevInformation devInformation = devInformationMapper.selectDevInformationById(informationId);
         String equipParam = devInformation.getEquipParam();
-        devInformation.setEquipParam(equipParam.replace("\n","</br>"));
+        devInformation.setEquipParam(equipParam.replace("</br>","\n"));
         return devInformation;
 
     }
@@ -220,5 +220,15 @@ public class DevInformationServiceImpl implements IDevInformationService
     @Override
     public int deleteequipId(Long equipId) {
         return devInformationMapper.deleteequipId(equipId);
+    }
+
+    @Override
+    public List<DevInformation> selectDevInformationListAll(DevInformation devInformation) {
+        List<DevInformation> devInformations = devInformationMapper.selectDevInformationList(devInformation);
+            for (DevInformation information : devInformations) {
+                String equipParam = information.getEquipParam();
+                information.setEquipParam(equipParam.replace("</br>","\n"));
+            }
+        return devInformations;
     }
 }

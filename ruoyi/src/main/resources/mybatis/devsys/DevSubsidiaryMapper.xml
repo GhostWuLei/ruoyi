@@ -86,16 +86,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         update dev_subsidiary
         <trim prefix="SET" suffixOverrides=",">
             <if test="equipId != null ">equip_id = #{equipId},</if>
-            <if test="kks != null  and kks != ''">kks = #{kks},</if>
-            <if test="equipName != null  and equipName != ''">equip_name = #{equipName},</if>
-            <if test="subsType != null  and subsType != ''">subs_type = #{subsType},</if>
-            <if test="specification != null  and specification != ''">specification = #{specification},</if>
-            <if test="unit != null  and unit != ''">unit = #{unit},</if>
-            <if test="productor != null  and productor != ''">productor = #{productor},</if>
-            <if test="remark != null  and remark != ''">remark = #{remark},</if>
-            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="kks != null">kks = #{kks},</if>
+            <if test="equipName != null ">equip_name = #{equipName},</if>
+            <if test="subsType != null ">subs_type = #{subsType},</if>
+            <if test="specification != null ">specification = #{specification},</if>
+            <if test="unit != null  ">unit = #{unit},</if>
+            <if test="productor != null ">productor = #{productor},</if>
+            <if test="remark != null  ">remark = #{remark},</if>
+            <if test="createBy != null ">create_by = #{createBy},</if>
             <if test="createTime != null ">create_time = #{createTime},</if>
-            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateBy != null  ">update_by = #{updateBy},</if>
             <if test="updateTime != null ">update_time = #{updateTime},</if>
         </trim>
         where subsidiary_id = #{subsidiaryId}

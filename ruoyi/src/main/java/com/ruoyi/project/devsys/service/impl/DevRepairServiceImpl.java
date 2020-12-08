@@ -49,7 +49,7 @@ public class DevRepairServiceImpl implements IDevRepairService
     {
         DevRepair devRepair = devRepairMapper.selectDevRepairById(repairId);
         String repairContent = devRepair.getRepairContent();
-        devRepair.setRepairContent(repairContent.replace("\n","</br>"));
+        devRepair.setRepairContent(repairContent.replace("</br>","\n"));
         return devRepair;
     }
 
@@ -227,6 +227,16 @@ public class DevRepairServiceImpl implements IDevRepairService
     @Override
     public int deleteequipId(Long equipId) {
         return devRepairMapper.deleteequipId(equipId);
+    }
+
+    @Override
+    public List<DevRepair> selectDevRepairListAll(DevRepair devRepair) {
+        List<DevRepair> devRepairs = devRepairMapper.selectDevRepairList(devRepair);
+        for (DevRepair repair : devRepairs) {
+            String repairContent = repair.getRepairContent();
+            repair.setRepairContent(repairContent.replace("</br>","\n"));
+        }
+        return devRepairs;
     }
 
 

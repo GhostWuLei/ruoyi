@@ -83,15 +83,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         update dev_alteration
         <trim prefix="SET" suffixOverrides=",">
             <if test="equipId != null ">equip_id = #{equipId},</if>
-            <if test="equipName != null  and equipName != ''">equip_name = #{equipName},</if>
-            <if test="reason != null  and reason != ''">reason = #{reason},</if>
-            <if test="effect != null  and effect != ''">effect = #{effect},</if>
-            <if test="leader != null  and leader != ''">leader = #{leader},</if>
-            <if test="evaluate != null  and evaluate != ''">evaluate = #{evaluate},</if>
-            <if test="remark != null  and remark != ''">remark = #{remark},</if>
-            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="equipName != null">equip_name = #{equipName},</if>
+            <if test="reason != null">reason = #{reason},</if>
+            <if test="effect != null">effect = #{effect},</if>
+            <if test="leader != null">leader = #{leader},</if>
+            <if test="evaluate != null">evaluate = #{evaluate},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
             <if test="createTime != null ">create_time = #{createTime},</if>
-            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
             <if test="updateTime != null ">update_time = #{updateTime},</if>
         </trim>
         where alteration_id = #{alterationId}

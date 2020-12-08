@@ -73,7 +73,7 @@ public class DevInformationController extends BaseController
     @GetMapping("/export")
     public AjaxResult export(DevInformation devInformation)
     {
-        List<DevInformation> list = devInformationService.selectDevInformationList(devInformation);
+        List<DevInformation> list = devInformationService.selectDevInformationListAll(devInformation);
         ExcelUtil<DevInformation> util = new ExcelUtil<DevInformation>(DevInformation.class);
         return util.exportExcel(list, "information");
     }
@@ -107,7 +107,6 @@ public class DevInformationController extends BaseController
     @PutMapping
     public AjaxResult edit(@RequestBody DevInformation devInformation)
     {
-        System.out.println("修改+++++++++++++++++++++++++++++++++++++++++++++"+devInformation);
         return toAjax(devInformationService.updateDevInformation(devInformation));
     }
 
