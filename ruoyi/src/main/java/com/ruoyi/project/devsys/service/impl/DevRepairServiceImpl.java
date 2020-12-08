@@ -80,12 +80,11 @@ public class DevRepairServiceImpl implements IDevRepairService
     public int insertDevRepair(DevRepair repair)
     {
         //对换行进行处理检修情况、主要处理问题、遗留问题的换行进行处理
-        String repairContent = repair.getRepairContent();
         repair.setCreateTime(DateUtils.getNowDate());
         repair.setCreateBy(SecurityUtils.getUsername());
 
         String repairRepairContent = repair.getRepairContent();
-        repair.setRepairContent(repairContent.replace("\n","<br/>"));
+        repair.setRepairContent(repairRepairContent.replace("\n","<br/>"));
         return devRepairMapper.insertDevRepair(repair);
     }
     /**
@@ -99,7 +98,7 @@ public class DevRepairServiceImpl implements IDevRepairService
     {
         devRepair.setUpdateTime(DateUtils.getNowDate());
         String repairContent = devRepair.getRepairContent();
-        devRepair.setRepairContent(repairContent.replace("\n","</br>"));
+        devRepair.setRepairContent(repairContent.replace("\n","<br/>"));
         return devRepairMapper.updateDevRepair(devRepair);
     }
 
