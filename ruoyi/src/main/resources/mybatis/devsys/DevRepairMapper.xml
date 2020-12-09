@@ -32,8 +32,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectDevRepairVo"/>
         <where>
             <if test="equipId != null "> and equip_id = #{equipId}</if>
-            <if test="startTime != null "> and start_time = #{startTime}</if>
-            <if test="finishTime != null "> and finish_time = #{finishTime}</if>
+            <if test="startTime != null "> and start_time &gt;= #{startTime} and start_time &lt;= #{finishTime}</if>
             <if test="repairLevel != null  and repairLevel != ''"> and repair_level = #{repairLevel}</if>
             <if test="repairContent != null  and repairContent != ''"> and repair_content = #{repairContent}</if>
             <if test="handleProblem != null  and handleProblem != ''"> and handle_problem = #{handleProblem}</if>
@@ -43,6 +42,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="leader != null  and leader != ''"> and leader = #{leader}</if>
             <if test="linkman != null  and linkman != ''"> and linkman = #{linkman}</if>
         </where>
+        order by create_time desc
     </select>
 
     <select id="selectDevRepairById" parameterType="Long" resultMap="DevRepairResult">

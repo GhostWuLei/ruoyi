@@ -12,7 +12,6 @@ import com.ruoyi.framework.security.service.TokenService;
 import com.ruoyi.framework.web.controller.BaseController;
 import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.framework.web.page.TableDataInfo;
-import com.ruoyi.project.devsys.domain.DevEquip;
 import com.ruoyi.project.devsys.domain.DevFault;
 import com.ruoyi.project.devsys.domain.DevFile;
 import com.ruoyi.project.devsys.service.IDevEquipService;
@@ -53,14 +52,7 @@ public class DevFaultController extends BaseController
     @GetMapping("/list")
     public TableDataInfo list(DevFault devFault)
     {
-        DevEquip devEquip = new DevEquip();
-        devEquip.setParentId(devFault.getEquipId());
-        List<DevEquip> devEquips = equipService.selectDevEquipList(devEquip);
-            if(devEquips.size()>0){
-                startPage();
-                List<DevFault> devFaultList= devFaultService.selectDevFaultListIn(devEquips);
-                return getDataTable(devFaultList);
-            }
+        System.out.println(devFault);
         startPage();
         List<DevFault> DevFault = devFaultService.selectDevFaultList(devFault);
         return getDataTable(DevFault);

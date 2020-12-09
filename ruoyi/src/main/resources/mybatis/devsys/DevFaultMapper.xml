@@ -28,10 +28,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectDevFaultVo"/>
         <where>
             <if test="equipId != null "> and equip_id = #{equipId}</if>
-            <if test="findTime != null "> and find_time = #{findTime}</if>
+            <if test="findTime != null"> and find_time &gt;= #{findTime} and find_time &lt;= #{handleTime}</if>
             <if test="appearance != null  and appearance != ''"> and appearance like concat('%', #{appearance}, '%')</if>
-            <if test="handleTime != null "> and handle_time = #{handleTime}</if>
         </where>
+
+        order by create_time desc
     </select>
 
     <select id="selectDevFaultById" parameterType="Long" resultMap="DevFaultResult">

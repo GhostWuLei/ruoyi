@@ -32,6 +32,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="equipName != null  and equipName != ''"> and equip_name like concat('%', #{equipName}, '%')</if>
             <if test="installTime != null "> and install_time = #{installTime}</if>
         </where>
+        order by create_time desc
     </select>
 
     <select id="selectDevInformationById" parameterType="Long" resultMap="DevInformationResult">

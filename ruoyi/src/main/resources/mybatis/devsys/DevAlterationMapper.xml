@@ -31,6 +31,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="reason != null  and reason != ''"> and reason like concat('%', #{reason}, '%')</if>
             <if test="leader != null  and leader != ''"> and leader like concat('%', #{leader}, '%')</if>
         </where>
+        order by create_time desc
     </select>
 
     <select id="selectDevAlterationById" parameterType="Long" resultMap="DevAlterationResult">

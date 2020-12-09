@@ -31,6 +31,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="spareName != null  and spareName != ''"> and spare_name like concat('%', #{spareName}, '%')</if>
             <if test="productor != null  and productor != ''"> and productor like concat('%', #{productor}, '%')</if>
         </where>
+        order by create_time desc
     </select>
 
     <select id="selectDevSpareById" parameterType="Long" resultMap="DevSpareResult">
