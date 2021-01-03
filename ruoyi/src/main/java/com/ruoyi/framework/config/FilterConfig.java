@@ -19,7 +19,7 @@ import com.ruoyi.common.utils.StringUtils;
 @Configuration
 public class FilterConfig
 {
-    @Value("${xss.enabled}")
+    @Value("${xss.enabled:true}")
     private String enabled;
 
     @Value("${xss.excludes}")
