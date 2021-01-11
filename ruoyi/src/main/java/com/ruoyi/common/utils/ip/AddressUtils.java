@@ -34,11 +34,11 @@ public class AddressUtils
                 log.error("获取地理位置异常 {}", ip);
                 return address;
             }
-            JSONObject obj = JSONObject.parseObject(rspStr);
-            JSONObject data = obj.getObject("data", JSONObject.class);
-            String region = data.getString("region");
-            String city = data.getString("city");
-            address = region + " " + city;
+            //JSONObject obj = JSONObject.parseObject(rspStr);
+            //JSONObject data = obj.getObject("data", JSONObject.class);
+            //String region = data.getString("region");
+            //String city = data.getString("city");
+            //address = region + " " + city;
         }
         return address;
     }
